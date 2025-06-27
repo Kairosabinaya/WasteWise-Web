@@ -6,18 +6,18 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'brand-primary': '#10B981',
+        'brand-primary': '#164c51',
         'brand-secondary': '#F8FAFC',
-        'brand-dark': '#1F2937',
-        'organic-green': '#059669',
-        'recycle-blue': '#0EA5E9',
-        'reward-purple': '#8B5CF6',
-        'hazard-orange': '#F59E0B',
-        'stat-coral': '#EF4444',
-        'text-primary': '#1F2937',
+        'brand-dark': '#0C2521',
+        'organic-green': '#164c51',
+        'recycle-blue': '#164c51',
+        'reward-purple': '#D48931',
+        'hazard-orange': '#D48931',
+        'stat-coral': '#6d1e04',
+        'text-primary': '#0C2521',
         'text-secondary': '#6B7280',
         'surface-white': '#FFFFFF',
-        'residue-gray': '#6B7280',
+        'residue-gray': '#6d1e04',
       },
       fontFamily: {
         'inter': ['Inter', 'sans-serif'],

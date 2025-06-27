@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, X, Camera, Image, Lightbulb, CheckCircle, Star, ZapOff, AlertCircle } from 'lucide-react';
+import { ArrowLeft, X, Camera, Image, Lightbulb, CheckCircle, Star, ZapOff, AlertCircle, Recycle, Leaf } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { GlassCard, GamifiedButton, PointsBadge, AppLogo } from '../components/ui';
@@ -12,19 +12,30 @@ const ScanPage = () => {
   const [scanProgress, setScanProgress] = useState(0);
   const [notification, setNotification] = useState(null);
 
-  // Mock scan result data matching Flutter app
+  // Mock scan result data
   const scanResult = {
-    detectedWaste: "Plastic Bottle",
-    wasteCategory: "Recyclable Plastic",
-    earnedPoints: 15,
-    recyclingTip: "Make sure the bottle is empty and clean before recycling",
-    confidence: 95,
-    instructions: [
-      "Remove cap and labels if possible",
-      "Rinse with water to remove residue",
-      "Place in blue recycling bin",
-      "Earn points for proper disposal"
-    ]
+    wasteType: 'Plastic Bottle',
+    category: 'Recyclable',
+    points: 15,
+    description: 'PET plastic bottle - fully recyclable',
+    tips: [
+      'Remove the cap and label before recycling',
+      'Rinse the bottle to remove any residue',
+      'Crush the bottle to save space'
+    ],
+    environmental: {
+      co2Saved: '0.2 kg',
+      energySaved: '2.1 kWh',
+      category: 'recyclable'
+    }
+  };
+
+  // Waste categories with colors
+  const wasteCategories = {
+    recyclable: { color: '#164c51', bgColor: '#164c51', textColor: 'text-white' },
+    organic: { color: '#164c51', bgColor: '#164c51', textColor: 'text-white' },
+    hazardous: { color: '#D48931', bgColor: '#D48931', textColor: 'text-white' },
+    residual: { color: '#6d1e04', bgColor: '#6d1e04', textColor: 'text-white' }
   };
 
   // Animate scan line
@@ -68,7 +79,7 @@ const ScanPage = () => {
     setNotification({
       type: 'success',
       title: 'Result Saved!',
-      message: `${scanResult.detectedWaste} scan result saved successfully. You earned ${scanResult.earnedPoints} points!`
+      message: `${scanResult.wasteType} scan result saved successfully. You earned ${scanResult.points} points!`
     });
     
     // Auto hide notification and navigate to home after 3 seconds
@@ -90,7 +101,7 @@ const ScanPage = () => {
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: -50, scale: 0.9 }}
         className={`absolute top-4 left-4 right-4 z-50 ${
-          isSuccess ? 'bg-[#10B981]' : 'bg-[#EF4444]'
+          isSuccess ? 'bg-[#164c51]' : 'bg-[#D48931]'
         } text-white p-3 rounded-xl shadow-xl`}
         style={{ 
           boxShadow: '0 8px 25px rgba(0,0,0,0.15)',
@@ -355,7 +366,7 @@ const ScanPage = () => {
               {/* Header */}
               <div className="bg-white p-4 shadow-sm">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-lg font-semibold text-[#1F2937]">Scan Result</h2>
+                  <h2 className="text-lg font-semibold text-[#0C2521]">Scan Result</h2>
                   <motion.button
                     whileTap={{ scale: 0.95 }}
                     whileHover={{ scale: 1.05, backgroundColor: '#F3F4F6' }}
@@ -369,71 +380,71 @@ const ScanPage = () => {
 
               {/* Content */}
               <div className="flex-1 p-5 space-y-6 overflow-y-auto scrollbar-hide">
-                {/* Detection Result */}
-                <motion.div 
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 }}
-                  whileHover={{ y: -2, boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}
-                  className="bg-white rounded-2xl p-6 shadow-sm cursor-pointer"
+                {/* Main Result Card */}
+                <motion.div
+                  whileHover={{ y: -2, boxShadow: '0 8px 25px rgba(0,0,0,0.1)' }}
+                  className="bg-white rounded-2xl p-6 mb-4 shadow-sm border border-gray-100"
                 >
-                  <div className="flex items-center mb-4">
-                    <div className="w-12 h-12 bg-[#10B981]/10 rounded-full flex items-center justify-center mr-4">
-                      <CheckCircle size={24} className="text-[#10B981]" />
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex-1">
+                      <h3 className="text-lg font-bold text-[#0C2521] mb-1">{scanResult.wasteType}</h3>
+                      <p className="text-[#6B7280] text-sm mb-2">{scanResult.description}</p>
+                      <div 
+                        className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${wasteCategories[scanResult.environmental.category].textColor}`}
+                        style={{ backgroundColor: wasteCategories[scanResult.environmental.category].bgColor }}
+                      >
+                        <Recycle size={12} className="mr-1" />
+                        {scanResult.category}
+                      </div>
+                    </div>
+                    <div className="text-center ml-4">
+                      <div className="w-16 h-16 bg-[#164c51]/10 rounded-full flex items-center justify-center mb-2">
+                        <Star size={24} className="text-[#D48931]" />
+                      </div>
+                      <div className="text-lg font-bold text-[#0C2521]">+{scanResult.points}</div>
+                      <div className="text-xs text-[#6B7280]">Points</div>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Environmental Impact */}
+                <motion.div
+                  whileHover={{ y: -2, boxShadow: '0 8px 25px rgba(0,0,0,0.1)' }}
+                  className="bg-white rounded-2xl p-6 mb-4 shadow-sm border border-gray-100"
+                >
+                  <h4 className="font-semibold text-[#0C2521] mb-3 flex items-center">
+                    <Leaf size={16} className="text-[#164c51] mr-2" />
+                    Environmental Impact
+                  </h4>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <div className="text-sm font-semibold text-[#0C2521]">{scanResult.environmental.co2Saved}</div>
+                      <div className="text-xs text-[#6B7280]">CO₂ Saved</div>
                     </div>
                     <div>
-                      <h3 className="text-lg font-bold text-[#1F2937]">{scanResult.detectedWaste}</h3>
-                      <p className="text-sm text-[#6B7280]">{scanResult.wasteCategory}</p>
-                    </div>
-                </div>
-
-                  <div className="bg-[#ECFDF5] p-4 rounded-xl">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <Star size={20} className="text-[#10B981] mr-2" />
-                        <span className="text-[#1F2937] font-semibold">Points Earned</span>
-                      </div>
-                      <span className="text-2xl font-bold text-[#10B981]">+{scanResult.earnedPoints}</span>
+                      <div className="text-sm font-semibold text-[#0C2521]">{scanResult.environmental.energySaved}</div>
+                      <div className="text-xs text-[#6B7280]">Energy Saved</div>
                     </div>
                   </div>
                 </motion.div>
 
-                {/* Recycling Tip */}
-                <motion.div 
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 }}
-                  whileHover={{ y: -2, boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}
-                  className="bg-white rounded-2xl p-6 shadow-sm cursor-pointer"
+                {/* Recycling Tips */}
+                <motion.div
+                  whileHover={{ y: -2, boxShadow: '0 8px 25px rgba(0,0,0,0.1)' }}
+                  className="bg-white rounded-2xl p-6 mb-6 shadow-sm border border-gray-100"
                 >
-                  <div className="flex items-center mb-3">
-                    <Lightbulb size={20} className="text-[#F59E0B] mr-2" />
-                    <h4 className="font-semibold text-[#1F2937]">Recycling Tip</h4>
-                  </div>
-                  <p className="text-[#6B7280] text-sm leading-relaxed">
-                    {scanResult.recyclingTip}
-                  </p>
-                </motion.div>
-
-                {/* Instructions */}
-                <motion.div 
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 }}
-                  whileHover={{ y: -2, boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}
-                  className="bg-white rounded-2xl p-6 shadow-sm cursor-pointer"
-                >
-                  <h4 className="font-semibold text-[#1F2937] mb-3">How to Recycle</h4>
-                  <div className="space-y-2">
-                    {scanResult.instructions.map((instruction, index) => (
-                      <div key={index} className="flex items-start">
-                        <div className="w-6 h-6 bg-[#10B981] text-white rounded-full flex items-center justify-center text-xs font-bold mr-3 mt-0.5 flex-shrink-0">
-                          {index + 1}
-                        </div>
-                        <p className="text-[#6B7280] text-sm">{instruction}</p>
-                      </div>
+                  <h4 className="font-semibold text-[#0C2521] mb-3 flex items-center">
+                    <Lightbulb size={16} className="text-[#D48931] mr-2" />
+                    Recycling Tips
+                  </h4>
+                  <ul className="space-y-2">
+                    {scanResult.tips.map((tip, index) => (
+                      <li key={index} className="flex items-start">
+                        <div className="w-1.5 h-1.5 bg-[#164c51] rounded-full mt-2 mr-3 flex-shrink-0" />
+                        <span className="text-sm text-[#6B7280] leading-relaxed">{tip}</span>
+                      </li>
                     ))}
-                  </div>
+                  </ul>
                 </motion.div>
               </div>
 
@@ -452,7 +463,7 @@ const ScanPage = () => {
                     whileTap={{ scale: 0.98 }}
                     whileHover={{ scale: 1.02 }}
                     onClick={handleSaveResult}
-                    className="flex-1 bg-[#10B981] text-white py-3 rounded-xl font-semibold hover:bg-[#059669] transition-colors shadow-lg shadow-[#10B981]/30"
+                    className="flex-1 bg-[#164c51] text-white py-3 rounded-xl font-semibold hover:bg-[#0C2521] transition-colors shadow-lg shadow-[#164c51]/30"
                   >
                     Save Result
                   </motion.button>

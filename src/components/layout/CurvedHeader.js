@@ -2,7 +2,7 @@ import React from 'react';
 
 const CurvedHeader = ({ children, className = "" }) => {
   return (
-    <div className={`relative bg-gradient-to-br from-[#10B981] to-[#059669] pb-16 pt-12 ${className}`}>
+    <div className={`relative bg-[#0C2521] pb-16 pt-12 ${className}`}>
       {/* Content */}
       <div className="relative z-10 px-5">
         {children}

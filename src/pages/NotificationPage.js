@@ -14,7 +14,7 @@ const NotificationPage = () => {
       time: '2 minutes ago',
       isRead: false,
       icon: Award,
-      color: '#F59E0B'
+      color: '#D48931'
     },
     {
       id: '2',
@@ -24,7 +24,7 @@ const NotificationPage = () => {
       time: '1 hour ago',
       isRead: false,
       icon: Star,
-      color: '#10B981'
+      color: '#164c51'
     },
     {
       id: '3',
@@ -34,7 +34,7 @@ const NotificationPage = () => {
       time: '3 hours ago',
       isRead: true,
       icon: Clock,
-      color: '#0EA5E9'
+      color: '#6d1e04'
     },
     {
       id: '4',
@@ -44,7 +44,7 @@ const NotificationPage = () => {
       time: '1 day ago',
       isRead: true,
       icon: Users,
-      color: '#8B5CF6'
+      color: '#0C2521'
     },
     {
       id: '5',
@@ -54,7 +54,7 @@ const NotificationPage = () => {
       time: '2 days ago',
       isRead: true,
       icon: Gift,
-      color: '#EF4444'
+      color: '#D48931'
     },
     {
       id: '6',
@@ -112,8 +112,8 @@ const NotificationPage = () => {
       className={clsx(
         "px-4 py-2 rounded-full text-sm font-medium transition-all",
         isActive
-          ? "bg-[#10B981] text-white shadow-lg shadow-[#10B981]/30"
-          : "bg-white text-[#6B7280] border border-gray-200 hover:border-[#10B981]/50"
+          ? "bg-[#164c51] text-white shadow-lg shadow-[#164c51]/30"
+          : "bg-white text-[#6B7280] border border-gray-200 hover:border-[#164c51]/50"
       )}
     >
       {filterItem.label}
@@ -137,7 +137,7 @@ const NotificationPage = () => {
       whileHover={{ x: 5 }}
       className={clsx(
         "bg-white rounded-xl p-4 shadow-sm mb-3 border-l-4 cursor-pointer",
-        notification.isRead ? "opacity-75" : "border-l-[#10B981]"
+        notification.isRead ? "opacity-75" : "border-l-[#164c51]"
       )}
       style={{ 
         boxShadow: '0 2px 6px rgba(0,0,0,0.04)',
@@ -157,12 +157,12 @@ const NotificationPage = () => {
           <div className="flex items-start justify-between mb-1">
             <h3 className={clsx(
               "font-semibold text-sm leading-tight",
-              notification.isRead ? "text-[#6B7280]" : "text-[#1F2937]"
+              notification.isRead ? "text-[#6B7280]" : "text-[#0C2521]"
             )}>
               {notification.title}
             </h3>
             {!notification.isRead && (
-              <div className="w-2 h-2 bg-[#10B981] rounded-full ml-2 flex-shrink-0" />
+              <div className="w-2 h-2 bg-[#164c51] rounded-full ml-2 flex-shrink-0" />
             )}
           </div>
           
@@ -185,9 +185,9 @@ const NotificationPage = () => {
                     e.stopPropagation();
                     markAsRead(notification.id);
                   }}
-                  className="w-6 h-6 bg-[#10B981]/10 rounded-full flex items-center justify-center"
+                  className="w-6 h-6 bg-[#164c51]/10 rounded-full flex items-center justify-center"
                 >
-                  <CheckCircle size={12} className="text-[#10B981]" />
+                  <CheckCircle size={12} className="text-[#164c51]" />
                 </motion.button>
               )}
               

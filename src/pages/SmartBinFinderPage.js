@@ -17,7 +17,7 @@ const SmartBinFinderPage = () => {
       address: '123 Green Street, Downtown',
       capacity: 85,
       icon: Trash2,
-      color: '#10B981',
+      color: '#164c51',
     },
     {
       name: 'University Campus Bin',
@@ -27,7 +27,7 @@ const SmartBinFinderPage = () => {
       address: '456 Education Ave, Campus',
       capacity: 100,
       icon: Recycle,
-      color: '#0EA5E9',
+      color: '#D48931',
     },
     {
       name: 'Shopping Mall Hub',
@@ -37,7 +37,7 @@ const SmartBinFinderPage = () => {
       address: '789 Commerce Blvd, Mall District',
       capacity: 42,
       icon: Package,
-      color: '#F59E0B',
+      color: '#6d1e04',
     },
     {
       name: 'Community Center Bin',
@@ -47,17 +47,17 @@ const SmartBinFinderPage = () => {
       address: '321 Community Dr, Residential',
       capacity: 67,
       icon: Home,
-      color: '#059669',
+      color: '#0C2521',
     },
   ];
 
   // Filter options matching Flutter app
   const filters = [
-    { name: 'All', color: '#10B981' },
-    { name: 'Organic', color: '#059669' },
-    { name: 'Recyclable', color: '#0EA5E9' },
-    { name: 'Hazardous', color: '#F59E0B' },
-    { name: 'Residual', color: '#6B7280' },
+    { name: 'All', color: '#164c51' },
+    { name: 'Organic', color: '#164c51' },
+    { name: 'Recyclable', color: '#164c51' },
+    { name: 'Hazardous', color: '#D48931' },
+    { name: 'Residual', color: '#6d1e04' },
   ];
 
   // Filter smart bins based on selected filter
@@ -97,7 +97,7 @@ const SmartBinFinderPage = () => {
       whileTap={{ scale: 0.95 }}
       onClick={onClick}
       className={clsx(
-        "px-4 py-2 rounded-full font-medium text-sm transition-all border whitespace-nowrap",
+        "px-4 py-2 rounded-full font-medium text-sm whitespace-nowrap transition-all border",
         {
           'text-white shadow-lg': isActive,
           'bg-white text-gray-700 border-gray-200 hover:shadow-md': !isActive,
@@ -231,7 +231,7 @@ const SmartBinFinderPage = () => {
             <motion.h1 
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="text-2xl font-bold text-[#1F2937]"
+              className="text-2xl font-bold text-[#0C2521]"
             >
               Smart Bin Finder
             </motion.h1>
@@ -268,8 +268,8 @@ const SmartBinFinderPage = () => {
           whileTap={{ scale: 0.98 }}
           className="h-[200px] rounded-2xl relative overflow-hidden cursor-pointer transition-all"
           style={{
-            background: 'linear-gradient(135deg, #10B981, #10B981CC)',
-            boxShadow: '0 6px 12px #10B9814D'
+            background: 'linear-gradient(135deg, #164c51, #0C2521)',
+            boxShadow: '0 6px 12px #164c514D'
           }}
           onClick={() => console.log('Map clicked')}
         >

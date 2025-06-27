@@ -28,7 +28,7 @@ const EducationPage = () => {
       isCompleted: completedLessons.includes('1'),
       progress: completedLessons.includes('1') ? 1.0 : (lessonProgress['1'] || 0),
       icon: School,
-      color: '#10B981',
+      color: '#164c51',
     },
     {
       id: '2',
@@ -40,7 +40,7 @@ const EducationPage = () => {
       isCompleted: completedLessons.includes('2'),
       progress: completedLessons.includes('2') ? 1.0 : (lessonProgress['2'] || 0),
       icon: ArrowRight,
-      color: '#0EA5E9',
+      color: '#164c51',
     },
     {
       id: '3',
@@ -52,7 +52,7 @@ const EducationPage = () => {
       isCompleted: completedLessons.includes('3'),
       progress: completedLessons.includes('3') ? 1.0 : (lessonProgress['3'] || 0),
       icon: Star,
-      color: '#059669',
+      color: '#D48931',
     },
     {
       id: '4',
@@ -64,7 +64,7 @@ const EducationPage = () => {
       isCompleted: completedLessons.includes('4'),
       progress: completedLessons.includes('4') ? 1.0 : (lessonProgress['4'] || 0),
       icon: RotateCcw,
-      color: '#8B5CF6',
+      color: '#6d1e04',
     },
     {
       id: '5',
@@ -76,7 +76,7 @@ const EducationPage = () => {
       isCompleted: completedLessons.includes('5'),
       progress: completedLessons.includes('5') ? 1.0 : (lessonProgress['5'] || 0),
       icon: Trophy,
-      color: '#F59E0B',
+      color: '#0C2521',
     },
   ];
 
@@ -271,7 +271,7 @@ const EducationPage = () => {
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: -50, scale: 0.9 }}
         className={`absolute top-4 left-4 right-4 z-50 ${
-          isSuccess ? 'bg-[#10B981]' : 'bg-[#EF4444]'
+          isSuccess ? 'bg-[#164c51]' : 'bg-[#D48931]'
         } text-white p-3 rounded-xl shadow-xl`}
         style={{ 
           boxShadow: '0 8px 25px rgba(0,0,0,0.15)',
@@ -307,9 +307,9 @@ const EducationPage = () => {
 
   const getDifficultyColor = (difficulty) => {
     switch (difficulty) {
-      case 'Beginner': return '#10B981';
-      case 'Intermediate': return '#F59E0B';
-      case 'Advanced': return '#EF4444';
+      case 'Beginner': return '#164c51';
+      case 'Intermediate': return '#D48931';
+      case 'Advanced': return '#6d1e04';
       default: return '#6B7280';
     }
   };
@@ -385,7 +385,7 @@ const EducationPage = () => {
         >
           <Icon size={14} style={{ color }} />
         </div>
-        <div className="text-base font-bold text-[#1F2937]">{value}</div>
+        <div className="text-base font-bold text-[#0C2521]">{value}</div>
         <div className="text-[10px] text-[#6B7280] leading-tight">{title}</div>
       </div>
     </div>
@@ -476,7 +476,7 @@ const EducationPage = () => {
               "w-full py-2 rounded-xl font-semibold text-xs flex items-center justify-center gap-1.5",
               lesson.isCompleted
                 ? "bg-gray-100 text-[#6B7280]"
-                : "bg-[#10B981] text-white shadow-lg shadow-[#10B981]/30"
+                : "bg-[#164c51] text-white shadow-lg shadow-[#164c51]/30"
             )}
           >
             {lesson.isCompleted ? (
@@ -583,7 +583,7 @@ const EducationPage = () => {
               className={clsx(
                 "flex-1 py-2.5 rounded-lg font-semibold text-xs",
                 selectedAnswer !== null && !showResult
-                  ? "bg-[#10B981] text-white"
+                  ? "bg-[#164c51] text-white"
                   : "bg-gray-200 text-gray-400"
               )}
             >
@@ -613,11 +613,11 @@ const EducationPage = () => {
           boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05)'
         }}
       >
-        <div className="w-12 h-12 bg-[#10B981]/10 rounded-full flex items-center justify-center mx-auto mb-3">
-          <CheckCircle size={24} className="text-[#10B981]" />
+        <div className="w-12 h-12 bg-[#164c51]/10 rounded-full flex items-center justify-center mx-auto mb-3">
+          <CheckCircle size={24} className="text-[#164c51]" />
         </div>
         
-        <h2 className="text-lg font-bold text-[#1F2937] mb-2">
+        <h2 className="text-lg font-bold text-[#0C2521] mb-2">
           Lesson Completed!
         </h2>
         
@@ -625,10 +625,10 @@ const EducationPage = () => {
           Congratulations! You've successfully completed "{currentLesson?.title}".
         </p>
         
-        <div className="bg-[#10B981]/10 rounded-lg p-2.5 mb-4">
+        <div className="bg-[#164c51]/10 rounded-lg p-2.5 mb-4">
           <div className="flex items-center justify-center gap-1.5">
-            <Star size={14} className="text-[#F59E0B]" />
-            <span className="text-xs font-semibold text-[#1F2937]">
+            <Star size={14} className="text-[#D48931]" />
+            <span className="text-xs font-semibold text-[#0C2521]">
               +{currentLesson?.points} Points Earned
             </span>
           </div>
@@ -637,7 +637,7 @@ const EducationPage = () => {
         <motion.button
           whileTap={{ scale: 0.98 }}
           onClick={() => setShowLessonComplete(false)}
-          className="w-full py-2.5 bg-[#10B981] text-white rounded-lg font-semibold text-xs"
+          className="w-full py-2.5 bg-[#164c51] text-white rounded-lg font-semibold text-xs"
         >
           Continue Learning
         </motion.button>
@@ -669,7 +669,7 @@ const EducationPage = () => {
         <motion.h1 
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="text-2xl font-bold text-[#1F2937]"
+          className="text-2xl font-bold text-[#0C2521]"
         >
           Environmental Education
         </motion.h1>
@@ -699,21 +699,21 @@ const EducationPage = () => {
               title="Lessons Completed"
               value={`${completedLessonsCount}/${lessons.length}`}
               icon={BookOpen}
-              color="#10B981"
+              color="#164c51"
             />
             <div className="w-px h-8 bg-gray-200 mx-3" />
             <StatItem
               title="Total Points"
               value={totalPoints.toString()}
               icon={Star}
-              color="#F59E0B"
+              color="#D48931"
             />
             <div className="w-px h-8 bg-gray-200 mx-3" />
             <StatItem
               title="Level"
               value={getUserLevel(totalPoints)}
               icon={Award}
-              color="#8B5CF6"
+              color="#6d1e04"
             />
             </div>
         </div>

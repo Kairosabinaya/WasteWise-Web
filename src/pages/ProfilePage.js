@@ -22,31 +22,31 @@ const ProfilePage = () => {
     {
       title: 'Edit Profile',
       icon: Edit3,
-      color: '#10B981',
+      color: '#164c51',
       action: () => console.log('Edit Profile')
     },
     {
       title: 'Achievements',
       icon: Award,
-      color: '#F59E0B',
+      color: '#D48931',
       action: () => console.log('View Achievements')
     },
     {
       title: 'Statistics',
       icon: BarChart3,
-      color: '#0EA5E9',
+      color: '#164c51',
       action: () => console.log('View Statistics')
     },
     {
       title: 'Notifications',
       icon: Bell,
-      color: '#8B5CF6',
+      color: '#6d1e04',
       action: () => console.log('Notification Settings')
     },
     {
       title: 'Privacy & Security',
       icon: Shield,
-      color: '#059669',
+      color: '#0C2521',
       action: () => console.log('Privacy Settings')
     },
     {
@@ -74,7 +74,7 @@ const ProfilePage = () => {
       >
         <item.icon size={20} style={{ color: item.color }} />
       </div>
-      <span className="flex-1 text-left font-medium text-[#1F2937]">{item.title}</span>
+      <span className="flex-1 text-left font-medium text-[#0C2521]">{item.title}</span>
       <ChevronRight size={16} className="text-[#6B7280]" />
     </motion.button>
   );
@@ -94,7 +94,7 @@ const ProfilePage = () => {
         <motion.h1 
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="text-2xl font-bold text-[#1F2937]"
+          className="text-2xl font-bold text-[#0C2521]"
         >
           Profile
         </motion.h1>
@@ -118,7 +118,7 @@ const ProfilePage = () => {
         <div className="bg-white rounded-2xl p-6 shadow-sm">
           <div className="flex items-center mb-4">
             <div className="relative">
-              <div className="w-16 h-16 rounded-full mr-4 overflow-hidden border-2 border-[#10B981]">
+              <div className="w-16 h-16 rounded-full mr-4 overflow-hidden border-2 border-[#164c51]">
                 <img 
                   src="/ProfilePicture.jpg" 
                   alt={user.name}
@@ -128,16 +128,16 @@ const ProfilePage = () => {
                     e.target.nextSibling.style.display = 'flex';
                   }}
                 />
-                <div className="w-full h-full bg-[#10B981] flex items-center justify-center hidden">
+                <div className="w-full h-full bg-[#164c51] flex items-center justify-center hidden">
                   <User size={32} className="text-white" />
                 </div>
               </div>
             </div>
             <div className="flex-1">
-              <h2 className="text-xl font-bold text-[#1F2937]">{user.name}</h2>
+              <h2 className="text-xl font-bold text-[#0C2521]">{user.name}</h2>
               <p className="text-[#6B7280] text-sm">{user.email}</p>
               <div className="flex items-center mt-1">
-                <div className="bg-[#10B981] px-2 py-1 rounded-lg">
+                <div className="bg-[#164c51] px-2 py-1 rounded-lg">
                   <span className="text-white text-xs font-bold">{user.level}</span>
                 </div>
                 <span className="text-xs text-[#6B7280] ml-2">Level 4</span>
@@ -148,15 +148,15 @@ const ProfilePage = () => {
           {/* Stats */}
           <div className="grid grid-cols-3 gap-4">
             <div className="text-center">
-              <div className="text-lg font-bold text-[#1F2937]">{user.totalPoints.toLocaleString()}</div>
+              <div className="text-lg font-bold text-[#0C2521]">{user.totalPoints.toLocaleString()}</div>
               <div className="text-xs text-[#6B7280]">Total Points</div>
             </div>
             <div className="text-center">
-              <div className="text-lg font-bold text-[#1F2937]">#{user.rank}</div>
+              <div className="text-lg font-bold text-[#0C2521]">#{user.rank}</div>
               <div className="text-xs text-[#6B7280]">Global Rank</div>
             </div>
             <div className="text-center">
-              <div className="text-lg font-bold text-[#1F2937]">{user.achievements}</div>
+              <div className="text-lg font-bold text-[#0C2521]">{user.achievements}</div>
               <div className="text-xs text-[#6B7280]">Achievements</div>
             </div>
           </div>
@@ -176,12 +176,12 @@ const ProfilePage = () => {
           transition={{ delay: menuItems.length * 0.1 }}
           whileHover={{ x: 5 }}
           whileTap={{ scale: 0.98 }}
-          className="w-full bg-[#EF4444]/10 rounded-xl p-4 flex items-center mt-6"
+          className="w-full bg-[#D48931]/10 rounded-xl p-4 flex items-center mt-6"
         >
-          <div className="w-10 h-10 rounded-full flex items-center justify-center mr-4 bg-[#EF4444]/20">
-            <LogOut size={20} className="text-[#EF4444]" />
+          <div className="w-10 h-10 rounded-full flex items-center justify-center mr-4 bg-[#D48931]/20">
+            <LogOut size={20} className="text-[#D48931]" />
           </div>
-          <span className="flex-1 text-left font-medium text-[#EF4444]">Sign Out</span>
+          <span className="flex-1 text-left font-medium text-[#D48931]">Sign Out</span>
         </motion.button>
       </div>
     </div>

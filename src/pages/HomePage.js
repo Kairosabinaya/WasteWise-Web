@@ -37,50 +37,50 @@ const HomePage = () => {
     return () => clearTimeout(timer);
   }, [user.points]);
 
-  // Exact waste data from Flutter app
+  // Updated waste data with new color palette
   const wasteData = [
-    { type: 'Organic', amount: '2.4', unit: 'kg', icon: Leaf, color: '#059669' },
-    { type: 'Recyclable', amount: '3.6', unit: 'kg', icon: Recycle, color: '#0EA5E9' },
-    { type: 'Hazardous', amount: '0.2', unit: 'kg', icon: AlertTriangle, color: '#F59E0B' },
-    { type: 'Residual', amount: '0.8', unit: 'kg', icon: Trash2, color: '#6B7280' },
+    { type: 'Organic', amount: '2.4', unit: 'kg', icon: Leaf, color: '#164c51' },
+    { type: 'Recyclable', amount: '3.6', unit: 'kg', icon: Recycle, color: '#164c51' },
+    { type: 'Hazardous', amount: '0.2', unit: 'kg', icon: AlertTriangle, color: '#D48931' },
+    { type: 'Residual', amount: '0.8', unit: 'kg', icon: Trash2, color: '#6d1e04' },
   ];
 
-  // Exact statistics from Flutter app
+  // Updated statistics with new color palette
   const statistics = [
-    { title: 'Items Recycled', value: '12', icon: Package, color: '#8B5CF6' },
-    { title: "Today's Points", value: '340', icon: Star, color: '#EF4444' },
+    { title: 'Items Recycled', value: '12', icon: Package, color: '#164c51' },
+    { title: "Today's Points", value: '340', icon: Star, color: '#D48931' },
   ];
 
-  // Updated quick actions with navigation
+  // Updated quick actions with new color palette
   const quickActions = [
-    { title: 'Statistics', icon: BarChart3, color: '#10B981', path: '/statistics' },
-    { title: 'Marketplace', icon: Gift, color: '#0EA5E9', path: '/marketplace' },
-    { title: 'Education', icon: Package, color: '#8B5CF6', path: '/education' },
-    { title: 'Community', icon: Users, color: '#F59E0B', path: '/community' },
+    { title: 'Statistics', icon: BarChart3, color: '#164c51', path: '/statistics' },
+    { title: 'Marketplace', icon: Gift, color: '#D48931', path: '/marketplace' },
+    { title: 'Education', icon: Package, color: '#0C2521', path: '/education' },
+    { title: 'Community', icon: Users, color: '#6d1e04', path: '/community' },
   ];
 
-  // Exact achievements from Flutter app
+  // Updated achievements with new color palette
   const achievements = [
     {
       title: 'Eco Pioneer',
       desc: '100+ items recycled',
-      color: '#059669',
+      color: '#164c51',
       icon: Leaf,
       tag: 'NEW',
-      tagColor: '#10B981',
+      tagColor: '#164c51',
     },
     {
       title: 'Point Master',
       desc: '10,000 points collected',
-      color: '#F59E0B',
+      color: '#D48931',
       icon: Star,
       tag: 'COMPLETED',
-      tagColor: '#EF4444',
+      tagColor: '#D48931',
     },
     {
       title: 'Community Hero',
       desc: '50+ people helped',
-      color: '#0EA5E9',
+      color: '#6d1e04',
       icon: Users,
       tag: null,
       tagColor: null,
@@ -253,7 +253,7 @@ const HomePage = () => {
               className="relative w-12 h-12 bg-white/15 rounded-full flex items-center justify-center cursor-pointer"
             >
               <Bell className="text-white" size={22} />
-              <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-[#EF4444] rounded-full border-2 border-[#10B981]"></span>
+              <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-[#D48931] rounded-full border-2 border-[#164c51]"></span>
           </motion.div>
         </div>
       </CurvedHeader>
@@ -270,7 +270,7 @@ const HomePage = () => {
             <div>
                 <p className="text-[#6B7280] text-xs font-normal">Your Total Points</p>
                 <motion.p 
-                  className="text-[28px] font-extrabold text-[#1F2937] leading-tight mt-1"
+                  className="text-[28px] font-extrabold text-[#0C2521] leading-tight mt-1"
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: 0.5, type: 'spring' }}
@@ -283,7 +283,7 @@ const HomePage = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => navigate('/marketplace')}
-                className="bg-gradient-to-r from-[#10B981] to-green-600 text-white px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 shadow-lg shadow-[#10B981]/30"
+                className="bg-gradient-to-r from-[#164c51] to-[#0C2521] text-white px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 shadow-lg shadow-[#164c51]/30"
               >
                 <ArrowRightLeft size={14} />
                 Exchange Points
@@ -291,19 +291,19 @@ const HomePage = () => {
             </div>
 
             {/* Level Progress - exact Flutter recreation */}
-            <div className="bg-[#ECFDF5] p-3 rounded-xl">
+            <div className="bg-[#164c51]/10 p-3 rounded-xl">
               <div className="flex items-center">
-                <div className="bg-[#10B981] px-2 py-1 rounded-lg flex items-center justify-center">
+                <div className="bg-[#164c51] px-2 py-1 rounded-lg flex items-center justify-center">
                   <span className="text-white text-[10px] font-bold">Level 4</span>
                 </div>
                 <div className="flex-1 mx-3">
                   <div className="flex justify-between items-center mb-1.5">
-                    <span className="text-xs font-semibold text-[#1F2937]">Eco Warrior</span>
-                    <span className="text-[11px] font-semibold text-[#10B981]">80%</span>
+                    <span className="text-xs font-semibold text-[#0C2521]">Eco Warrior</span>
+                    <span className="text-[11px] font-semibold text-[#164c51]">80%</span>
                   </div>
                   <div className="w-full bg-white rounded-full h-1">
                     <motion.div
-                      className="bg-[#10B981] h-1 rounded-full"
+                      className="bg-[#164c51] h-1 rounded-full"
                       initial={{ width: 0 }}
                       animate={{ width: '80%' }}
                       transition={{ duration: 1, delay: 0.7 }}
@@ -331,7 +331,7 @@ const HomePage = () => {
             whileHover={{ y: -2, scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => navigate('/smart-bin')}
-            className="bg-gradient-to-r from-[#0EA5E9] to-[#0284C7] rounded-2xl p-4 cursor-pointer shadow-lg shadow-[#0EA5E9]/30"
+            className="bg-gradient-to-r from-[#164c51] to-[#0C2521] rounded-2xl p-4 cursor-pointer shadow-lg shadow-[#164c51]/30"
           >
             <div className="flex items-center">
               <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mr-4">
@@ -347,7 +347,7 @@ const HomePage = () => {
         </motion.div>
         {/* Today's Impact Section */}
         <div className="mb-6">
-          <h2 className="text-xl font-semibold text-[#1F2937] mb-3">Today's Impact</h2>
+          <h2 className="text-xl font-semibold text-[#0C2521] mb-3">Today's Impact</h2>
           <div className="space-y-3">
             <div className="flex gap-3">
               <div className="flex-1">
@@ -370,7 +370,7 @@ const HomePage = () => {
 
         {/* Statistics Section */}
         <div className="mb-6">
-          <h2 className="text-xl font-semibold text-[#1F2937] mb-3">Statistics</h2>
+          <h2 className="text-xl font-semibold text-[#0C2521] mb-3">Statistics</h2>
           <div className="flex gap-3">
             <div className="flex-1">
               <StatCard {...statistics[0]} />
@@ -383,7 +383,7 @@ const HomePage = () => {
         
         {/* Quick Actions Section */}
         <div className="mb-6">
-          <h2 className="text-xl font-semibold text-[#1F2937] mb-3">Quick Actions</h2>
+          <h2 className="text-xl font-semibold text-[#0C2521] mb-3">Quick Actions</h2>
           <div className="space-y-3">
             <div className="flex gap-3">
               <div className="flex-1">
@@ -406,7 +406,7 @@ const HomePage = () => {
 
         {/* Achievements Section - exact Flutter recreation */}
         <div className="mb-8">
-          <h2 className="text-xl font-semibold text-[#1F2937] mb-3">Achievements</h2>
+          <h2 className="text-xl font-semibold text-[#0C2521] mb-3">Achievements</h2>
         <div>
             {achievements.map((achievement, index) => (
               <AchievementItem key={index} achievement={achievement} />

@@ -15,8 +15,8 @@ const StatisticsPage = () => {
   ];
 
   const metrics = [
-    { id: 'waste', label: 'Waste Sorted', icon: Trash2, color: '#10B981' },
-    { id: 'points', label: 'Points Earned', icon: TrendingUp, color: '#F59E0B' },
+    { id: 'waste', label: 'Waste Sorted', icon: Trash2, color: '#164c51' },
+    { id: 'points', label: 'Points Earned', icon: TrendingUp, color: '#D48931' },
   ];
 
   // Mock data for different periods
@@ -27,10 +27,10 @@ const StatisticsPage = () => {
         change: '+12%',
         trend: 'up',
         breakdown: [
-          { type: 'Organic', amount: 2.4, percentage: 35, color: '#059669' },
-          { type: 'Recyclable', amount: 3.6, percentage: 53, color: '#0EA5E9' },
-          { type: 'Hazardous', amount: 0.2, percentage: 3, color: '#F59E0B' },
-          { type: 'Residual', amount: 0.6, percentage: 9, color: '#6B7280' },
+          { type: 'Organic', amount: 2.4, percentage: 35, color: '#164c51' },
+          { type: 'Recyclable', amount: 3.6, percentage: 53, color: '#164c51' },
+          { type: 'Hazardous', amount: 0.2, percentage: 3, color: '#D48931' },
+          { type: 'Residual', amount: 0.6, percentage: 9, color: '#6d1e04' },
         ],
         dailyData: [
           { day: 'Mon', organic: 1.2, recyclable: 2.1, hazardous: 0.3, residual: 0.8 },
@@ -61,10 +61,10 @@ const StatisticsPage = () => {
         change: '+8%',
         trend: 'up',
         breakdown: [
-          { type: 'Organic', amount: 10.2, percentage: 36, color: '#059669' },
-          { type: 'Recyclable', amount: 14.8, percentage: 52, color: '#0EA5E9' },
-          { type: 'Hazardous', amount: 0.9, percentage: 3, color: '#F59E0B' },
-          { type: 'Residual', amount: 2.6, percentage: 9, color: '#6B7280' },
+          { type: 'Organic', amount: 10.2, percentage: 36, color: '#164c51' },
+          { type: 'Recyclable', amount: 14.8, percentage: 52, color: '#164c51' },
+          { type: 'Hazardous', amount: 0.9, percentage: 3, color: '#D48931' },
+          { type: 'Residual', amount: 2.6, percentage: 9, color: '#6d1e04' },
         ],
         dailyData: [
           { day: 'W1', organic: 6.8, recyclable: 9.2, hazardous: 1.1, residual: 2.4 },
@@ -92,10 +92,10 @@ const StatisticsPage = () => {
         change: '+22%',
         trend: 'up',
         breakdown: [
-          { type: 'Organic', amount: 125.6, percentage: 37, color: '#059669' },
-          { type: 'Recyclable', amount: 175.3, percentage: 51, color: '#0EA5E9' },
-          { type: 'Hazardous', amount: 10.8, percentage: 3, color: '#F59E0B' },
-          { type: 'Residual', amount: 30.3, percentage: 9, color: '#6B7280' },
+          { type: 'Organic', amount: 125.6, percentage: 37, color: '#164c51' },
+          { type: 'Recyclable', amount: 175.3, percentage: 51, color: '#164c51' },
+          { type: 'Hazardous', amount: 10.8, percentage: 3, color: '#D48931' },
+          { type: 'Residual', amount: 30.3, percentage: 9, color: '#6d1e04' },
         ],
         dailyData: [
           { day: 'Q1', organic: 82.5, recyclable: 118.4, hazardous: 8.2, residual: 24.6 },
@@ -132,7 +132,7 @@ const StatisticsPage = () => {
           className={clsx(
             "flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all",
             selectedPeriod === period.id
-              ? "bg-white text-[#10B981] shadow-sm"
+              ? "bg-white text-[#164c51] shadow-sm"
               : "text-[#6B7280]"
           )}
         >
@@ -151,7 +151,7 @@ const StatisticsPage = () => {
       className={clsx(
         "p-4 rounded-xl border-2 transition-all",
         isActive
-          ? "border-[#10B981] bg-[#10B981]/5"
+          ? "border-[#164c51] bg-[#164c51]/5"
           : "border-gray-200 bg-white hover:border-gray-300"
       )}
     >
@@ -203,19 +203,19 @@ const StatisticsPage = () => {
         {/* Legend */}
         <div className="flex flex-wrap gap-3 mb-4">
           <div className="flex items-center">
-            <div className="w-3 h-3 rounded-full bg-[#059669] mr-2"></div>
+            <div className="w-3 h-3 rounded-full bg-[#164c51] mr-2"></div>
             <span className="text-xs text-[#6B7280]">Organic</span>
           </div>
           <div className="flex items-center">
-            <div className="w-3 h-3 rounded-full bg-[#0EA5E9] mr-2"></div>
+            <div className="w-3 h-3 rounded-full bg-[#164c51] mr-2"></div>
             <span className="text-xs text-[#6B7280]">Recyclable</span>
           </div>
           <div className="flex items-center">
-            <div className="w-3 h-3 rounded-full bg-[#F59E0B] mr-2"></div>
+            <div className="w-3 h-3 rounded-full bg-[#D48931] mr-2"></div>
             <span className="text-xs text-[#6B7280]">Hazardous</span>
           </div>
           <div className="flex items-center">
-            <div className="w-3 h-3 rounded-full bg-[#6B7280] mr-2"></div>
+            <div className="w-3 h-3 rounded-full bg-[#6d1e04] mr-2"></div>
             <span className="text-xs text-[#6B7280]">Residual</span>
           </div>
         </div>
@@ -236,28 +236,28 @@ const StatisticsPage = () => {
                     initial={{ height: 0 }}
                     animate={{ height: `${organicHeight}%` }}
                     transition={{ delay: index * 0.1, duration: 0.8 }}
-                    className="w-full bg-[#059669] rounded-sm min-h-[2px]"
+                    className="w-full bg-[#164c51] rounded-sm min-h-[2px]"
                   />
                   {/* Recyclable */}
                   <motion.div
                     initial={{ height: 0 }}
                     animate={{ height: `${recyclableHeight}%` }}
                     transition={{ delay: index * 0.1 + 0.1, duration: 0.8 }}
-                    className="w-full bg-[#0EA5E9] rounded-sm min-h-[2px]"
+                    className="w-full bg-[#164c51] rounded-sm min-h-[2px]"
                   />
                   {/* Hazardous */}
                   <motion.div
                     initial={{ height: 0 }}
                     animate={{ height: `${hazardousHeight}%` }}
                     transition={{ delay: index * 0.1 + 0.2, duration: 0.8 }}
-                    className="w-full bg-[#F59E0B] rounded-sm min-h-[2px]"
+                    className="w-full bg-[#D48931] rounded-sm min-h-[2px]"
                   />
                   {/* Residual */}
                   <motion.div
                     initial={{ height: 0 }}
                     animate={{ height: `${residualHeight}%` }}
                     transition={{ delay: index * 0.1 + 0.3, duration: 0.8 }}
-                    className="w-full bg-[#6B7280] rounded-sm min-h-[2px]"
+                    className="w-full bg-[#6d1e04] rounded-sm min-h-[2px]"
                   />
                 </div>
                 <span className="text-xs text-[#6B7280] font-medium mt-2">{data.day}</span>
@@ -338,7 +338,7 @@ const StatisticsPage = () => {
         <motion.h1 
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="text-2xl font-bold text-[#1F2937]"
+          className="text-2xl font-bold text-[#0C2521]"
         >
           Statistics
         </motion.h1>
@@ -371,12 +371,12 @@ const StatisticsPage = () => {
       >
         <div className="bg-white rounded-xl p-4">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="font-semibold text-[#1F2937]">Total Waste Sorted</h3>
+            <h3 className="font-semibold text-[#0C2521]">Total Waste Sorted</h3>
             <div className="flex items-center">
               <span 
                 className={clsx(
                   "text-sm font-medium flex items-center",
-                  currentData.waste.trend === 'up' ? 'text-green-600' : 'text-red-600'
+                  currentData.waste.trend === 'up' ? 'text-[#164c51]' : 'text-[#D48931]'
                 )}
               >
                 {currentData.waste.trend === 'up' ? <ArrowUp size={14} /> : <ArrowDown size={14} />}
@@ -384,7 +384,7 @@ const StatisticsPage = () => {
               </span>
             </div>
           </div>
-          <div className="text-3xl font-bold text-[#1F2937] mb-2">{currentData.waste.total}</div>
+          <div className="text-3xl font-bold text-[#0C2521] mb-2">{currentData.waste.total}</div>
           <div className="text-sm text-[#6B7280]">Compared to last {selectedPeriod}</div>
         </div>
       </motion.div>

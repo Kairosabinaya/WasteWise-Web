@@ -12,11 +12,11 @@ const ProgressBar = ({
   className 
 }) => {
   const colors = {
-    green: 'bg-brand-primary',
-    blue: 'bg-blue-500',
-    yellow: 'bg-yellow-500',
-    red: 'bg-red-500',
-    purple: 'bg-purple-500',
+    green: 'bg-[#164c51]',
+    blue: 'bg-[#164c51]',
+    yellow: 'bg-[#D48931]',
+    red: 'bg-[#6d1e04]',
+    purple: 'bg-[#0C2521]',
   };
 
   const sizes = {

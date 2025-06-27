@@ -176,7 +176,7 @@ const MarketplacePage = () => {
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: -50, scale: 0.9 }}
         className={`absolute top-4 left-4 right-4 z-50 ${
-          isSuccess ? 'bg-[#10B981]' : 'bg-[#EF4444]'
+          isSuccess ? 'bg-[#164c51]' : 'bg-[#D48931]'
         } text-white p-3 rounded-xl shadow-xl`}
         style={{ 
           boxShadow: '0 8px 25px rgba(0,0,0,0.15)',
@@ -292,7 +292,7 @@ const MarketplacePage = () => {
 
         {/* Product Info - Fixed height layout */}
         <div className="p-4 flex flex-col flex-1">
-          <h3 className="font-semibold text-[#1F2937] text-sm leading-tight mb-1">
+          <h3 className="font-semibold text-[#0C2521] text-sm leading-tight mb-1">
             {item.name}
           </h3>
           
@@ -312,8 +312,8 @@ const MarketplacePage = () => {
           {/* Points and Price */}
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center">
-              <Gift size={14} className="text-[#10B981] mr-1" />
-              <span className="text-[#10B981] font-bold text-sm">{item.points}</span>
+              <Gift size={14} className="text-[#164c51] mr-1" />
+              <span className="text-[#164c51] font-bold text-sm">{item.points}</span>
               <span className="text-[#6B7280] text-xs ml-1">pts</span>
             </div>
             <span className="text-[#6B7280] text-xs line-through">
@@ -331,7 +331,7 @@ const MarketplacePage = () => {
               className={clsx(
                 "w-full py-2 rounded-xl text-xs font-semibold transition-all",
                 userPoints >= item.points
-                  ? "bg-[#10B981] text-white shadow-lg shadow-[#10B981]/30 hover:bg-[#059669]"
+                  ? "bg-[#164c51] text-white shadow-lg shadow-[#164c51]/30 hover:bg-[#0C2521]"
                   : "bg-gray-100 text-gray-400 cursor-not-allowed"
               )}
             >
@@ -369,7 +369,7 @@ const MarketplacePage = () => {
             <motion.h1 
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="text-2xl font-bold text-[#1F2937]"
+              className="text-2xl font-bold text-[#0C2521]"
             >
               Marketplace
             </motion.h1>
@@ -386,7 +386,7 @@ const MarketplacePage = () => {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2 }}
-            className="bg-[#F59E0B] text-white px-3 py-1.5 rounded-full flex items-center shadow-sm"
+            className="bg-[#D48931] text-white px-3 py-1.5 rounded-full flex items-center shadow-sm"
           >
             <Star size={14} className="mr-1" />
             <span className="text-sm font-semibold">{userPoints.toLocaleString()} PTS</span>
@@ -428,18 +428,16 @@ const MarketplacePage = () => {
               whileTap={{ scale: 0.95 }}
               onClick={() => setSelectedCategory(index)}
               className={clsx(
-                "px-5 py-2 rounded-full font-medium text-sm whitespace-nowrap transition-all",
-                selectedCategory === index
-                  ? "text-white shadow-lg"
-                  : "bg-white text-[#6B7280] shadow-sm"
+                "px-5 py-2 rounded-full font-medium text-sm whitespace-nowrap transition-all border",
+                {
+                  'text-white shadow-lg': selectedCategory === index,
+                  'bg-white text-gray-700 border-gray-200 hover:shadow-md': selectedCategory !== index,
+                }
               )}
               style={{
-                background: selectedCategory === index 
-                  ? 'linear-gradient(135deg, #10B981, #059669)'
-                  : undefined,
-                boxShadow: selectedCategory === index
-                  ? '0 2px 6px rgba(16, 185, 129, 0.3)'
-                  : '0 2px 6px rgba(0,0,0,0.04)'
+                backgroundColor: selectedCategory === index ? '#164c51' : undefined,
+                borderColor: selectedCategory === index ? 'transparent' : '#164c514D',
+                boxShadow: selectedCategory === index ? '0 2px 6px #164c514D' : '0 2px 6px rgba(0,0,0,0.04)'
               }}
             >
               {category}

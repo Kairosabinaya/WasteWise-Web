@@ -5,11 +5,11 @@ import { clsx } from 'clsx';
 import { motion } from 'framer-motion';
 
 const navItems = [
-  { path: '/', icon: Home, name: 'Home', color: '#10B981' },
-  { path: '/statistics', icon: BarChart3, name: 'Statistics', color: '#0EA5E9' },
-  { path: '/marketplace', icon: ShoppingCart, name: 'Marketplace', color: '#F59E0B' },
-  { path: '/education', icon: BookOpen, name: 'Education', color: '#EF4444' },
-  { path: '/community', icon: Users, name: 'Community', color: '#10B981' },
+  { path: '/', icon: Home, name: 'Home', color: '#164c51' },
+  { path: '/statistics', icon: BarChart3, name: 'Statistics', color: '#D48931' },
+  { path: '/marketplace', icon: ShoppingCart, name: 'Marketplace', color: '#6d1e04' },
+  { path: '/education', icon: BookOpen, name: 'Education', color: '#0C2521' },
+  { path: '/community', icon: Users, name: 'Community', color: '#164c51' },
 ];
 
 const BottomNav = () => {

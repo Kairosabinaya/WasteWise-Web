@@ -6,7 +6,7 @@ const AppLogo = ({ variant = 'default', className = '', textColor = 'gradient' }
     if (textColor === 'white') {
       return 'text-white';
     }
-    return 'bg-gradient-to-r from-[#10B981] to-[#059669] bg-clip-text text-transparent';
+    return 'bg-gradient-to-r from-[#0C2521] to-[#164c51] bg-clip-text text-transparent';
   };
 
   if (variant === 'compact') {
@@ -34,14 +34,14 @@ const AppLogo = ({ variant = 'default', className = '', textColor = 'gradient' }
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           className={`text-2xl font-bold ${getTextColorClass()}`}
-                  >
-            WasteWise
-          </motion.h1>
+        >
+          WasteWise
+        </motion.h1>
         <motion.div 
           initial={{ width: 0 }}
           animate={{ width: "100%" }}
           transition={{ delay: 0.5, duration: 0.8 }}
-          className="h-0.5 bg-gradient-to-r from-[#10B981] to-[#34D399] rounded-full"
+          className="h-0.5 bg-gradient-to-r from-[#0C2521] to-[#164c51] rounded-full"
         ></motion.div>
       </div>
     </motion.div>

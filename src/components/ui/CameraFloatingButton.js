@@ -11,7 +11,7 @@ const CameraFloatingButton = ({ className = "" }) => {
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.9 }}
       onClick={() => navigate('/scan')}
-      className={`absolute bottom-6 right-6 w-14 h-14 bg-gradient-to-r from-[#10B981] to-[#059669] rounded-full flex items-center justify-center shadow-lg shadow-[#10B981]/30 z-50 ${className}`}
+      className={`absolute bottom-6 right-6 w-14 h-14 bg-[#164c51] rounded-full flex items-center justify-center shadow-lg shadow-[#164c51]/30 z-50 hover:bg-[#0C2521] transition-colors ${className}`}
       initial={{ scale: 0 }}
       animate={{ scale: 1 }}
       transition={{ type: 'spring', delay: 0.5 }}

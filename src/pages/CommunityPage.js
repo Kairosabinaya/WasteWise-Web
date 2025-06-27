@@ -94,7 +94,7 @@ const CommunityPage = () => {
       points: 200,
       timeLeft: '3 days left',
       progress: 0.6,
-      color: '#10B981',
+      color: '#164c51',
       icon: Target,
       fullDescription: 'Join our Zero Waste Week challenge and learn to minimize your environmental impact! For 7 consecutive days, aim to produce as little waste as possible.',
       requirements: [
@@ -119,7 +119,7 @@ const CommunityPage = () => {
       points: 500,
       timeLeft: '15 days left',
       progress: 0.3,
-      color: '#0EA5E9',
+      color: '#6d1e04',
       icon: Trophy,
       fullDescription: 'Take on the ultimate plastic-free challenge! Spend the entire month of July without using any single-use plastic items.',
       requirements: [
@@ -144,7 +144,7 @@ const CommunityPage = () => {
       points: 150,
       timeLeft: '1 week left',
       progress: 0.0,
-      color: '#F59E0B',
+      color: '#D48931',
       icon: Star,
       fullDescription: 'Transform your kitchen scraps into nutrient-rich compost! Learn the art of composting and create your own organic fertilizer.',
       requirements: [
@@ -235,10 +235,10 @@ const CommunityPage = () => {
 
   const getRankColor = (rank) => {
     switch (rank) {
-      case 1: return '#F59E0B'; // Gold
+      case 1: return '#D48931'; // Gold
       case 2: return '#6B7280'; // Silver
-      case 3: return '#CD7F32'; // Bronze
-      default: return '#10B981'; // Green
+      case 3: return '#6d1e04'; // Bronze
+      default: return '#164c51'; // Green
     }
   };
 
@@ -254,7 +254,7 @@ const CommunityPage = () => {
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: -50, scale: 0.9 }}
         className={`absolute top-4 left-4 right-4 z-50 ${
-          isSuccess ? 'bg-[#10B981]' : 'bg-[#EF4444]'
+          isSuccess ? 'bg-[#164c51]' : 'bg-[#D48931]'
         } text-white p-3 rounded-xl shadow-xl`}
         style={{ 
           boxShadow: '0 8px 25px rgba(0,0,0,0.15)',
@@ -303,14 +303,14 @@ const CommunityPage = () => {
         <motion.div 
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
-          className="w-10 h-10 bg-[#10B981] rounded-full flex items-center justify-center mr-3 cursor-pointer"
+          className="w-10 h-10 bg-[#164c51] rounded-full flex items-center justify-center mr-3 cursor-pointer"
         >
           <span className="text-white font-semibold text-sm">{post.avatar}</span>
         </motion.div>
         <div className="flex-1">
           <motion.h3 
-            whileHover={{ color: '#10B981' }}
-            className="font-semibold text-[#1F2937] text-sm cursor-pointer transition-colors"
+            whileHover={{ color: '#164c51' }}
+            className="font-semibold text-[#0C2521] text-sm cursor-pointer transition-colors"
           >
             {post.author}
           </motion.h3>
@@ -319,7 +319,7 @@ const CommunityPage = () => {
       </div>
 
       {/* Content */}
-      <p className="text-[#1F2937] text-sm leading-relaxed mb-3">{post.content}</p>
+      <p className="text-[#0C2521] text-sm leading-relaxed mb-3">{post.content}</p>
 
       {/* Image */}
       {post.imageUrl && (
@@ -336,8 +336,8 @@ const CommunityPage = () => {
               e.target.nextSibling.style.display = 'flex';
             }}
           />
-          <div className="w-full h-full bg-gradient-to-br from-green-100 to-green-200 hidden items-center justify-center">
-            <span className="text-green-600 text-xs">📸 Image unavailable</span>
+          <div className="w-full h-full bg-gradient-to-br from-[#164c51]/20 to-[#0C2521]/20 hidden items-center justify-center">
+            <span className="text-[#164c51] text-xs">📸 Image unavailable</span>
           </div>
         </motion.div>
       )}
@@ -347,9 +347,9 @@ const CommunityPage = () => {
         {post.tags.map((tag, tagIndex) => (
           <motion.span
             key={tagIndex}
-            whileHover={{ scale: 1.05, backgroundColor: '#10B981', color: 'white' }}
+            whileHover={{ scale: 1.05, backgroundColor: '#164c51', color: 'white' }}
             whileTap={{ scale: 0.95 }}
-            className="px-2 py-1 bg-[#10B981]/10 text-[#10B981] text-xs font-medium rounded-full cursor-pointer transition-colors"
+            className="px-2 py-1 bg-[#164c51]/10 text-[#164c51] text-xs font-medium rounded-full cursor-pointer transition-colors"
           >
             #{tag}
           </motion.span>
@@ -367,7 +367,7 @@ const CommunityPage = () => {
             <Heart 
               size={16} 
               className={clsx(
-                post.isLiked ? 'text-red-500 fill-current' : 'text-[#6B7280]'
+                post.isLiked ? 'text-[#D48931] fill-current' : 'text-[#6B7280]'
               )} 
             />
             <span className="text-sm text-[#6B7280]">{post.likes}</span>
@@ -377,7 +377,7 @@ const CommunityPage = () => {
             whileTap={{ scale: 0.95 }}
             className="flex items-center gap-1"
           >
-            <MessageCircle size={16} className="text-[#6B7280] hover:text-[#10B981] transition-colors" />
+            <MessageCircle size={16} className="text-[#6B7280] hover:text-[#164c51] transition-colors" />
             <span className="text-sm text-[#6B7280]">{post.comments}</span>
           </motion.button>
         </div>
@@ -386,7 +386,7 @@ const CommunityPage = () => {
           whileTap={{ scale: 0.95 }}
           onClick={() => handleShare(post)}
         >
-          <Share2 size={16} className="text-[#6B7280] hover:text-[#10B981] transition-colors" />
+          <Share2 size={16} className="text-[#6B7280] hover:text-[#164c51] transition-colors" />
         </motion.button>
       </div>
     </motion.div>
@@ -459,7 +459,7 @@ const CommunityPage = () => {
         whileTap={{ scale: 0.98 }}
         whileHover={{ scale: 1.02 }}
         onClick={() => handleChallengeClick(challenge)}
-        className="w-full py-2.5 bg-[#10B981] text-white rounded-xl font-semibold text-sm shadow-lg shadow-[#10B981]/30 hover:bg-[#059669] transition-colors"
+        className="w-full py-2.5 bg-[#164c51] text-white rounded-xl font-semibold text-sm shadow-lg shadow-[#164c51]/30 hover:bg-[#0C2521] transition-colors"
       >
         {challenge.progress > 0 ? 'Continue' : 'Join Challenge'}
       </motion.button>
@@ -532,13 +532,13 @@ const CommunityPage = () => {
           {/* Requirements */}
           <div className="mb-4">
             <h3 className="font-semibold text-[#1F2937] mb-2 flex items-center">
-              <CheckCircle size={16} className="mr-2 text-[#10B981]" />
+              <CheckCircle size={16} className="mr-2 text-[#164c51]" />
               Requirements
             </h3>
             <ul className="space-y-2">
               {selectedChallenge.requirements.map((req, index) => (
                 <li key={index} className="flex items-start text-sm text-[#6B7280]">
-                  <span className="w-1.5 h-1.5 bg-[#10B981] rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                  <span className="w-1.5 h-1.5 bg-[#164c51] rounded-full mt-2 mr-2 flex-shrink-0"></span>
                   {req}
                 </li>
               ))}
@@ -584,7 +584,7 @@ const CommunityPage = () => {
                 // Auto hide notification after 4 seconds
                 setTimeout(() => setNotification(null), 4000);
               }}
-              className="flex-1 py-2.5 bg-[#10B981] text-white rounded-xl font-semibold text-sm shadow-lg shadow-[#10B981]/30"
+              className="flex-1 py-2.5 bg-[#164c51] text-white rounded-xl font-semibold text-sm shadow-lg shadow-[#164c51]/30"
             >
               {selectedChallenge.progress > 0 ? 'Continue' : 'Join Now'}
             </motion.button>
@@ -605,7 +605,7 @@ const CommunityPage = () => {
         transition={{ delay: index * 0.1 }}
         className={clsx(
           "bg-white rounded-2xl p-4 shadow-sm mb-3",
-          isCurrentUser && "border-2 border-[#10B981]"
+          isCurrentUser && "border-2 border-[#164c51]"
         )}
         style={{ boxShadow: '0 2px 6px rgba(0,0,0,0.04)' }}
       >
@@ -627,7 +627,7 @@ const CommunityPage = () => {
           <div 
             className="w-12 h-12 rounded-full flex items-center justify-center mr-3"
             style={{ 
-              backgroundColor: isCurrentUser ? '#10B981' : '#0EA5E9'
+              backgroundColor: isCurrentUser ? '#164c51' : '#6d1e04'
             }}
           >
             <span className="text-white font-semibold">{user.avatar}</span>
@@ -638,7 +638,7 @@ const CommunityPage = () => {
             <h3 
               className={clsx(
                 "font-semibold text-base",
-                isCurrentUser ? "text-[#10B981]" : "text-[#1F2937]"
+                isCurrentUser ? "text-[#164c51]" : "text-[#1F2937]"
               )}
             >
               {user.name}
@@ -710,7 +710,7 @@ const CommunityPage = () => {
               className={clsx(
                 "flex-1 py-3 text-sm font-semibold relative",
                 activeTab === index 
-                  ? "text-[#10B981]" 
+                  ? "text-[#164c51]" 
                   : "text-[#6B7280]"
               )}
             >
@@ -718,7 +718,7 @@ const CommunityPage = () => {
               {activeTab === index && (
                 <motion.div
                   layoutId="activeTab"
-                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#10B981]"
+                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#164c51]"
                 />
               )}
             </motion.button>
@@ -782,7 +782,7 @@ const CommunityPage = () => {
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           exit={{ scale: 0 }}
-          className="absolute bottom-6 right-6 w-14 h-14 bg-[#10B981] rounded-full flex items-center justify-center shadow-lg shadow-[#10B981]/30"
+          className="absolute bottom-6 right-6 w-14 h-14 bg-[#164c51] rounded-full flex items-center justify-center shadow-lg shadow-[#164c51]/30"
         >
           <Plus size={24} className="text-white" />
         </motion.button>

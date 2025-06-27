@@ -14,10 +14,10 @@ const GamifiedButton = ({
   ...props
 }) => {
   const variants = {
-    primary: 'bg-gradient-to-r from-brand-primary to-green-600 text-white shadow-lg shadow-brand-primary/30',
-    secondary: 'bg-gradient-to-r from-green-600 to-green-700 text-white shadow-lg shadow-green-600/30',
-    outline: 'border-2 border-brand-primary text-brand-primary bg-transparent hover:bg-brand-primary hover:text-white',
-    ghost: 'bg-green-100 text-brand-primary hover:bg-green-200',
+    primary: 'bg-[#164c51] text-white shadow-lg shadow-[#164c51]/30 hover:bg-[#0C2521]',
+    secondary: 'bg-[#D48931] text-white shadow-lg shadow-[#D48931]/30 hover:bg-[#6d1e04]',
+    outline: 'border-2 border-[#164c51] text-[#164c51] bg-transparent hover:bg-[#164c51] hover:text-white',
+    ghost: 'bg-[#164c51]/10 text-[#164c51] hover:bg-[#164c51]/20',
   };
 
   const sizes = {
