@@ -203,9 +203,9 @@ const HomePage = () => {
       {/* Header Section - exact Flutter recreation with 356px height */}
               <div className="h-[411px] relative flex-shrink-0">
                 {/* Curved Header - using CurvedHeader component with proper content */}
-        <CurvedHeader className="h-[220px] !pt-8">
+        <CurvedHeader className="h-[220px] !pt-10">
           {/* App Logo - large and centered */}
-          <div className="text-center mb-6">
+          <div className="text-center mb-4">
             <motion.h1 
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
