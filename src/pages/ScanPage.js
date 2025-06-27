@@ -19,7 +19,7 @@ const ScanPage = () => {
     points: 15,
     description: 'PET plastic bottle - fully recyclable',
     tips: [
-      'Remove the cap and label before recycling',
+      'Remove the cap before recycling',
       'Rinse the bottle to remove any residue',
       'Crush the bottle to save space'
     ],
