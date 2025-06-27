@@ -10,44 +10,44 @@ const SmartBinFinderPage = () => {
   // Smart bins data matching Flutter app exactly
   const smartBins = [
     {
-      name: 'Central Park Smart Bin',
-      distance: '0.2 km',
-      types: ['Organic', 'Recyclable'],
+      name: 'BINUS University Smart Bin',
+      distance: '0.3 km',
+      types: ['Recyclable', 'Residual'],
       status: 'Available',
-      address: '123 Green Street, Downtown',
-      capacity: 85,
-      icon: Trash2,
+      address: 'Jl. K. H. Syahdan No. 9, Palmerah, Jakarta',
+      capacity: 75,
+      icon: Recycle,
       color: '#164c51',
     },
     {
-      name: 'University Campus Bin',
-      distance: '0.5 km',
-      types: ['Recyclable', 'Hazardous'],
+      name: 'SCBD Office Park Bin',
+      distance: '1.5 km',
+      types: ['Recyclable', 'Hazardous', 'Residual'],
+      status: 'Available',
+      address: 'Sudirman Central Business District, South Jakarta',
+      capacity: 60,
+      icon: Trash2,
+      color: '#0C2521',
+    },
+    {
+      name: 'Grand Indonesia Mall Bin',
+      distance: '2.1 km',
+      types: ['All Types'],
       status: 'Full',
-      address: '456 Education Ave, Campus',
+      address: 'Jl. M.H. Thamrin No.1, Central Jakarta',
       capacity: 100,
-      icon: Recycle,
+      icon: Package,
       color: '#D48931',
     },
     {
-      name: 'Shopping Mall Hub',
-      distance: '0.8 km',
-      types: ['All Types'],
+      name: 'University of Indonesia Bin',
+      distance: '5.8 km',
+      types: ['Organic', 'Recyclable'],
       status: 'Available',
-      address: '789 Commerce Blvd, Mall District',
-      capacity: 42,
-      icon: Package,
-      color: '#6d1e04',
-    },
-    {
-      name: 'Community Center Bin',
-      distance: '1.2 km',
-      types: ['Organic', 'Residual'],
-      status: 'Available',
-      address: '321 Community Dr, Residential',
-      capacity: 67,
-      icon: Home,
-      color: '#0C2521',
+      address: 'UI Campus, Depok, West Java',
+      capacity: 50,
+      icon: Recycle,
+      color: '#164c51',
     },
   ];
 
@@ -286,7 +286,7 @@ const SmartBinFinderPage = () => {
               </div>
               <div>
                 <h3 className="text-white text-base font-semibold">Your Location</h3>
-                <p className="text-white/70 text-sm">Downtown District</p>
+                <p className="text-white/70 text-sm">West Jakarta</p>
               </div>
             </div>
 

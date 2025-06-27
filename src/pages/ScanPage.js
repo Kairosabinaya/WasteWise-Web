@@ -208,7 +208,7 @@ const ScanPage = () => {
         <div className="bg-gradient-to-b from-black/70 to-transparent p-4 pt-12">
           {/* App Logo */}
           <div className="mb-4">
-            <AppLogo variant="compact" className="justify-center" />
+            <AppLogo variant="compact" className="justify-center" textColor="white" />
           </div>
 
           <div className="flex items-center justify-between">
@@ -364,7 +364,7 @@ const ScanPage = () => {
           >
             <div className="h-full flex flex-col">
               {/* Header */}
-              <div className="bg-white p-4 shadow-sm">
+              <div className="bg-white p-4 pt-12 shadow-sm">
                 <div className="flex items-center justify-between">
                   <h2 className="text-lg font-semibold text-[#0C2521]">Scan Result</h2>
                   <motion.button
@@ -379,7 +379,7 @@ const ScanPage = () => {
               </div>
 
               {/* Content */}
-              <div className="flex-1 p-5 space-y-6 overflow-y-auto scrollbar-hide">
+              <div className="flex-1 p-5 space-y-4 overflow-y-auto scrollbar-hide">
                 {/* Main Result Card */}
                 <motion.div
                   whileHover={{ y: -2, boxShadow: '0 8px 25px rgba(0,0,0,0.1)' }}
@@ -433,11 +433,11 @@ const ScanPage = () => {
                   whileHover={{ y: -2, boxShadow: '0 8px 25px rgba(0,0,0,0.1)' }}
                   className="bg-white rounded-2xl p-6 mb-6 shadow-sm border border-gray-100"
                 >
-                  <h4 className="font-semibold text-[#0C2521] mb-3 flex items-center">
+                  <h4 className="font-semibold text-[#0C2521] mb-1.5 flex items-center">
                     <Lightbulb size={16} className="text-[#D48931] mr-2" />
                     Recycling Tips
                   </h4>
-                  <ul className="space-y-2">
+                  <ul className="space-y-1">
                     {scanResult.tips.map((tip, index) => (
                       <li key={index} className="flex items-start">
                         <div className="w-1.5 h-1.5 bg-[#164c51] rounded-full mt-2 mr-3 flex-shrink-0" />
