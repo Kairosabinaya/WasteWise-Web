@@ -1,21 +1,21 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Home, BarChart3, ShoppingCart, BookOpen, Users } from 'lucide-react';
+import { LayoutDashboard, BarChart3, CircleDollarSign, GraduationCap, Network } from 'lucide-react';
 import { clsx } from 'clsx';
 import { motion } from 'framer-motion';
 
 const navItems = [
-  { path: '/', icon: Home, name: 'Home', color: '#164c51' },
-  { path: '/statistics', icon: BarChart3, name: 'Statistics', color: '#D48931' },
-  { path: '/marketplace', icon: ShoppingCart, name: 'Marketplace', color: '#6d1e04' },
-  { path: '/education', icon: BookOpen, name: 'Education', color: '#0C2521' },
-  { path: '/community', icon: Users, name: 'Community', color: '#164c51' },
+  { path: '/', icon: LayoutDashboard, name: 'Dashboard', color: '#164c51' },
+  { path: '/statistics', icon: BarChart3, name: 'Analytics', color: '#D48931' },
+  { path: '/marketplace', icon: CircleDollarSign, name: 'Revenue', color: '#6d1e04' },
+  { path: '/education', icon: GraduationCap, name: 'Training', color: '#0C2521' },
+  { path: '/community', icon: Network, name: 'Partners', color: '#164c51' },
 ];
 
 const BottomNav = () => {
   return (
     <div className="absolute bottom-0 left-0 right-0 z-50">
-      <div 
+      <div
         className="bg-white rounded-t-[20px] shadow-[0_-4px_20px_rgba(0,0,0,0.08)]"
         style={{ height: '90px' }}
       >
@@ -32,9 +32,9 @@ const BottomNav = () => {
                   animate={isActive ? "active" : "inactive"}
                 >
                   <motion.div
-                    variants={{ 
-                      active: { scale: 1.15 }, 
-                      inactive: { scale: 1 } 
+                    variants={{
+                      active: { scale: 1.15 },
+                      inactive: { scale: 1 }
                     }}
                     className={clsx(
                       "w-8 h-8 rounded-lg flex items-center justify-center mb-1",
@@ -44,20 +44,20 @@ const BottomNav = () => {
                       backgroundColor: isActive ? `${item.color}1A` : 'transparent'
                     }}
                   >
-                    <item.icon 
-                      size={20} 
-                      style={{ 
-                        color: isActive ? item.color : '#6B7280' 
-                      }} 
+                    <item.icon
+                      size={20}
+                      style={{
+                        color: isActive ? item.color : '#6B7280'
+                      }}
                     />
                   </motion.div>
-                  <span 
+                  <span
                     className={clsx(
                       "text-[11px] font-medium leading-tight",
                       { 'font-semibold': isActive }
                     )}
-                    style={{ 
-                      color: isActive ? item.color : '#6B7280' 
+                    style={{
+                      color: isActive ? item.color : '#6B7280'
                     }}
                   >
                     {item.name}
@@ -72,4 +72,4 @@ const BottomNav = () => {
   );
 };
 
-export default BottomNav; 
+export default BottomNav;

@@ -1,9 +1,9 @@
 import React from 'react';
-import { Camera } from 'lucide-react';
+import { Activity } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 
-const CameraFloatingButton = ({ className = "" }) => {
+const MonitorFloatingButton = ({ className = "" }) => {
   const navigate = useNavigate();
 
   return (
@@ -16,9 +16,9 @@ const CameraFloatingButton = ({ className = "" }) => {
       animate={{ scale: 1 }}
       transition={{ type: 'spring', delay: 0.5 }}
     >
-      <Camera size={24} className="text-white" />
+      <Activity size={24} className="text-white" />
     </motion.button>
   );
 };
 
-export default CameraFloatingButton; 
+export default MonitorFloatingButton;
