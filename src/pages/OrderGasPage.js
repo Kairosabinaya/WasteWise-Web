@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Flame, Package, ChevronRight, CheckCircle, Zap, Calendar, Truck, Minus, Plus, Leaf, TrendingDown } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowLeft, CheckCircle, Zap, Truck, Minus, Plus, Leaf } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import useRoleStore from '../context/RoleContext';
 
 const OrderGasPage = () => {
     const navigate = useNavigate();
-    const { role } = useRoleStore();
     const [orderType, setOrderType] = useState('single'); // single | subscribe
     const [quantity, setQuantity] = useState(1);
     const [showConfirm, setShowConfirm] = useState(false);

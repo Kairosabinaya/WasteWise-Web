@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Users, Trophy, TrendingUp, Building2, Star, ChevronRight, Target, MapPin, Leaf, Flame, Award, Globe, Check } from 'lucide-react';
+import { Trophy, TrendingUp, Target, Leaf, Flame, Globe, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { clsx } from 'clsx';
 
 const CommunityPage = () => {
   const [activeTab, setActiveTab] = useState('feed');

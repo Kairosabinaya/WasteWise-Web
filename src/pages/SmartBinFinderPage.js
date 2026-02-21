@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { ArrowLeft, MapPin, Factory, Truck, Flame, Filter, Navigation, Clock, Package, CheckCircle } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowLeft, MapPin, Factory, Truck, Flame, Navigation, Package } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 
 const SmartBinFinderPage = () => {

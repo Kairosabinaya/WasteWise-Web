@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { ArrowLeft, ScanLine, Activity, CheckCircle, Leaf, Droplets, ThermometerSun, Flame, Zap, AlertTriangle, RefreshCw } from 'lucide-react';
+import React, { useState } from 'react';
+import { ArrowLeft, ScanLine, Activity, Droplets, ThermometerSun, Flame, Zap, RefreshCw } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { AppLogo } from '../components/ui';
 
 const ScanPage = () => {
   const navigate = useNavigate();

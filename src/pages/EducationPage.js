@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { BookOpen, ChevronRight, Clock, Award, CheckCircle, Star, GraduationCap, X, Play, Leaf, Flame, Factory, Globe, Check } from 'lucide-react';
+import { Clock, Award, GraduationCap, Play, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { clsx } from 'clsx';
 
 const EducationPage = () => {
   const [activeTab, setActiveTab] = useState('courses');

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Search, Zap, Package, Leaf, Flame, ChevronRight, Droplets, TreePine, X, Check } from 'lucide-react';
+import { Search, Zap, Package, Leaf, Flame, TreePine, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { clsx } from 'clsx';
 
 const MarketplacePage = () => {
   const [activeCategory, setActiveCategory] = useState('all');

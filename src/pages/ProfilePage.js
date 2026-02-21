@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Settings, Award, BarChart3, ChevronRight, Bell, Shield, HelpCircle, LogOut, MapPin, Phone, Mail, Zap, Leaf, Flame, Truck, Edit3, X, Check } from 'lucide-react';
+import { Settings, Award, BarChart3, ChevronRight, Bell, Shield, HelpCircle, LogOut, MapPin, Zap, Leaf, Flame, Truck, Edit3, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import useRoleStore from '../context/RoleContext';

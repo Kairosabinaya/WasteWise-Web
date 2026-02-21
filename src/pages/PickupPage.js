@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Truck, Clock, Package, MapPin, CheckCircle, Calendar, Scale, ChevronRight, Zap, Star } from 'lucide-react';
+import { ArrowLeft, Truck, Clock, Package, CheckCircle, Calendar, Scale, Zap } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import useRoleStore from '../context/RoleContext';
@@ -225,8 +225,8 @@ const PickupPage = () => {
                                 <div className="text-xs text-gray-500">{pickup.weight} • {pickup.driver}</div>
                             </div>
                             <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${pickup.status === 'confirmed' ? 'bg-teal-50 text-teal-700' :
-                                    pickup.status === 'scheduled' ? 'bg-amber-50 text-amber-700' :
-                                        'bg-gray-100 text-gray-500'
+                                pickup.status === 'scheduled' ? 'bg-amber-50 text-amber-700' :
+                                    'bg-gray-100 text-gray-500'
                                 }`}>{pickup.status}</span>
                         </motion.div>
                     ))}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Bell, Leaf, Zap, Truck, TrendingUp, ChevronRight, Clock, CheckCircle, Flame, Factory, Shield, Package, BarChart3, MapPin, Users, AlertTriangle, Droplets, ThermometerSun, Gauge } from 'lucide-react';
+import { Bell, Leaf, Zap, Truck, TrendingUp, ChevronRight, Clock, CheckCircle, Flame, Shield, Package, BarChart3, MapPin, Users, AlertTriangle, Droplets, ThermometerSun } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { CurvedHeader } from '../components/layout';

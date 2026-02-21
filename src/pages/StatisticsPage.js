@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { BarChart3, TrendingUp, Leaf, Flame, TreePine, Droplets, ArrowUp, Calendar, Zap, ArrowDown, Factory, Truck } from 'lucide-react';
+import { TrendingUp, Leaf, Flame, TreePine, Droplets, ArrowUp, ArrowDown } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { clsx } from 'clsx';
 import useRoleStore from '../context/RoleContext';
 
 const StatisticsPage = () => {

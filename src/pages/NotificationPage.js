@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Bell, CheckCircle, Clock, AlertTriangle, Truck, Flame, Zap, Package, X, Settings, Leaf } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { clsx } from 'clsx';
+import { Bell, CheckCircle, AlertTriangle, Truck, Flame, Zap, Package, Leaf } from 'lucide-react';
+import { motion } from 'framer-motion';
 import useRoleStore from '../context/RoleContext';
 
 const NotificationPage = () => {
