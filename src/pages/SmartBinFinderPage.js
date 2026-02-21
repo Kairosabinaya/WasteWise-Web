@@ -1,453 +1,152 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Map, Settings, Trash2, Recycle, MapPin, Wrench, Clock, Package, AlertTriangle, CheckCircle, Truck } from 'lucide-react';
+import { ArrowLeft, MapPin, Factory, Truck, Flame, Filter, Navigation, Clock, Package, CheckCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { clsx } from 'clsx';
-import { AppLogo, CameraFloatingButton } from '../components/ui';
+import { useNavigate } from 'react-router-dom';
 
 const SmartBinFinderPage = () => {
-  const [selectedFilter, setSelectedFilter] = useState('All');
-  const [notification, setNotification] = useState(null);
+  const navigate = useNavigate();
+  const [activeFilter, setActiveFilter] = useState('all');
+  const [selectedPin, setSelectedPin] = useState(null);
 
-  // Building's smart bin fleet data
-  const smartBins = [
-    {
-      id: 'SB-001',
-      name: 'Foodcourt Area A',
-      floor: 'Level 3',
-      location: 'Near Main Escalator',
-      types: ['Organic', 'Recyclable'],
-      status: 'active',
-      capacity: 75,
-      lastEmptied: '2024-12-04 18:00',
-      nextPickup: 'Today 08:00',
-      icon: Recycle,
-      color: '#164c51',
-    },
-    {
-      id: 'SB-002',
-      name: 'Lobby Main Entrance',
-      floor: 'Level 1',
-      location: 'Beside Information Desk',
-      types: ['Recyclable', 'Residual'],
-      status: 'active',
-      capacity: 45,
-      lastEmptied: '2024-12-04 20:00',
-      nextPickup: 'Tomorrow 08:00',
-      icon: Trash2,
-      color: '#0C2521',
-    },
-    {
-      id: 'SB-003',
-      name: 'Office Pantry B',
-      floor: 'Level 5',
-      location: 'Pantry Area',
-      types: ['Organic'],
-      status: 'full',
-      capacity: 95,
-      lastEmptied: '2024-12-04 08:00',
-      nextPickup: 'Urgent - Requested',
-      icon: Package,
-      color: '#D48931',
-    },
-    {
-      id: 'SB-004',
-      name: 'Basement Parking',
-      floor: 'Basement 1',
-      location: 'Near Exit Gate A',
-      types: ['Residual'],
-      status: 'maintenance',
-      capacity: 30,
-      lastEmptied: '2024-12-03 18:00',
-      nextPickup: 'Pending Maintenance',
-      icon: Wrench,
-      color: '#6d1e04',
-    },
-    {
-      id: 'SB-005',
-      name: 'Cinema Wing',
-      floor: 'Level 4',
-      location: 'Near Snack Counter',
-      types: ['Organic', 'Recyclable', 'Residual'],
-      status: 'active',
-      capacity: 60,
-      lastEmptied: '2024-12-04 22:00',
-      nextPickup: 'Today 14:00',
-      icon: Recycle,
-      color: '#164c51',
-    },
-  ];
-
-  // Filter options for building bins
   const filters = [
-    { name: 'All', color: '#164c51' },
-    { name: 'Active', color: '#164c51' },
-    { name: 'Full', color: '#D48931' },
-    { name: 'Maintenance', color: '#6d1e04' },
+    { id: 'all', label: 'All', icon: MapPin },
+    { id: 'supplier', label: 'Suppliers', icon: Factory },
+    { id: 'hub', label: 'Hubs', icon: Package },
+    { id: 'route', label: 'Routes', icon: Truck },
+    { id: 'refill', label: 'Gas Stations', icon: Flame },
   ];
 
-  // Filter smart bins based on selected filter
-  const getFilteredBins = () => {
-    if (selectedFilter === 'All') {
-      return smartBins;
-    }
-    return smartBins.filter(bin =>
-      bin.status.toLowerCase() === selectedFilter.toLowerCase()
-    );
+  const locations = [
+    { id: 1, name: 'Restoran Padang Jaya', type: 'supplier', status: 'Active', waste: '45 kg/day', dist: '0.3 km', x: 25, y: 30, color: '#0D9488' },
+    { id: 2, name: 'Bakso Malang Cak To', type: 'supplier', status: 'Active', waste: '30 kg/day', dist: '0.8 km', x: 60, y: 25, color: '#0D9488' },
+    { id: 3, name: 'BIMA Collection Hub A', type: 'hub', status: 'Operational', waste: '500 kg cap.', dist: '1.2 km', x: 45, y: 50, color: '#7C3AED' },
+    { id: 4, name: 'Bio-LPG Station Sudirman', type: 'refill', status: 'Open', waste: '12 cylinders', dist: '0.5 km', x: 70, y: 65, color: '#D97706' },
+    { id: 5, name: 'Hotel Grand Nusantara', type: 'supplier', status: 'Scheduled', waste: '120 kg/day', dist: '1.5 km', x: 20, y: 70, color: '#0D9488' },
+    { id: 6, name: 'Bio-LPG Station Merdeka', type: 'refill', status: 'Open', waste: '8 cylinders', dist: '2.1 km', x: 85, y: 40, color: '#D97706' },
+    { id: 7, name: 'BIMA Collection Hub B', type: 'hub', status: 'Operational', waste: '750 kg cap.', dist: '3.0 km', x: 35, y: 85, color: '#7C3AED' },
+    { id: 8, name: 'Pickup Route Alpha', type: 'route', status: 'In Progress', waste: '6 stops', dist: '12 km', x: 50, y: 35, color: '#2563EB' },
+  ];
+
+  const filtered = activeFilter === 'all' ? locations : locations.filter(l => l.type === activeFilter);
+
+  const getTypeIcon = (type) => {
+    if (type === 'supplier') return Factory;
+    if (type === 'hub') return Package;
+    if (type === 'route') return Truck;
+    return Flame;
   };
-
-  const filteredBins = getFilteredBins();
-
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'active': return '#164c51';
-      case 'full': return '#D48931';
-      case 'maintenance': return '#6d1e04';
-      default: return '#6B7280';
-    }
-  };
-
-  const getStatusLabel = (status) => {
-    switch (status) {
-      case 'active': return 'Active';
-      case 'full': return 'Full';
-      case 'maintenance': return 'Maintenance';
-      default: return 'Unknown';
-    }
-  };
-
-  const handleRequestPickup = (bin) => {
-    setNotification({
-      type: 'success',
-      title: 'Pickup Requested',
-      message: `Pickup request sent for ${bin.name}. ETA: 30 minutes`
-    });
-    setTimeout(() => setNotification(null), 4000);
-  };
-
-  const handleScheduleMaintenance = (bin) => {
-    setNotification({
-      type: 'success',
-      title: 'Maintenance Scheduled',
-      message: `Maintenance request submitted for ${bin.name}`
-    });
-    setTimeout(() => setNotification(null), 4000);
-  };
-
-  // Notification Component
-  const NotificationBadge = ({ notification, onClose }) => {
-    if (!notification) return null;
-
-    return (
-      <motion.div
-        initial={{ opacity: 0, y: -50, scale: 0.9 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={{ opacity: 0, y: -50, scale: 0.9 }}
-        className="absolute top-4 left-4 right-4 z-50 bg-[#164c51] text-white p-3 rounded-xl shadow-xl"
-        style={{ maxWidth: '320px', margin: '0 auto' }}
-      >
-        <div className="flex items-start">
-          <div className="w-6 h-6 rounded-full flex items-center justify-center mr-2 bg-white/20">
-            <CheckCircle size={12} />
-          </div>
-          <div className="flex-1">
-            <h3 className="font-semibold text-xs mb-1">{notification.title}</h3>
-            <p className="text-xs text-white/90">{notification.message}</p>
-          </div>
-        </div>
-      </motion.div>
-    );
-  };
-
-  // Filter Button Component
-  const FilterButton = ({ filter, isActive, onClick }) => (
-    <motion.button
-      whileHover={{ y: -2, scale: 1.02 }}
-      whileTap={{ scale: 0.95 }}
-      onClick={onClick}
-      className={clsx(
-        "px-4 py-2 rounded-full font-medium text-sm whitespace-nowrap transition-all border",
-        {
-          'text-white shadow-lg': isActive,
-          'bg-white text-gray-700 border-gray-200 hover:shadow-md': !isActive,
-        }
-      )}
-      style={{
-        backgroundColor: isActive ? filter.color : undefined,
-        borderColor: isActive ? 'transparent' : `${filter.color}4D`,
-        boxShadow: isActive ? `0 2px 6px ${filter.color}4D` : '0 2px 6px rgba(0,0,0,0.04)'
-      }}
-    >
-      {filter.name}
-    </motion.button>
-  );
-
-  // Smart Bin Card Component
-  const SmartBinCard = ({ bin, index }) => (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.1 }}
-      whileHover={{ y: -2, scale: 1.01 }}
-      className="bg-white rounded-2xl p-4 shadow-sm mb-3"
-      style={{ boxShadow: '0 2px 6px rgba(0,0,0,0.04)' }}
-    >
-      <div className="flex items-start">
-        {/* Icon */}
-        <div
-          className="w-12 h-12 rounded-full flex items-center justify-center mr-3 flex-shrink-0"
-          style={{ backgroundColor: `${bin.color}1A` }}
-        >
-          <bin.icon size={24} style={{ color: bin.color }} />
-        </div>
-
-        {/* Content */}
-        <div className="flex-1 min-w-0">
-          <div className="flex items-start justify-between mb-2">
-            <div>
-              <h3 className="text-sm font-semibold text-[#1F2937] leading-tight">
-                {bin.name}
-              </h3>
-              <p className="text-xs text-[#6B7280] mt-0.5">{bin.floor} • {bin.location}</p>
-            </div>
-            <span
-              className="px-2 py-0.5 rounded-full text-[10px] font-bold"
-              style={{
-                backgroundColor: `${getStatusColor(bin.status)}1A`,
-                color: getStatusColor(bin.status)
-              }}
-            >
-              {getStatusLabel(bin.status)}
-            </span>
-          </div>
-
-          {/* Types */}
-          <div className="flex flex-wrap gap-1 mb-3">
-            {bin.types.map((type, typeIndex) => (
-              <span
-                key={typeIndex}
-                className="px-1.5 py-0.5 text-[10px] font-medium rounded-md"
-                style={{
-                  backgroundColor: `${bin.color}1A`,
-                  color: bin.color
-                }}
-              >
-                {type}
-              </span>
-            ))}
-          </div>
-
-          {/* Capacity Bar */}
-          <div className="mb-3">
-            <div className="flex justify-between items-center mb-1">
-              <span className="text-xs text-[#6B7280]">Capacity</span>
-              <span className="text-xs font-bold" style={{ color: bin.capacity > 80 ? '#D48931' : '#164c51' }}>
-                {bin.capacity}%
-              </span>
-            </div>
-            <div className="w-full bg-gray-200 rounded-full h-1.5">
-              <div
-                className={clsx(
-                  "h-1.5 rounded-full transition-all",
-                  {
-                    'bg-[#164c51]': bin.capacity < 70,
-                    'bg-[#D48931]': bin.capacity >= 70 && bin.capacity < 90,
-                    'bg-[#EF4444]': bin.capacity >= 90,
-                  }
-                )}
-                style={{ width: `${bin.capacity}%` }}
-              />
-            </div>
-          </div>
-
-          {/* Info & Actions */}
-          <div className="flex items-center justify-between">
-            <div className="text-xs text-[#6B7280]">
-              <Clock size={10} className="inline mr-1" />
-              Next: {bin.nextPickup}
-            </div>
-            <div className="flex gap-2">
-              {bin.status === 'maintenance' ? (
-                <motion.button
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => handleScheduleMaintenance(bin)}
-                  className="px-2 py-1 bg-[#6d1e04]/10 text-[#6d1e04] rounded-lg text-xs font-medium flex items-center gap-1"
-                >
-                  <Wrench size={12} />
-                  Schedule
-                </motion.button>
-              ) : (
-                <motion.button
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => handleRequestPickup(bin)}
-                  className="px-2 py-1 bg-[#164c51]/10 text-[#164c51] rounded-lg text-xs font-medium flex items-center gap-1"
-                >
-                  <Truck size={12} />
-                  Pickup
-                </motion.button>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-    </motion.div>
-  );
 
   return (
-    <div className="h-full bg-[#F8FAFC] flex flex-col relative">
-      {/* Notification */}
-      <AnimatePresence>
-        {notification && <NotificationBadge notification={notification} onClose={() => setNotification(null)} />}
-      </AnimatePresence>
-
+    <div className="min-h-full bg-[#F0FDF9]">
       {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="p-4 pt-12"
-      >
-        <div className="mb-4">
-          <AppLogo variant="compact" />
-        </div>
-
+      <div className="bg-gradient-to-br from-[#065F46] to-[#0D9488] px-5 pt-6 pb-4">
         <div className="flex items-center mb-4">
-          <div className="flex-1">
-            <motion.h1
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="text-2xl font-bold text-[#0C2521]"
-            >
-              Smart Bin Fleet
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.1 }}
-              className="text-[#6B7280] text-sm mt-1"
-            >
-              Manage your building's smart bins
-            </motion.p>
-          </div>
-
-          <motion.button
-            whileTap={{ scale: 0.95 }}
-            whileHover={{ scale: 1.05 }}
-            className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm"
-            style={{ boxShadow: '0 2px 6px rgba(0,0,0,0.04)' }}
-          >
-            <Settings size={20} className="text-[#1F2937]" />
+          <motion.button whileTap={{ scale: 0.9 }} onClick={() => navigate(-1)}
+            className="w-10 h-10 bg-white/15 rounded-full flex items-center justify-center mr-3">
+            <ArrowLeft size={20} className="text-white" />
           </motion.button>
-        </div>
-      </motion.div>
-
-      {/* Fleet Overview Card */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1 }}
-        className="mx-4 mb-4"
-      >
-        <motion.div
-          className="h-[140px] rounded-2xl relative overflow-hidden"
-          style={{
-            background: 'linear-gradient(135deg, #164c51, #0C2521)',
-            boxShadow: '0 6px 12px #164c514D'
-          }}
-        >
-          <div className="absolute inset-0 p-5 flex flex-col">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center">
-                <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center mr-3">
-                  <MapPin size={20} className="text-white" />
-                </div>
-                <div>
-                  <h3 className="text-white text-base font-semibold">Central Mall</h3>
-                  <p className="text-white/70 text-sm">{smartBins.length} Smart Bins Deployed</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex-1" />
-
-            <div className="grid grid-cols-3 gap-4">
-              <div className="text-center">
-                <div className="text-white text-lg font-bold">
-                  {smartBins.filter(b => b.status === 'active').length}
-                </div>
-                <div className="text-white/70 text-xs">Active</div>
-              </div>
-              <div className="text-center">
-                <div className="text-[#D48931] text-lg font-bold">
-                  {smartBins.filter(b => b.status === 'full').length}
-                </div>
-                <div className="text-white/70 text-xs">Full</div>
-              </div>
-              <div className="text-center">
-                <div className="text-white text-lg font-bold">
-                  {smartBins.filter(b => b.status === 'maintenance').length}
-                </div>
-                <div className="text-white/70 text-xs">Maintenance</div>
-              </div>
-            </div>
+          <div>
+            <h1 className="text-lg font-bold text-white">Collection Network</h1>
+            <p className="text-white/70 text-[11px]">Waste suppliers, hubs & gas stations</p>
           </div>
-        </motion.div>
-      </motion.div>
+        </div>
 
-      {/* Filter Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-        className="px-4 mb-4"
-      >
-        <h2 className="text-base font-medium text-[#1F2937] mb-3">Filter by Status</h2>
-        <div className="flex gap-2 overflow-x-auto scrollbar-hide">
-          {filters.map((filter) => (
-            <FilterButton
-              key={filter.name}
-              filter={filter}
-              isActive={selectedFilter === filter.name}
-              onClick={() => setSelectedFilter(filter.name)}
-            />
+        {/* Filters */}
+        <div className="flex gap-1.5 overflow-x-auto pb-2 scrollbar-hide">
+          {filters.map((f) => (
+            <motion.button key={f.id} whileTap={{ scale: 0.95 }}
+              onClick={() => setActiveFilter(f.id)}
+              className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-[11px] font-semibold whitespace-nowrap transition-all
+              ${activeFilter === f.id ? 'bg-white text-[#065F46]' : 'bg-white/15 text-white/80'}`}>
+              <f.icon size={12} />
+              {f.label}
+            </motion.button>
           ))}
         </div>
-      </motion.div>
-
-      {/* Smart Bins List */}
-      <div className="flex-1 px-4 pb-4 overflow-y-auto scrollbar-hide">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={selectedFilter}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-          >
-            {filteredBins.length > 0 ? (
-              filteredBins.map((bin, index) => (
-                <SmartBinCard key={bin.id} bin={bin} index={index} />
-              ))
-            ) : (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="flex flex-col items-center justify-center py-12"
-              >
-                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                  <Trash2 size={32} className="text-gray-400" />
-                </div>
-                <h3 className="text-lg font-semibold text-[#1F2937] mb-2">No Bins Found</h3>
-                <p className="text-[#6B7280] text-center text-sm leading-relaxed max-w-sm">
-                  No smart bins with{' '}
-                  <span className="font-medium text-[#1F2937]">{selectedFilter}</span> status.
-                </p>
-              </motion.div>
-            )}
-          </motion.div>
-        </AnimatePresence>
       </div>
 
-      {/* Camera Floating Button */}
-      <CameraFloatingButton />
+      {/* Simulated Map */}
+      <div className="px-5 py-4">
+        <div className="bg-white rounded-2xl shadow-lg overflow-hidden mb-4 relative"
+          style={{ height: '280px', background: 'linear-gradient(135deg, #E0F2FE 0%, #CCFBF1 50%, #FEF3C7 100%)' }}>
+          {/* Map grid lines */}
+          <svg className="absolute inset-0 w-full h-full opacity-10">
+            {[...Array(10)].map((_, i) => (
+              <React.Fragment key={i}>
+                <line x1={`${(i + 1) * 10}%`} y1="0" x2={`${(i + 1) * 10}%`} y2="100%" stroke="#065F46" strokeWidth="1" />
+                <line x1="0" y1={`${(i + 1) * 10}%`} x2="100%" y2={`${(i + 1) * 10}%`} stroke="#065F46" strokeWidth="1" />
+              </React.Fragment>
+            ))}
+          </svg>
+
+          {/* Simulated route line */}
+          <svg className="absolute inset-0 w-full h-full">
+            <motion.path d="M 90 84 Q 162 140 135 238 Q 175 175 252 98 Q 210 70 216 175"
+              fill="none" stroke="#2563EB" strokeWidth="2" strokeDasharray="6 4" opacity="0.5"
+              initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 2 }} />
+          </svg>
+
+          {/* Map pins */}
+          {filtered.map((loc) => (
+            <motion.div key={loc.id}
+              initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: loc.id * 0.08, type: 'spring' }}
+              className="absolute cursor-pointer"
+              style={{ left: `${loc.x}%`, top: `${loc.y}%`, transform: 'translate(-50%, -50%)' }}
+              onClick={() => setSelectedPin(selectedPin?.id === loc.id ? null : loc)}>
+              <motion.div whileHover={{ scale: 1.3 }} className="relative">
+                <div className="w-8 h-8 rounded-full flex items-center justify-center shadow-lg"
+                  style={{ backgroundColor: loc.color }}>
+                  {React.createElement(getTypeIcon(loc.type), { size: 14, className: 'text-white' })}
+                </div>
+                {selectedPin?.id === loc.id && (
+                  <motion.div initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }}
+                    className="absolute -bottom-1 left-1/2 -translate-x-1/2 translate-y-full bg-white rounded-lg shadow-lg p-2 w-36 z-30">
+                    <div className="text-[10px] font-bold text-gray-800 truncate">{loc.name}</div>
+                    <div className="text-[9px] text-gray-500">{loc.dist} away</div>
+                  </motion.div>
+                )}
+              </motion.div>
+            </motion.div>
+          ))}
+
+          {/* My location */}
+          <div className="absolute" style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }}>
+            <motion.div animate={{ scale: [1, 1.5, 1] }} transition={{ duration: 2, repeat: Infinity }}
+              className="w-3 h-3 bg-blue-500 rounded-full border-2 border-white shadow-lg" />
+          </div>
+        </div>
+
+        {/* Location Cards */}
+        <h3 className="text-sm font-bold text-gray-800 mb-3">Nearby ({filtered.length})</h3>
+        <div className="space-y-2 mb-8">
+          {filtered.map((loc, i) => {
+            const TypeIcon = getTypeIcon(loc.type);
+            return (
+              <motion.div key={loc.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.05 }}
+                className={`bg-white rounded-xl p-3.5 shadow-sm flex items-center cursor-pointer transition-all ${selectedPin?.id === loc.id ? 'ring-2' : ''}`}
+                style={selectedPin?.id === loc.id ? { borderColor: loc.color } : {}}
+                onClick={() => setSelectedPin(loc)}>
+                <div className="w-10 h-10 rounded-full flex items-center justify-center mr-3"
+                  style={{ backgroundColor: `${loc.color}15` }}>
+                  <TypeIcon size={18} style={{ color: loc.color }} />
+                </div>
+                <div className="flex-1">
+                  <h4 className="text-sm font-semibold text-gray-800">{loc.name}</h4>
+                  <div className="flex items-center gap-2 mt-0.5">
+                    <span className="text-[10px] text-gray-500 flex items-center gap-0.5"><Navigation size={10} />{loc.dist}</span>
+                    <span className="text-[10px] text-gray-500">{loc.waste}</span>
+                  </div>
+                </div>
+                <span className="text-[9px] font-bold px-2 py-0.5 rounded-full"
+                  style={{ backgroundColor: `${loc.color}15`, color: loc.color }}>
+                  {loc.status}
+                </span>
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 };

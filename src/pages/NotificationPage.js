@@ -1,422 +1,112 @@
 import React, { useState } from 'react';
-import { Bell, Trash2, CheckCircle, Clock, AlertTriangle, Truck, Wrench, FileText, Package, X, Settings } from 'lucide-react';
+import { Bell, CheckCircle, Clock, AlertTriangle, Truck, Flame, Zap, Package, X, Settings, Leaf } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { clsx } from 'clsx';
-import { AppLogo } from '../components/ui';
+import useRoleStore from '../context/RoleContext';
 
 const NotificationPage = () => {
-  const [notifications, setNotifications] = useState([
-    {
-      id: '1',
-      type: 'capacity_warning',
-      title: 'Bin Capacity Warning',
-      message: 'Foodcourt Area A bin is at 85% capacity. Request pickup soon to avoid overflow.',
-      time: '5 minutes ago',
-      isRead: false,
-      priority: 'high',
-      icon: AlertTriangle,
-      color: '#D48931',
-      actionLabel: 'Request Pickup',
-    },
-    {
-      id: '2',
-      type: 'pickup_scheduled',
-      title: 'Pickup Confirmed',
-      message: 'Daily pickup scheduled for today at 08:00 AM. 3 bins will be emptied.',
-      time: '1 hour ago',
-      isRead: false,
-      priority: 'normal',
-      icon: Truck,
-      color: '#164c51',
-    },
-    {
-      id: '3',
-      type: 'maintenance_required',
-      title: 'Sensor Calibration Needed',
-      message: 'Smart bin SB-004 sensor needs calibration. Accuracy may be affected.',
-      time: '3 hours ago',
-      isRead: true,
-      priority: 'medium',
-      icon: Wrench,
-      color: '#6d1e04',
-      actionLabel: 'Schedule Maintenance',
-    },
-    {
-      id: '4',
-      type: 'report_ready',
-      title: 'Monthly ESG Report Ready',
-      message: 'November 2024 waste audit and ESG compliance report is ready for download.',
-      time: '1 day ago',
-      isRead: true,
-      priority: 'normal',
-      icon: FileText,
-      color: '#0C2521',
-      actionLabel: 'Download Report',
-    },
-    {
-      id: '5',
-      type: 'capacity_critical',
-      title: 'Urgent: Bin Full',
-      message: 'Office Pantry B bin is at 95% capacity. Immediate pickup required.',
-      time: '2 hours ago',
-      isRead: false,
-      priority: 'critical',
-      icon: AlertTriangle,
-      color: '#EF4444',
-      actionLabel: 'Request Now',
-    },
-    {
-      id: '6',
-      type: 'pickup_completed',
-      title: 'Pickup Completed',
-      message: 'All scheduled bins have been emptied. Next pickup: Tomorrow 08:00 AM.',
-      time: '2 days ago',
-      isRead: true,
-      priority: 'normal',
-      icon: CheckCircle,
-      color: '#164c51',
-    },
-    {
-      id: '7',
-      type: 'system',
-      title: 'New Features Available',
-      message: 'WasteWise dashboard now includes real-time CO2 tracking. Check it out!',
-      time: '3 days ago',
-      isRead: true,
-      priority: 'low',
-      icon: Package,
-      color: '#6B7280',
-    },
-  ]);
+  const { role } = useRoleStore();
 
-  const [filter, setFilter] = useState('all');
-
-  const filters = [
-    { id: 'all', label: 'All', count: notifications.length },
-    { id: 'unread', label: 'Unread', count: notifications.filter(n => !n.isRead).length },
-    { id: 'urgent', label: 'Urgent', count: notifications.filter(n => n.priority === 'critical' || n.priority === 'high').length },
-    { id: 'pickups', label: 'Pickups', count: notifications.filter(n => n.type.includes('pickup')).length },
+  const allNotifications = [
+    { id: 1, type: 'pickup', title: 'Pickup Confirmed', desc: 'Driver Budi S. will arrive at 08:30 AM for waste collection.', time: '10 min ago', read: false, icon: Truck, color: '#0D9488', roles: ['supplier'] },
+    { id: 2, type: 'credits', title: '+35 Energy Credits Earned', desc: 'You earned credits for your latest food waste contribution of 45kg.', time: '1h ago', read: false, icon: Zap, color: '#D97706', roles: ['supplier'] },
+    { id: 3, type: 'delivery', title: 'Bio-LPG Delivered', desc: 'Your 12kg Bio-LPG cylinder has been delivered successfully.', time: '2h ago', read: false, icon: Flame, color: '#D97706', roles: ['customer'] },
+    { id: 4, type: 'savings', title: 'Monthly Savings Report', desc: 'You saved Rp 245,000 vs conventional LPG this month!', time: '5h ago', read: true, icon: Leaf, color: '#0D9488', roles: ['customer'] },
+    { id: 5, type: 'task', title: 'New Pickup Task', desc: 'Pickup at Hotel Grand Nusantara - 120kg estimated. Start at 11:30 AM.', time: '30 min ago', read: false, icon: Package, color: '#2563EB', roles: ['driver'] },
+    { id: 6, type: 'route', title: 'Route Optimized', desc: 'Your afternoon route has been re-optimized. Saving 12 min.', time: '45 min ago', read: true, icon: Truck, color: '#0D9488', roles: ['driver'] },
+    { id: 7, type: 'alert', title: 'Reactor #3 Maintenance', desc: 'Scheduled maintenance for Reactor #3 at 2:00 PM today.', time: '1h ago', read: false, icon: AlertTriangle, color: '#DC2626', roles: ['admin'] },
+    { id: 8, type: 'system', title: 'New Supplier Registered', desc: 'Warung Makan Sederhana has joined the BIMA network.', time: '3h ago', read: true, icon: CheckCircle, color: '#0D9488', roles: ['admin'] },
+    { id: 9, type: 'milestone', title: 'Milestone Reached!', desc: 'Platform has processed 38 tons of waste this month!', time: '6h ago', read: true, icon: Leaf, color: '#065F46', roles: ['admin', 'supplier', 'customer', 'driver'] },
+    { id: 10, type: 'credits', title: 'Marketplace: New Reward', desc: 'Bio-LPG 25% discount is now available in the marketplace.', time: '1d ago', read: true, icon: Zap, color: '#D97706', roles: ['supplier', 'customer'] },
+    { id: 11, type: 'community', title: 'Challenge Update', desc: '1000 Ton Challenge is now at 78%. Keep contributing!', time: '1d ago', read: true, icon: Bell, color: '#7C3AED', roles: ['supplier', 'customer', 'driver', 'admin'] },
   ];
 
-  const filteredNotifications = notifications.filter(notification => {
-    if (filter === 'all') return true;
-    if (filter === 'unread') return !notification.isRead;
-    if (filter === 'urgent') return notification.priority === 'critical' || notification.priority === 'high';
-    if (filter === 'pickups') return notification.type.includes('pickup');
-    return true;
-  });
+  const [notifications, setNotifications] = useState(allNotifications);
+  const [filter, setFilter] = useState('all');
+
+  const roleNotifications = notifications.filter(n => n.roles.includes(role));
+  const filteredNotifications = filter === 'all' ? roleNotifications : filter === 'unread' ? roleNotifications.filter(n => !n.read) : roleNotifications.filter(n => n.type === filter);
 
   const markAsRead = (id) => {
-    setNotifications(prev =>
-      prev.map(notification =>
-        notification.id === id
-          ? { ...notification, isRead: true }
-          : notification
-      )
-    );
+    setNotifications(prev => prev.map(n => n.id === id ? { ...n, read: true } : n));
   };
 
   const markAllAsRead = () => {
-    setNotifications(prev =>
-      prev.map(notification => ({ ...notification, isRead: true }))
-    );
+    setNotifications(prev => prev.map(n => ({ ...n, read: true })));
   };
 
-  const deleteNotification = (id) => {
-    setNotifications(prev => prev.filter(notification => notification.id !== id));
-  };
+  const filters = [
+    { id: 'all', label: 'All' },
+    { id: 'unread', label: 'Unread' },
+    { id: 'pickup', label: 'Pickups' },
+    { id: 'credits', label: 'Credits' },
+  ];
 
-  const getPriorityBadge = (priority) => {
-    switch (priority) {
-      case 'critical':
-        return { label: 'CRITICAL', bg: '#EF44441A', color: '#EF4444' };
-      case 'high':
-        return { label: 'HIGH', bg: '#D489311A', color: '#D48931' };
-      case 'medium':
-        return { label: 'MEDIUM', bg: '#6d1e041A', color: '#6d1e04' };
-      default:
-        return null;
-    }
-  };
-
-  // Filter Button Component
-  const FilterButton = ({ filterItem, isActive, onClick }) => (
-    <motion.button
-      whileHover={{ y: -1 }}
-      whileTap={{ scale: 0.95 }}
-      onClick={onClick}
-      className={clsx(
-        "px-4 py-2 rounded-full text-sm font-medium transition-all whitespace-nowrap",
-        isActive
-          ? "bg-[#164c51] text-white shadow-lg shadow-[#164c51]/30"
-          : "bg-white text-[#6B7280] border border-gray-200 hover:border-[#164c51]/50"
-      )}
-    >
-      {filterItem.label}
-      {filterItem.count > 0 && (
-        <span className={clsx(
-          "ml-1.5 px-1.5 py-0.5 rounded-full text-xs",
-          isActive ? "bg-white/20" : "bg-gray-100"
-        )}>
-          {filterItem.count}
-        </span>
-      )}
-    </motion.button>
-  );
-
-  // Notification Item Component
-  const NotificationItem = ({ notification, index }) => {
-    const priorityBadge = getPriorityBadge(notification.priority);
-
-    return (
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: index * 0.05 }}
-        whileHover={{ x: 5 }}
-        className={clsx(
-          "bg-white rounded-xl p-4 shadow-sm mb-3 border-l-4 cursor-pointer",
-          notification.isRead ? "opacity-75" : ""
-        )}
-        style={{
-          boxShadow: '0 2px 6px rgba(0,0,0,0.04)',
-          borderLeftColor: notification.isRead ? '#E5E7EB' : notification.color
-        }}
-        onClick={() => !notification.isRead && markAsRead(notification.id)}
-      >
-        <div className="flex items-start">
-          <div
-            className="w-10 h-10 rounded-full flex items-center justify-center mr-3 flex-shrink-0"
-            style={{ backgroundColor: `${notification.color}1A` }}
-          >
-            <notification.icon size={20} style={{ color: notification.color }} />
-          </div>
-
-          <div className="flex-1 min-w-0">
-            <div className="flex items-start justify-between mb-1">
-              <div className="flex items-center gap-2 flex-wrap">
-                <h3 className={clsx(
-                  "font-semibold text-sm leading-tight",
-                  notification.isRead ? "text-[#6B7280]" : "text-[#0C2521]"
-                )}>
-                  {notification.title}
-                </h3>
-                {priorityBadge && (
-                  <span
-                    className="px-1.5 py-0.5 rounded text-[10px] font-bold"
-                    style={{ backgroundColor: priorityBadge.bg, color: priorityBadge.color }}
-                  >
-                    {priorityBadge.label}
-                  </span>
-                )}
-              </div>
-              {!notification.isRead && (
-                <div className="w-2 h-2 bg-[#164c51] rounded-full ml-2 flex-shrink-0" />
-              )}
-            </div>
-
-            <p className={clsx(
-              "text-xs leading-relaxed mb-2",
-              notification.isRead ? "text-[#9CA3AF]" : "text-[#6B7280]"
-            )}>
-              {notification.message}
-            </p>
-
-            <div className="flex items-center justify-between">
-              <span className="text-xs text-[#9CA3AF] flex items-center">
-                <Clock size={10} className="mr-1" />
-                {notification.time}
-              </span>
-
-              <div className="flex items-center gap-2">
-                {notification.actionLabel && (
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      console.log('Action:', notification.actionLabel);
-                    }}
-                    className="px-2.5 py-1 rounded-lg text-xs font-medium"
-                    style={{
-                      backgroundColor: `${notification.color}1A`,
-                      color: notification.color
-                    }}
-                  >
-                    {notification.actionLabel}
-                  </motion.button>
-                )}
-
-                {!notification.isRead && (
-                  <motion.button
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      markAsRead(notification.id);
-                    }}
-                    className="w-6 h-6 bg-[#164c51]/10 rounded-full flex items-center justify-center"
-                  >
-                    <CheckCircle size={12} className="text-[#164c51]" />
-                  </motion.button>
-                )}
-
-                <motion.button
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    deleteNotification(notification.id);
-                  }}
-                  className="w-6 h-6 bg-[#EF4444]/10 rounded-full flex items-center justify-center"
-                >
-                  <Trash2 size={12} className="text-[#EF4444]" />
-                </motion.button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </motion.div>
-    );
-  };
+  const unreadCount = roleNotifications.filter(n => !n.read).length;
 
   return (
-    <div className="h-full bg-[#F8FAFC] flex flex-col">
+    <div className="min-h-full bg-[#F0FDF9]">
       {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="p-4 pt-12"
-      >
-        <div className="mb-4">
-          <AppLogo variant="compact" />
-        </div>
-
-        <div className="flex items-center justify-between mb-4">
+      <div className="bg-gradient-to-br from-[#065F46] to-[#0D9488] px-5 pt-6 pb-6">
+        <div className="flex items-center justify-between mb-3">
           <div>
-            <motion.h1
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="text-2xl font-bold text-[#1F2937]"
-            >
-              Alerts & Updates
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.1 }}
-              className="text-[#6B7280] text-sm mt-1"
-            >
-              Operational alerts & system updates
-            </motion.p>
+            <h1 className="text-xl font-bold text-white">Notifications</h1>
+            <p className="text-white/70 text-xs">{unreadCount} unread</p>
           </div>
-
-          <div className="flex items-center gap-2">
-            {notifications.some(n => !n.isRead) && (
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={markAllAsRead}
-                className="px-3 py-1.5 bg-[#164c51] text-white rounded-lg text-xs font-medium"
-              >
-                Mark all read
-              </motion.button>
-            )}
-            <motion.button
-              whileTap={{ scale: 0.95 }}
-              className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm"
-            >
-              <Settings size={20} className="text-[#6B7280]" />
+          {unreadCount > 0 && (
+            <motion.button whileTap={{ scale: 0.95 }} onClick={markAllAsRead}
+              className="text-xs text-white/80 font-semibold bg-white/15 px-3 py-1.5 rounded-lg">
+              Mark all read
             </motion.button>
-          </div>
+          )}
         </div>
-      </motion.div>
 
-      {/* Summary Stats */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.15 }}
-        className="px-4 mb-4"
-      >
-        <div className="grid grid-cols-3 gap-3">
-          <div className="bg-white rounded-xl p-3 text-center shadow-sm">
-            <div className="text-lg font-bold text-[#EF4444]">
-              {notifications.filter(n => n.priority === 'critical').length}
-            </div>
-            <div className="text-xs text-[#6B7280]">Critical</div>
-          </div>
-          <div className="bg-white rounded-xl p-3 text-center shadow-sm">
-            <div className="text-lg font-bold text-[#D48931]">
-              {notifications.filter(n => n.priority === 'high').length}
-            </div>
-            <div className="text-xs text-[#6B7280]">High Priority</div>
-          </div>
-          <div className="bg-white rounded-xl p-3 text-center shadow-sm">
-            <div className="text-lg font-bold text-[#164c51]">
-              {notifications.filter(n => !n.isRead).length}
-            </div>
-            <div className="text-xs text-[#6B7280]">Unread</div>
-          </div>
-        </div>
-      </motion.div>
-
-      {/* Filters */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-        className="px-4 mb-4"
-      >
-        <div className="flex gap-2 overflow-x-auto scrollbar-hide">
-          {filters.map((filterItem) => (
-            <FilterButton
-              key={filterItem.id}
-              filterItem={filterItem}
-              isActive={filter === filterItem.id}
-              onClick={() => setFilter(filterItem.id)}
-            />
+        {/* Filters */}
+        <div className="flex gap-1.5">
+          {filters.map((f) => (
+            <motion.button key={f.id} whileTap={{ scale: 0.95 }}
+              onClick={() => setFilter(f.id)}
+              className={`px-3 py-1.5 rounded-full text-[11px] font-semibold transition-all
+              ${filter === f.id ? 'bg-white text-[#065F46]' : 'bg-white/15 text-white/80'}`}>
+              {f.label}
+            </motion.button>
           ))}
         </div>
-      </motion.div>
+      </div>
 
-      {/* Notifications List */}
-      <div className="flex-1 px-4 pb-4 overflow-y-auto scrollbar-hide">
-        <AnimatePresence mode="wait">
-          {filteredNotifications.length > 0 ? (
-            <motion.div
-              key={filter}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              {filteredNotifications.map((notification, index) => (
-                <NotificationItem
-                  key={notification.id}
-                  notification={notification}
-                  index={index}
-                />
-              ))}
-            </motion.div>
-          ) : (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="flex flex-col items-center justify-center py-12"
-            >
-              <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                <Bell size={32} className="text-gray-400" />
-              </div>
-              <h3 className="text-lg font-semibold text-[#1F2937] mb-2">No Alerts</h3>
-              <p className="text-[#6B7280] text-center text-sm leading-relaxed max-w-sm">
-                {filter === 'all'
-                  ? "You're all caught up! No new alerts at the moment."
-                  : `No ${filter} alerts found.`
-                }
-              </p>
-            </motion.div>
-          )}
-        </AnimatePresence>
+      <div className="px-5 py-4">
+        {filteredNotifications.length === 0 ? (
+          <div className="text-center py-12">
+            <Bell size={40} className="text-gray-300 mx-auto mb-3" />
+            <p className="text-sm text-gray-400">No notifications</p>
+          </div>
+        ) : (
+          <div className="space-y-2 mb-8">
+            {filteredNotifications.map((notif, i) => (
+              <motion.div key={notif.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.05 }}
+                onClick={() => markAsRead(notif.id)}
+                className={`bg-white rounded-xl p-3.5 shadow-sm flex items-start cursor-pointer transition-all
+                  ${!notif.read ? 'border-l-3 ring-1 ring-[#0D9488]/20' : ''}`}
+                style={!notif.read ? { borderLeft: `3px solid ${notif.color}` } : {}}>
+                <div className="w-10 h-10 rounded-full flex items-center justify-center mr-3 flex-shrink-0"
+                  style={{ backgroundColor: `${notif.color}15` }}>
+                  <notif.icon size={18} style={{ color: notif.color }} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between mb-0.5">
+                    <h3 className={`text-sm font-semibold text-gray-800 truncate ${!notif.read ? 'font-bold' : ''}`}>
+                      {notif.title}
+                    </h3>
+                    {!notif.read && <div className="w-2 h-2 rounded-full bg-[#0D9488] flex-shrink-0 ml-2" />}
+                  </div>
+                  <p className="text-xs text-gray-500 leading-relaxed">{notif.desc}</p>
+                  <span className="text-[10px] text-gray-400 mt-1 block">{notif.time}</span>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

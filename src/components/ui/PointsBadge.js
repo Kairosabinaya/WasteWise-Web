@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Star } from 'lucide-react';
+import { Zap } from 'lucide-react';
 
 const PointsBadge = ({ points, showAnimation = false, size = 'medium' }) => {
   const sizes = {
@@ -16,16 +16,16 @@ const PointsBadge = ({ points, showAnimation = false, size = 'medium' }) => {
       transition={{ type: 'spring', stiffness: 300, damping: 20 }}
       className={`
         inline-flex items-center gap-2 
-        bg-[#D48931] 
+        bg-gradient-to-r from-[#0D9488] to-[#065F46]
         text-white font-bold rounded-full
-        shadow-lg shadow-[#D48931]/30
+        shadow-lg shadow-[#0D9488]/30
         ${sizes[size]}
       `}
     >
-      <Star size={16} className="fill-current" />
-      <span>{points?.toLocaleString() || '0'} PTS</span>
+      <Zap size={16} className="fill-current" />
+      <span>{points?.toLocaleString() || '0'} EC</span>
     </motion.div>
   );
 };
 
-export default PointsBadge; 
+export default PointsBadge;
