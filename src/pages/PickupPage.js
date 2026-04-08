@@ -3,6 +3,8 @@ import { ArrowLeft, Truck, Clock, Package, CheckCircle, Calendar, Scale, Zap } f
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import useRoleStore from '../context/RoleContext';
+import useToast from '../hooks/useToast';
+import { Toast } from '../components/ui';
 
 const PickupPage = () => {
     const navigate = useNavigate();
@@ -11,6 +13,8 @@ const PickupPage = () => {
     const [estimatedWeight, setEstimatedWeight] = useState('');
     const [showConfirm, setShowConfirm] = useState(false);
     const [confirmed, setConfirmed] = useState(false);
+    const { toast, showToast } = useToast();
+    const [completedTasks, setCompletedTasks] = useState({});
 
     const timeSlots = [
         { id: 1, time: '06:00 - 08:00', label: 'Early Morning', available: true },
@@ -36,9 +40,10 @@ const PickupPage = () => {
     // Driver sees different content
     if (role === 'driver') {
         return (
-            <div className="min-h-full bg-[#F0FDF9]">
+            <div className="min-h-full bg-bima-secondary">
+                <Toast message={toast} />
                 {/* Header */}
-                <div className="bg-gradient-to-br from-[#1E40AF] to-[#2563EB] px-5 pt-6 pb-16 relative">
+                <div className="bg-gradient-to-br from-bima-driver-dark to-bima-driver px-5 pt-6 pb-16 relative">
                     <div className="flex items-center mb-4">
                         <motion.button whileTap={{ scale: 0.9 }} onClick={() => navigate(-1)}
                             className="w-10 h-10 bg-white/15 rounded-full flex items-center justify-center mr-3">
@@ -77,16 +82,18 @@ const PickupPage = () => {
                                 <span className={`text-xs font-bold px-2 py-0.5 rounded ${task.type === 'Pickup' ? 'bg-amber-50 text-amber-700' : 'bg-teal-50 text-teal-700'}`}>{task.type}</span>
                                 <span className={`text-[10px] font-semibold px-2 py-0.5 rounded ${task.status === 'In Progress' ? 'bg-blue-50 text-blue-700' : task.status === 'Next' ? 'bg-amber-50 text-amber-700' : 'bg-gray-100 text-gray-500'}`}>{task.status}</span>
                             </div>
-                            <h3 className="text-sm font-bold text-gray-800">{task.loc}</h3>
-                            <p className="text-xs text-gray-500 mt-0.5">{task.addr}</p>
+                            <h3 className="text-sm font-bold text-gray-800 truncate">{task.loc}</h3>
+                            <p className="text-xs text-gray-500 mt-0.5 truncate">{task.addr}</p>
                             <div className="flex items-center gap-3 mt-2">
                                 <span className="text-xs text-gray-500 flex items-center gap-1"><Clock size={12} />{task.time}</span>
                                 <span className="text-xs text-gray-500 flex items-center gap-1"><Package size={12} />{task.weight}</span>
                             </div>
                             {task.status === 'In Progress' && (
                                 <motion.button whileTap={{ scale: 0.95 }}
-                                    className="mt-3 w-full bg-gradient-to-r from-[#2563EB] to-[#1E40AF] text-white py-2 rounded-lg text-xs font-semibold">
-                                    Complete Task
+                                    onClick={() => { setCompletedTasks(prev => ({...prev, [i]: true})); showToast('Task completed! +25 EC earned'); }}
+                                    disabled={completedTasks[i]}
+                                    className={`mt-3 w-full py-2 rounded-lg text-xs font-semibold ${completedTasks[i] ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-gradient-to-r from-bima-driver to-bima-driver-dark text-white'}`}>
+                                    {completedTasks[i] ? 'Completed' : 'Complete Task'}
                                 </motion.button>
                             )}
                         </motion.div>
@@ -97,9 +104,10 @@ const PickupPage = () => {
     }
 
     return (
-        <div className="min-h-full bg-[#F0FDF9]">
+        <div className="min-h-full bg-bima-secondary">
+            <Toast message={toast} />
             {/* Header */}
-            <div className="bg-gradient-to-br from-[#065F46] to-[#0D9488] px-5 pt-6 pb-16 relative">
+            <div className="bg-gradient-to-br from-bima-dark to-bima-primary px-5 pt-6 pb-16 relative">
                 <div className="flex items-center mb-4">
                     <motion.button whileTap={{ scale: 0.9 }} onClick={() => navigate(-1)}
                         className="w-10 h-10 bg-white/15 rounded-full flex items-center justify-center mr-3">
@@ -117,7 +125,7 @@ const PickupPage = () => {
                         {/* Time Slot Selection */}
                         <div className="bg-white rounded-2xl p-4 shadow-lg mb-4">
                             <h3 className="text-sm font-bold text-gray-800 mb-3 flex items-center gap-2">
-                                <Calendar size={16} className="text-[#0D9488]" /> Select Pickup Time
+                                <Calendar size={16} className="text-bima-primary" /> Select Pickup Time
                             </h3>
                             <div className="space-y-2">
                                 {timeSlots.map((slot) => (
@@ -125,12 +133,12 @@ const PickupPage = () => {
                                         onClick={() => slot.available && setSelectedTime(slot.id)}
                                         className={`w-full p-3 rounded-xl text-left flex items-center justify-between transition-all
                       ${!slot.available ? 'bg-gray-50 opacity-50 cursor-not-allowed' :
-                                                selectedTime === slot.id ? 'bg-[#0D9488]/10 border-2 border-[#0D9488]' : 'bg-gray-50 hover:bg-gray-100'}`}>
+                                                selectedTime === slot.id ? 'bg-bima-primary/10 border-2 border-bima-primary' : 'bg-gray-50 hover:bg-gray-100'}`}>
                                         <div>
                                             <div className="text-sm font-semibold text-gray-800">{slot.time}</div>
                                             <div className="text-[10px] text-gray-500">{slot.label}{!slot.available && ' • Full'}</div>
                                         </div>
-                                        {selectedTime === slot.id && <CheckCircle size={18} className="text-[#0D9488]" />}
+                                        {selectedTime === slot.id && <CheckCircle size={18} className="text-bima-primary" />}
                                     </motion.button>
                                 ))}
                             </div>
@@ -139,14 +147,14 @@ const PickupPage = () => {
                         {/* Estimated Weight */}
                         <div className="bg-white rounded-2xl p-4 shadow-sm mb-4">
                             <h3 className="text-sm font-bold text-gray-800 mb-3 flex items-center gap-2">
-                                <Scale size={16} className="text-[#D97706]" /> Estimated Weight
+                                <Scale size={16} className="text-bima-energy" /> Estimated Weight
                             </h3>
                             <div className="flex gap-2">
                                 {['20', '40', '60', '80', '100+'].map((w) => (
                                     <motion.button key={w} whileTap={{ scale: 0.95 }}
                                         onClick={() => setEstimatedWeight(w)}
                                         className={`flex-1 py-2.5 rounded-xl text-xs font-semibold transition-all
-                      ${estimatedWeight === w ? 'bg-[#D97706] text-white' : 'bg-gray-50 text-gray-600'}`}>
+                      ${estimatedWeight === w ? 'bg-bima-energy text-white' : 'bg-gray-50 text-gray-600'}`}>
                                         {w} kg
                                     </motion.button>
                                 ))}
@@ -159,7 +167,7 @@ const PickupPage = () => {
                             disabled={!selectedTime || !estimatedWeight}
                             className={`w-full py-3.5 rounded-xl font-semibold text-sm mb-6 transition-all
                 ${selectedTime && estimatedWeight
-                                    ? 'bg-gradient-to-r from-[#0D9488] to-[#065F46] text-white shadow-lg'
+                                    ? 'bg-gradient-to-r from-bima-primary to-bima-dark text-white shadow-lg'
                                     : 'bg-gray-200 text-gray-400 cursor-not-allowed'}`}>
                             Confirm Pickup Request
                         </motion.button>
@@ -170,9 +178,9 @@ const PickupPage = () => {
                             className="bg-white rounded-2xl p-6 shadow-lg text-center">
                             {!confirmed ? (
                                 <>
-                                    <div className="w-16 h-16 bg-[#0D9488]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <div className="w-16 h-16 bg-bima-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                                         <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}>
-                                            <Truck size={28} className="text-[#0D9488]" />
+                                            <Truck size={28} className="text-bima-primary" />
                                         </motion.div>
                                     </div>
                                     <h3 className="text-lg font-bold text-gray-800 mb-1">Finding a driver...</h3>
@@ -181,7 +189,7 @@ const PickupPage = () => {
                             ) : (
                                 <>
                                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring' }}
-                                        className="w-16 h-16 bg-[#0D9488] rounded-full flex items-center justify-center mx-auto mb-4">
+                                        className="w-16 h-16 bg-bima-primary rounded-full flex items-center justify-center mx-auto mb-4">
                                         <CheckCircle size={32} className="text-white" />
                                     </motion.div>
                                     <h3 className="text-lg font-bold text-gray-800 mb-1">Pickup Confirmed!</h3>
@@ -197,11 +205,11 @@ const PickupPage = () => {
                                         </div>
                                         <div className="flex justify-between">
                                             <span className="text-xs text-gray-500">Credits Earned</span>
-                                            <span className="text-xs font-bold text-[#0D9488] flex items-center gap-1"><Zap size={12} /> +{estimatedWeight === '100+' ? 150 : parseInt(estimatedWeight) * 1.5} EC</span>
+                                            <span className="text-xs font-bold text-bima-primary flex items-center gap-1"><Zap size={12} /> +{estimatedWeight === '100+' ? 150 : parseInt(estimatedWeight) * 1.5} EC</span>
                                         </div>
                                     </div>
                                     <motion.button whileTap={{ scale: 0.95 }} onClick={() => { setShowConfirm(false); setConfirmed(false); setSelectedTime(null); setEstimatedWeight(''); }}
-                                        className="mt-4 w-full py-2.5 bg-gradient-to-r from-[#0D9488] to-[#065F46] text-white rounded-xl text-sm font-semibold">
+                                        className="mt-4 w-full py-2.5 bg-gradient-to-r from-bima-primary to-bima-dark text-white rounded-xl text-sm font-semibold">
                                         Schedule Another
                                     </motion.button>
                                 </>
@@ -216,9 +224,10 @@ const PickupPage = () => {
                     {upcomingPickups.map((pickup, i) => (
                         <motion.div key={pickup.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: i * 0.1 }}
-                            className="bg-white rounded-xl p-3.5 mb-2 shadow-sm flex items-center">
-                            <div className={`w-10 h-10 rounded-full flex items-center justify-center mr-3 ${pickup.status === 'completed' ? 'bg-gray-100' : pickup.status === 'confirmed' ? 'bg-[#0D9488]/10' : 'bg-[#D97706]/10'}`}>
-                                {pickup.status === 'completed' ? <CheckCircle size={18} className="text-gray-400" /> : <Truck size={18} className={pickup.status === 'confirmed' ? 'text-[#0D9488]' : 'text-[#D97706]'} />}
+                            onClick={() => showToast(pickup.status + ': ' + pickup.date)}
+                            className="bg-white rounded-xl p-3.5 mb-2 shadow-sm flex items-center cursor-pointer">
+                            <div className={`w-10 h-10 rounded-full flex items-center justify-center mr-3 ${pickup.status === 'completed' ? 'bg-gray-100' : pickup.status === 'confirmed' ? 'bg-bima-primary/10' : 'bg-bima-energy/10'}`}>
+                                {pickup.status === 'completed' ? <CheckCircle size={18} className="text-gray-400" /> : <Truck size={18} className={pickup.status === 'confirmed' ? 'text-bima-primary' : 'text-bima-energy'} />}
                             </div>
                             <div className="flex-1">
                                 <div className="text-sm font-semibold text-gray-800">{pickup.date} • {pickup.time}</div>

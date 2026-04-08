@@ -24,7 +24,7 @@ const RoleToggle = () => {
                             onClick={() => setRole(r.id)}
                             whileTap={{ scale: 0.95 }}
                             className={`
-                  flex items-center gap-1 px-1.5 py-1.5 rounded-lg text-[10px] font-semibold
+                  flex items-center gap-1 px-1.5 py-2.5 rounded-lg text-[11px] font-semibold
                   transition-all duration-200 flex-1 justify-center min-w-0
                   ${isActive
                                     ? 'text-white shadow-md'
@@ -36,7 +36,7 @@ const RoleToggle = () => {
                                 boxShadow: `0 2px 8px ${r.color}40`,
                             } : {}}
                         >
-                            <r.icon size={12} className="flex-shrink-0" />
+                            <r.icon size={14} className="flex-shrink-0" />
                             <span className="truncate">{r.label}</span>
                         </motion.button>
                     );

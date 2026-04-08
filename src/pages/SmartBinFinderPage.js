@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowLeft, MapPin, Factory, Truck, Flame, Navigation, Package } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
@@ -7,6 +7,8 @@ const SmartBinFinderPage = () => {
   const navigate = useNavigate();
   const [activeFilter, setActiveFilter] = useState('all');
   const [selectedPin, setSelectedPin] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => { const t = setTimeout(() => setIsLoading(false), 600); return () => clearTimeout(t); }, []);
 
   const filters = [
     { id: 'all', label: 'All', icon: MapPin },
@@ -37,9 +39,9 @@ const SmartBinFinderPage = () => {
   };
 
   return (
-    <div className="min-h-full bg-[#F0FDF9]">
+    <div className="min-h-full bg-bima-secondary">
       {/* Header */}
-      <div className="bg-gradient-to-br from-[#065F46] to-[#0D9488] px-5 pt-6 pb-4">
+      <div className="bg-gradient-to-br from-bima-dark to-bima-primary px-5 pt-6 pb-4">
         <div className="flex items-center mb-4">
           <motion.button whileTap={{ scale: 0.9 }} onClick={() => navigate(-1)}
             className="w-10 h-10 bg-white/15 rounded-full flex items-center justify-center mr-3">
@@ -57,7 +59,7 @@ const SmartBinFinderPage = () => {
             <motion.button key={f.id} whileTap={{ scale: 0.95 }}
               onClick={() => setActiveFilter(f.id)}
               className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-[11px] font-semibold whitespace-nowrap transition-all
-              ${activeFilter === f.id ? 'bg-white text-[#065F46]' : 'bg-white/15 text-white/80'}`}>
+              ${activeFilter === f.id ? 'bg-white text-bima-dark' : 'bg-white/15 text-white/80'}`}>
               <f.icon size={12} />
               {f.label}
             </motion.button>
@@ -65,10 +67,16 @@ const SmartBinFinderPage = () => {
         </div>
       </div>
 
-      {/* Simulated Map */}
+      {isLoading ? (
+        <div className="px-5 pt-4 space-y-3">
+          <div className="animate-pulse bg-gray-200 rounded-2xl aspect-[4/3] max-h-[280px]" />
+          {[1,2].map(i => <div key={i} className="animate-pulse bg-gray-200 rounded-xl h-20" />)}
+        </div>
+      ) : (
       <div className="px-5 py-4">
-        <div className="bg-white rounded-2xl shadow-lg overflow-hidden mb-4 relative"
-          style={{ height: '280px', background: 'linear-gradient(135deg, #E0F2FE 0%, #CCFBF1 50%, #FEF3C7 100%)' }}>
+        {/* Simulated Map */}
+        <div className="bg-white rounded-2xl shadow-lg overflow-hidden mb-4 relative aspect-[4/3] max-h-[280px]"
+          style={{ background: 'linear-gradient(135deg, #E0F2FE 0%, #CCFBF1 50%, #FEF3C7 100%)' }}>
           {/* Map grid lines */}
           <svg className="absolute inset-0 w-full h-full opacity-10">
             {[...Array(10)].map((_, i) => (
@@ -132,7 +140,7 @@ const SmartBinFinderPage = () => {
                   <TypeIcon size={18} style={{ color: loc.color }} />
                 </div>
                 <div className="flex-1">
-                  <h4 className="text-sm font-semibold text-gray-800">{loc.name}</h4>
+                  <h4 className="text-sm font-semibold text-gray-800 truncate">{loc.name}</h4>
                   <div className="flex items-center gap-2 mt-0.5">
                     <span className="text-[10px] text-gray-500 flex items-center gap-0.5"><Navigation size={10} />{loc.dist}</span>
                     <span className="text-[10px] text-gray-500">{loc.waste}</span>
@@ -146,7 +154,14 @@ const SmartBinFinderPage = () => {
             );
           })}
         </div>
+        {filtered.length === 0 && (
+          <div className="text-center py-8">
+            <MapPin size={36} className="text-gray-300 mx-auto mb-2" />
+            <p className="text-sm text-gray-400">No bins found</p>
+          </div>
+        )}
       </div>
+      )}
     </div>
   );
 };

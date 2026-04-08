@@ -6,14 +6,14 @@ const AppLogo = ({ variant = 'default', className = '', textColor = 'gradient', 
     if (textColor === 'white') {
       return 'text-white';
     }
-    return 'bg-gradient-to-r from-[#0D9488] to-[#065F46] bg-clip-text text-transparent';
+    return 'bg-gradient-to-r from-bima-primary to-bima-dark bg-clip-text text-transparent';
   };
 
   const getTaglineColorClass = () => {
     if (textColor === 'white') {
       return 'text-white/80';
     }
-    return 'text-[#6B7280]';
+    return 'text-text-secondary';
   };
 
   if (variant === 'compact') {
@@ -63,7 +63,7 @@ const AppLogo = ({ variant = 'default', className = '', textColor = 'gradient', 
           initial={{ width: 0 }}
           animate={{ width: "100%" }}
           transition={{ delay: 0.5, duration: 0.8 }}
-          className="h-0.5 bg-gradient-to-r from-[#0D9488] to-[#065F46] rounded-full mt-1"
+          className="h-0.5 bg-gradient-to-r from-bima-primary to-bima-dark rounded-full mt-1"
         ></motion.div>
       </div>
     </motion.div>

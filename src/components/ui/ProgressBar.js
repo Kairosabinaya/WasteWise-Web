@@ -12,11 +12,11 @@ const ProgressBar = ({
   className 
 }) => {
   const colors = {
-    green: 'bg-[#164c51]',
-    blue: 'bg-[#164c51]',
-    yellow: 'bg-[#D48931]',
-    red: 'bg-[#6d1e04]',
-    purple: 'bg-[#0C2521]',
+    green: 'bg-bima-button',
+    blue: 'bg-bima-button',
+    yellow: 'bg-bima-button-secondary',
+    red: 'bg-bima-button-secondary-dark',
+    purple: 'bg-bima-button-dark',
   };
 
   const sizes = {
@@ -35,10 +35,17 @@ const ProgressBar = ({
           <span className="text-sm text-gray-500">{progressValue}%</span>
         </div>
       )}
-      <div className={clsx(
-        'w-full bg-gray-200 rounded-full overflow-hidden',
-        sizes[size]
-      )}>
+      <div
+        className={clsx(
+          'w-full bg-gray-200 rounded-full overflow-hidden',
+          sizes[size]
+        )}
+        role="progressbar"
+        aria-valuenow={progressValue}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-label={label || 'Progress'}
+      >
         <motion.div
           className={clsx('h-full rounded-full', colors[color])}
           initial={animated ? { width: 0 } : false}

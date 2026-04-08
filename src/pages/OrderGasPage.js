@@ -26,9 +26,9 @@ const OrderGasPage = () => {
     const formatCurrency = (n) => `Rp ${n.toLocaleString('id-ID')}`;
 
     return (
-        <div className="min-h-full bg-[#F0FDF9]">
+        <div className="min-h-full bg-bima-secondary">
             {/* Header */}
-            <div className="bg-gradient-to-br from-[#B45309] to-[#D97706] px-5 pt-6 pb-16 relative">
+            <div className="bg-gradient-to-br from-bima-energy-dark to-bima-energy px-5 pt-6 pb-16 relative">
                 <div className="flex items-center mb-4">
                     <motion.button whileTap={{ scale: 0.9 }} onClick={() => navigate(-1)}
                         className="w-10 h-10 bg-white/15 rounded-full flex items-center justify-center mr-3">
@@ -64,7 +64,7 @@ const OrderGasPage = () => {
                                 <motion.button key={t.id} whileTap={{ scale: 0.98 }}
                                     onClick={() => setOrderType(t.id)}
                                     className={`flex-1 py-2.5 rounded-xl text-xs font-semibold transition-all
-                    ${orderType === t.id ? 'bg-gradient-to-r from-[#D97706] to-[#B45309] text-white' : 'text-gray-500'}`}>
+                    ${orderType === t.id ? 'bg-gradient-to-r from-bima-energy to-bima-energy-dark text-white' : 'text-gray-500'}`}>
                                     {t.label}
                                 </motion.button>
                             ))}
@@ -77,20 +77,20 @@ const OrderGasPage = () => {
                                 <motion.button key={product.id} whileTap={{ scale: 0.98 }}
                                     onClick={() => setSelectedProduct(product)}
                                     className={`w-full bg-white rounded-xl p-4 mb-2 text-left flex items-center transition-all shadow-sm
-                    ${selectedProduct.id === product.id ? 'border-2 border-[#D97706] bg-[#D97706]/5' : 'border-2 border-transparent'}`}>
+                    ${selectedProduct.id === product.id ? 'border-2 border-bima-energy bg-bima-energy/5' : 'border-2 border-transparent'}`}>
                                     <span className="text-3xl mr-3">{product.image}</span>
                                     <div className="flex-1">
                                         <div className="flex items-center gap-2">
                                             <span className="text-sm font-bold text-gray-800">{product.name}</span>
-                                            {product.popular && <span className="text-[9px] font-bold bg-[#D97706] text-white px-1.5 py-0.5 rounded">POPULAR</span>}
+                                            {product.popular && <span className="text-[9px] font-bold bg-bima-energy text-white px-1.5 py-0.5 rounded">POPULAR</span>}
                                         </div>
                                         <div className="text-xs text-gray-500">{product.desc}</div>
                                         <div className="flex items-center gap-2 mt-1">
-                                            <span className="text-sm font-bold text-[#065F46]">{formatCurrency(product.price)}</span>
+                                            <span className="text-sm font-bold text-bima-dark">{formatCurrency(product.price)}</span>
                                             <span className="text-xs text-gray-400 line-through">{formatCurrency(product.originalPrice)}</span>
                                         </div>
                                     </div>
-                                    {selectedProduct.id === product.id && <CheckCircle size={18} className="text-[#D97706]" />}
+                                    {selectedProduct.id === product.id && <CheckCircle size={18} className="text-bima-energy" />}
                                 </motion.button>
                             ))}
                         </div>
@@ -105,7 +105,7 @@ const OrderGasPage = () => {
                                 </motion.button>
                                 <span className="text-3xl font-bold text-gray-800">{quantity}</span>
                                 <motion.button whileTap={{ scale: 0.9 }} onClick={() => setQuantity(Math.min(10, quantity + 1))}
-                                    className="w-10 h-10 bg-[#D97706] rounded-full flex items-center justify-center">
+                                    className="w-10 h-10 bg-bima-energy rounded-full flex items-center justify-center">
                                     <Plus size={18} className="text-white" />
                                 </motion.button>
                             </div>
@@ -122,16 +122,16 @@ const OrderGasPage = () => {
                                 {orderType === 'subscribe' && (
                                     <div className="flex justify-between text-sm">
                                         <span className="text-gray-500">Subscription Discount</span>
-                                        <span className="font-semibold text-[#0D9488]">-5%</span>
+                                        <span className="font-semibold text-bima-primary">-5%</span>
                                     </div>
                                 )}
                                 <div className="flex justify-between text-sm">
                                     <span className="text-gray-500">Delivery</span>
-                                    <span className="font-semibold text-[#0D9488]">Free</span>
+                                    <span className="font-semibold text-bima-primary">Free</span>
                                 </div>
                                 <div className="border-t border-gray-100 pt-2 flex justify-between">
                                     <span className="text-sm font-bold text-gray-800">Total</span>
-                                    <span className="text-sm font-bold text-[#065F46]">
+                                    <span className="text-sm font-bold text-bima-dark">
                                         {formatCurrency(Math.round(selectedProduct.price * quantity * (orderType === 'subscribe' ? 0.95 : 1)))}
                                     </span>
                                 </div>
@@ -139,7 +139,7 @@ const OrderGasPage = () => {
                         </div>
 
                         {/* Environmental Impact */}
-                        <div className="bg-gradient-to-r from-[#0D9488] to-[#065F46] rounded-2xl p-4 mb-4">
+                        <div className="bg-gradient-to-r from-bima-primary to-bima-dark rounded-2xl p-4 mb-4">
                             <h3 className="text-sm font-bold text-white mb-2 flex items-center gap-1.5"><Leaf size={14} /> Environmental Impact</h3>
                             <div className="flex gap-3">
                                 <div className="flex-1 bg-white/15 rounded-lg p-2 text-center">
@@ -155,7 +155,7 @@ const OrderGasPage = () => {
 
                         {/* Order Button */}
                         <motion.button whileTap={{ scale: 0.95 }} onClick={handleOrder}
-                            className="w-full py-3.5 bg-gradient-to-r from-[#D97706] to-[#B45309] text-white rounded-xl font-semibold text-sm shadow-lg mb-8">
+                            className="w-full py-3.5 bg-gradient-to-r from-bima-energy to-bima-energy-dark text-white rounded-xl font-semibold text-sm shadow-lg mb-8">
                             {orderType === 'subscribe' ? 'Subscribe Now' : 'Place Order'}
                         </motion.button>
                     </>
@@ -164,9 +164,9 @@ const OrderGasPage = () => {
                         className="bg-white rounded-2xl p-6 shadow-lg text-center mb-8">
                         {!confirmed ? (
                             <>
-                                <div className="w-16 h-16 bg-[#D97706]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <div className="w-16 h-16 bg-bima-energy/10 rounded-full flex items-center justify-center mx-auto mb-4">
                                     <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}>
-                                        <Truck size={28} className="text-[#D97706]" />
+                                        <Truck size={28} className="text-bima-energy" />
                                     </motion.div>
                                 </div>
                                 <h3 className="text-lg font-bold text-gray-800 mb-1">Processing Order...</h3>
@@ -175,7 +175,7 @@ const OrderGasPage = () => {
                         ) : (
                             <>
                                 <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring' }}
-                                    className="w-16 h-16 bg-[#0D9488] rounded-full flex items-center justify-center mx-auto mb-4">
+                                    className="w-16 h-16 bg-bima-primary rounded-full flex items-center justify-center mx-auto mb-4">
                                     <CheckCircle size={32} className="text-white" />
                                 </motion.div>
                                 <h3 className="text-lg font-bold text-gray-800 mb-1">Order Confirmed!</h3>
@@ -191,12 +191,12 @@ const OrderGasPage = () => {
                                     </div>
                                     <div className="flex justify-between">
                                         <span className="text-xs text-gray-500">Credits Earned</span>
-                                        <span className="text-xs font-bold text-[#0D9488] flex items-center gap-1"><Zap size={12} /> +{quantity * 25} EC</span>
+                                        <span className="text-xs font-bold text-bima-primary flex items-center gap-1"><Zap size={12} /> +{quantity * 25} EC</span>
                                     </div>
                                 </div>
                                 <motion.button whileTap={{ scale: 0.95 }}
                                     onClick={() => { setShowConfirm(false); setConfirmed(false); }}
-                                    className="mt-4 w-full py-2.5 bg-gradient-to-r from-[#D97706] to-[#B45309] text-white rounded-xl text-sm font-semibold">
+                                    className="mt-4 w-full py-2.5 bg-gradient-to-r from-bima-energy to-bima-energy-dark text-white rounded-xl text-sm font-semibold">
                                     Order Again
                                 </motion.button>
                             </>

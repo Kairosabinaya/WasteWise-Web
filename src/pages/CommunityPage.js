@@ -1,17 +1,16 @@
-import React, { useState } from 'react';
-import { Trophy, TrendingUp, Target, Leaf, Flame, Globe, Check } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { Trophy, TrendingUp, Target, Leaf, Flame, Globe } from 'lucide-react';
+import { motion } from 'framer-motion';
+import useToast from '../hooks/useToast';
+import { Toast } from '../components/ui';
 
 const CommunityPage = () => {
   const [activeTab, setActiveTab] = useState('feed');
   const [likedPosts, setLikedPosts] = useState({});
   const [joinedChallenges, setJoinedChallenges] = useState({});
-  const [toast, setToast] = useState(null);
-
-  const showToast = (message) => {
-    setToast(message);
-    setTimeout(() => setToast(null), 2000);
-  };
+  const { toast, showToast } = useToast();
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => { const t = setTimeout(() => setIsLoading(false), 600); return () => clearTimeout(t); }, []);
 
   const tabs = [
     { id: 'feed', label: 'Impact Feed', icon: Leaf },
@@ -70,20 +69,12 @@ const CommunityPage = () => {
   };
 
   return (
-    <div className="min-h-full bg-[#F0FDF9]">
+    <div className="min-h-full bg-bima-secondary">
       {/* Toast */}
-      <AnimatePresence>
-        {toast && (
-          <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
-            className="fixed top-14 left-1/2 -translate-x-1/2 z-[100] bg-gray-800 text-white px-4 py-2.5 rounded-xl text-xs font-semibold shadow-lg flex items-center gap-2 whitespace-nowrap">
-            <Check size={14} className="text-[#0D9488]" />
-            {toast}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <Toast message={toast} />
 
       {/* Header */}
-      <div className="bg-gradient-to-br from-[#065F46] to-[#0D9488] px-5 pt-6 pb-6">
+      <div className="bg-gradient-to-br from-bima-dark to-bima-primary px-5 pt-6 pb-6">
         <div className="flex items-center justify-between mb-4">
           <div>
             <h1 className="text-xl font-bold text-white">Community</h1>
@@ -100,7 +91,7 @@ const CommunityPage = () => {
             <motion.button key={tab.id} whileTap={{ scale: 0.95 }}
               onClick={() => setActiveTab(tab.id)}
               className={`flex-1 py-2 rounded-lg text-[11px] font-semibold transition-all flex items-center justify-center gap-1
-              ${activeTab === tab.id ? 'bg-white text-[#065F46]' : 'text-white/70'}`}>
+              ${activeTab === tab.id ? 'bg-white text-bima-dark' : 'text-white/70'}`}>
               <tab.icon size={12} />
               {tab.label}
             </motion.button>
@@ -108,119 +99,128 @@ const CommunityPage = () => {
         </div>
       </div>
 
-      <div className="px-5 py-4">
-        {/* Impact Feed */}
-        {activeTab === 'feed' && (
-          <div className="space-y-3 mb-8">
-            {feedPosts.map((post, i) => (
-              <motion.div key={post.id} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.08 }}
-                className="bg-white rounded-2xl p-4 shadow-sm">
-                <div className="flex items-center gap-2 mb-2.5">
-                  <span className="text-2xl">{post.avatar}</span>
-                  <div>
-                    <h3 className="text-sm font-bold text-gray-800">{post.author}</h3>
-                    <span className="text-[10px] text-gray-400">{post.time}</span>
-                  </div>
-                </div>
-                <p className="text-sm text-gray-700 leading-relaxed mb-3">{post.content}</p>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full"
-                    style={{ backgroundColor: `${post.color}10` }}>
-                    <post.impactIcon size={12} style={{ color: post.color }} />
-                    <span className="text-[10px] font-bold" style={{ color: post.color }}>{post.impact}</span>
-                  </div>
-                  <motion.button whileTap={{ scale: 0.9 }}
-                    onClick={() => toggleLike(post.id)}
-                    className="flex items-center gap-1 text-xs text-gray-400 hover:text-red-400 transition-colors">
-                    <span>{likedPosts[post.id] ? '❤️' : '🤍'}</span>
-                    <span>{post.likes + (likedPosts[post.id] ? 1 : 0)}</span>
-                  </motion.button>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        )}
-
-        {/* Leaderboard */}
-        {activeTab === 'leaderboard' && (
-          <div className="space-y-6 mb-8">
-            {leaderboards.map((board, bi) => (
-              <div key={bi}>
-                <h3 className="text-sm font-bold text-gray-800 mb-2">{board.category}</h3>
-                <div className="bg-white rounded-2xl overflow-hidden shadow-sm">
-                  {board.items.map((item, i) => (
-                    <motion.div key={i} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.08 }}
-                      className={`flex items-center p-3 ${i < board.items.length - 1 ? 'border-b border-gray-50' : ''}`}>
-                      <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold mr-3
-                        ${item.rank === 1 ? 'bg-yellow-100 text-yellow-700' :
-                          item.rank === 2 ? 'bg-gray-100 text-gray-600' :
-                            item.rank === 3 ? 'bg-amber-100 text-amber-700' :
-                              'bg-gray-50 text-gray-400'}`}>
-                        {item.rank}
-                      </div>
-                      <span className="text-lg mr-2">{item.avatar}</span>
-                      <div className="flex-1">
-                        <h4 className="text-xs font-semibold text-gray-800">{item.name}</h4>
-                        <span className="text-[10px] text-gray-500">{item.value}</span>
-                      </div>
-                      <span className="text-[10px] font-bold text-[#0D9488]">{item.trend}</span>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* Challenges */}
-        {activeTab === 'challenges' && (
-          <div className="space-y-3 mb-8">
-            {challenges.map((challenge, i) => {
-              const isJoined = joinedChallenges[challenge.id];
-              return (
-                <motion.div key={challenge.id} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }}
+      {isLoading ? (
+        <div className="px-5 py-4 space-y-3">
+          {[1,2,3].map(i => (
+            <div key={i} className="animate-pulse bg-gray-200 rounded-2xl h-32" />
+          ))}
+        </div>
+      ) : (
+        <div className="px-5 py-4">
+          {/* Impact Feed */}
+          {activeTab === 'feed' && (
+            <div className="space-y-3 mb-8">
+              {feedPosts.map((post, i) => (
+                <motion.div key={post.id} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.08 }}
-                  className="bg-white rounded-2xl p-4 shadow-sm">
-                  <div className="flex items-start justify-between mb-2">
-                    <h3 className="text-sm font-bold text-gray-800">{challenge.title}</h3>
-                    <span className="text-[9px] font-bold px-2 py-0.5 rounded-full"
-                      style={{ backgroundColor: `${challenge.color}15`, color: challenge.color }}>
-                      {challenge.deadline}
-                    </span>
-                  </div>
-                  <p className="text-xs text-gray-500 mb-3">{challenge.desc}</p>
-                  <div className="w-full bg-gray-100 rounded-full h-2 mb-2">
-                    <motion.div className="h-2 rounded-full"
-                      style={{ backgroundColor: challenge.color }}
-                      initial={{ width: 0 }}
-                      animate={{ width: `${challenge.progress}%` }}
-                      transition={{ duration: 0.8, delay: i * 0.1 }} />
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] text-gray-400">
-                      {challenge.progress}% • {challenge.participants + (isJoined ? 1 : 0)} participants
-                    </span>
-                    <div className="flex items-center gap-2">
-                      <span className="text-[10px] font-bold text-[#0D9488]">🏆 {challenge.reward}</span>
-                      <motion.button whileTap={{ scale: 0.95 }}
-                        onClick={() => toggleJoin(challenge.id)}
-                        className={`text-[10px] font-bold px-3 py-1 rounded-lg transition-all
-                          ${isJoined
-                            ? 'bg-gray-100 text-gray-500'
-                            : 'text-white'}`}
-                        style={!isJoined ? { backgroundColor: challenge.color } : {}}>
-                        {isJoined ? 'Joined ✓' : 'Join'}
-                      </motion.button>
+                  onClick={() => showToast(post.author + ': ' + post.content.substring(0, 60) + '...')}
+                  className="bg-white rounded-2xl p-4 shadow-sm cursor-pointer">
+                  <div className="flex items-center gap-2 mb-2.5">
+                    <span className="text-2xl">{post.avatar}</span>
+                    <div>
+                      <h3 className="text-sm font-bold text-gray-800 truncate">{post.author}</h3>
+                      <span className="text-[10px] text-gray-400">{post.time}</span>
                     </div>
                   </div>
+                  <p className="text-sm text-gray-700 leading-relaxed mb-3 line-clamp-3">{post.content}</p>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full"
+                      style={{ backgroundColor: `${post.color}10` }}>
+                      <post.impactIcon size={12} style={{ color: post.color }} />
+                      <span className="text-[10px] font-bold" style={{ color: post.color }}>{post.impact}</span>
+                    </div>
+                    <motion.button whileTap={{ scale: 0.9 }}
+                      onClick={(e) => { e.stopPropagation(); toggleLike(post.id); }}
+                      className="flex items-center gap-1 text-xs text-gray-400 hover:text-red-400 transition-colors">
+                      <span>{likedPosts[post.id] ? '❤️' : '🤍'}</span>
+                      <span>{post.likes + (likedPosts[post.id] ? 1 : 0)}</span>
+                    </motion.button>
+                  </div>
                 </motion.div>
-              );
-            })}
-          </div>
-        )}
-      </div>
+              ))}
+            </div>
+          )}
+
+          {/* Leaderboard */}
+          {activeTab === 'leaderboard' && (
+            <div className="space-y-6 mb-8">
+              {leaderboards.map((board, bi) => (
+                <div key={bi}>
+                  <h3 className="text-sm font-bold text-gray-800 mb-2">{board.category}</h3>
+                  <div className="bg-white rounded-2xl overflow-hidden shadow-sm">
+                    {board.items.map((item, i) => (
+                      <motion.div key={i} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: i * 0.08 }}
+                        className={`flex items-center p-3 ${i < board.items.length - 1 ? 'border-b border-gray-50' : ''}`}>
+                        <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold mr-3
+                          ${item.rank === 1 ? 'bg-yellow-100 text-yellow-700' :
+                            item.rank === 2 ? 'bg-gray-100 text-gray-600' :
+                              item.rank === 3 ? 'bg-amber-100 text-amber-700' :
+                                'bg-gray-50 text-gray-400'}`}>
+                          {item.rank}
+                        </div>
+                        <span className="text-lg mr-2">{item.avatar}</span>
+                        <div className="flex-1 min-w-0">
+                          <h4 className="text-xs font-semibold text-gray-800 truncate">{item.name}</h4>
+                          <span className="text-[10px] text-gray-500">{item.value}</span>
+                        </div>
+                        <span className="text-[10px] font-bold text-bima-primary">{item.trend}</span>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Challenges */}
+          {activeTab === 'challenges' && (
+            <div className="space-y-3 mb-8">
+              {challenges.map((challenge, i) => {
+                const isJoined = joinedChallenges[challenge.id];
+                return (
+                  <motion.div key={challenge.id} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.08 }}
+                    className="bg-white rounded-2xl p-4 shadow-sm">
+                    <div className="flex items-start justify-between mb-2">
+                      <h3 className="text-sm font-bold text-gray-800">{challenge.title}</h3>
+                      <span className="text-[9px] font-bold px-2 py-0.5 rounded-full"
+                        style={{ backgroundColor: `${challenge.color}15`, color: challenge.color }}>
+                        {challenge.deadline}
+                      </span>
+                    </div>
+                    <p className="text-xs text-gray-500 mb-3">{challenge.desc}</p>
+                    <div className="w-full bg-gray-100 rounded-full h-2 mb-2">
+                      <motion.div className="h-2 rounded-full"
+                        style={{ backgroundColor: challenge.color }}
+                        initial={{ width: 0 }}
+                        animate={{ width: `${challenge.progress}%` }}
+                        transition={{ duration: 0.8, delay: i * 0.1 }} />
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] text-gray-400">
+                        {challenge.progress}% • {challenge.participants + (isJoined ? 1 : 0)} participants
+                      </span>
+                      <div className="flex items-center gap-2">
+                        <span className="text-[10px] font-bold text-bima-primary">🏆 {challenge.reward}</span>
+                        <motion.button whileTap={{ scale: 0.95 }}
+                          onClick={() => toggleJoin(challenge.id)}
+                          className={`text-[10px] font-bold px-3 py-1 rounded-lg transition-all
+                            ${isJoined
+                              ? 'bg-gray-100 text-gray-500'
+                              : 'text-white'}`}
+                          style={!isJoined ? { backgroundColor: challenge.color } : {}}>
+                          {isJoined ? 'Joined ✓' : 'Join'}
+                        </motion.button>
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

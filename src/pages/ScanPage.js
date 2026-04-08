@@ -111,9 +111,9 @@ const ScanPage = () => {
   };
 
   return (
-    <div className="min-h-full bg-[#F0FDF9]">
+    <div className="min-h-full bg-bima-secondary">
       {/* Header */}
-      <div className="bg-gradient-to-br from-[#065F46] to-[#0D9488] px-5 pt-6 pb-8">
+      <div className="bg-gradient-to-br from-bima-dark to-bima-primary px-5 pt-6 pb-8">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center">
             <motion.button whileTap={{ scale: 0.9 }} onClick={() => navigate(-1)}
@@ -136,13 +136,13 @@ const ScanPage = () => {
         {!scanComplete && (
           <div className="bg-white rounded-2xl shadow-lg overflow-hidden mb-4">
             {scanning ? (
-              <motion.div className="h-48 bg-gradient-to-b from-[#065F46]/10 to-[#0D9488]/20 flex flex-col items-center justify-center relative">
+              <motion.div className="h-48 bg-gradient-to-b from-bima-dark/10 to-bima-primary/20 flex flex-col items-center justify-center relative">
                 {/* Scanning animation */}
                 <motion.div animate={{ y: [-40, 40, -40] }} transition={{ duration: 1.5, repeat: Infinity }}
-                  className="w-3/4 h-0.5 bg-[#0D9488] absolute" />
+                  className="w-3/4 h-0.5 bg-bima-primary absolute" />
                 <span className="text-4xl mb-2">{selectedSample?.emoji}</span>
                 <motion.p animate={{ opacity: [0.5, 1, 0.5] }} transition={{ duration: 1, repeat: Infinity }}
-                  className="text-sm font-semibold text-[#065F46]">
+                  className="text-sm font-semibold text-bima-dark">
                   Analyzing {selectedSample?.name}...
                 </motion.p>
                 <p className="text-xs text-gray-500 mt-1">Estimating methane yield & biogas potential</p>
@@ -151,7 +151,7 @@ const ScanPage = () => {
               <div className="p-5">
                 <h3 className="text-sm font-bold text-gray-800 mb-1">Tap a sample to scan</h3>
                 <p className="text-xs text-gray-500 mb-4">Select a waste type to see its biogas production potential</p>
-                <div className="grid grid-cols-5 gap-2">
+                <div className="grid grid-cols-5 gap-2 overflow-hidden">
                   {samples.map((sample) => (
                     <motion.button key={sample.id} whileTap={{ scale: 0.9 }}
                       onClick={() => handleScan(sample)}
@@ -225,7 +225,7 @@ const ScanPage = () => {
               </div>
 
               {/* Batch Recommendation */}
-              <div className="bg-gradient-to-r from-[#0D9488] to-[#065F46] rounded-2xl p-4 mb-3">
+              <div className="bg-gradient-to-r from-bima-primary to-bima-dark rounded-2xl p-4 mb-3">
                 <h4 className="text-xs font-semibold text-white/80 mb-1">Recommended Processing</h4>
                 <p className="text-sm font-bold text-white">{selectedSample.result.batchRecommend}</p>
               </div>
@@ -233,15 +233,15 @@ const ScanPage = () => {
               {/* Credits */}
               <div className="bg-white rounded-xl p-4 shadow-sm mb-4 flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Zap size={18} className="text-[#D97706]" />
+                  <Zap size={18} className="text-bima-energy" />
                   <span className="text-sm font-semibold text-gray-800">Credits for this waste</span>
                 </div>
-                <span className="text-sm font-bold text-[#0D9488]">+{selectedSample.result.creditReward} EC/kg</span>
+                <span className="text-sm font-bold text-bima-primary">+{selectedSample.result.creditReward} EC/kg</span>
               </div>
 
               {/* Reset */}
               <motion.button whileTap={{ scale: 0.95 }} onClick={handleReset}
-                className="w-full py-3 bg-white rounded-xl text-sm font-semibold text-[#065F46] shadow-sm flex items-center justify-center gap-2 mb-8">
+                className="w-full py-3 bg-white rounded-xl text-sm font-semibold text-bima-dark shadow-sm flex items-center justify-center gap-2 mb-8">
                 <RefreshCw size={16} /> Scan Another Sample
               </motion.button>
             </motion.div>

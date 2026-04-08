@@ -1,14 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Bell, Leaf, Zap, Truck, TrendingUp, ChevronRight, Clock, CheckCircle, Flame, Shield, Package, BarChart3, MapPin, Users, AlertTriangle, Droplets, ThermometerSun } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { CurvedHeader } from '../components/layout';
 import useRoleStore from '../context/RoleContext';
+import useToast from '../hooks/useToast';
+import { Toast } from '../components/ui';
 
 const HomePage = () => {
   const navigate = useNavigate();
   const { role, roleInfo } = useRoleStore();
   const currentRole = roleInfo[role];
+  const { toast, showToast } = useToast();
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => { const t = setTimeout(() => setIsLoading(false), 600); return () => clearTimeout(t); }, []);
 
   // ===== SUPPLIER VIEW =====
   const SupplierDashboard = () => (
@@ -25,7 +30,7 @@ const HomePage = () => {
             <div>
               <p className="text-gray-500 text-xs">Waste Contributed</p>
               <motion.p
-                className="text-[28px] font-extrabold text-[#065F46] leading-tight mt-1"
+                className="text-[28px] font-extrabold text-bima-dark leading-tight mt-1"
                 initial={{ scale: 0.8 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: 0.1, type: 'spring' }}
@@ -37,7 +42,7 @@ const HomePage = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => navigate('/pickup')}
-              className="bg-gradient-to-r from-[#0D9488] to-[#065F46] text-white px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5"
+              className="bg-gradient-to-r from-bima-primary to-bima-dark text-white px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5"
             >
               <Truck size={14} />
               Schedule Pickup
@@ -45,19 +50,19 @@ const HomePage = () => {
           </div>
 
           {/* Energy Credits */}
-          <div className="bg-[#0D9488]/10 p-3 rounded-xl">
+          <div className="bg-bima-primary/10 p-3 rounded-xl">
             <div className="flex items-center">
-              <div className="bg-[#D97706] px-2 py-1 rounded-lg">
+              <div className="bg-bima-energy px-2 py-1 rounded-lg">
                 <span className="text-white text-[10px] font-bold">1,250 EC</span>
               </div>
               <div className="flex-1 mx-3">
                 <div className="flex justify-between items-center mb-1.5">
-                  <span className="text-xs font-semibold text-[#065F46]">Energy Credits</span>
-                  <span className="text-[11px] font-semibold text-[#0D9488]">Level 3</span>
+                  <span className="text-xs font-semibold text-bima-dark">Energy Credits</span>
+                  <span className="text-[11px] font-semibold text-bima-primary">Level 3</span>
                 </div>
                 <div className="w-full bg-white rounded-full h-1">
                   <motion.div
-                    className="bg-[#0D9488] h-1 rounded-full"
+                    className="bg-bima-primary h-1 rounded-full"
                     initial={{ width: 0 }}
                     animate={{ width: '72%' }}
                     transition={{ duration: 0.6, delay: 0.2 }}
@@ -71,7 +76,7 @@ const HomePage = () => {
 
       {/* Waste Breakdown */}
       <div className="px-5 mb-6">
-        <h2 className="text-lg font-semibold text-[#065F46] mb-3">Waste Breakdown</h2>
+        <h2 className="text-lg font-semibold text-bima-dark mb-3">Waste Breakdown</h2>
         <div className="grid grid-cols-2 gap-3">
           {[
             { type: 'Food Waste', amount: '1.8 ton', icon: Leaf, color: '#0D9488' },
@@ -79,7 +84,8 @@ const HomePage = () => {
             { type: 'Compostable', amount: '0.2 ton', icon: ThermometerSun, color: '#065F46' },
             { type: 'Unusable', amount: '0.1 ton', icon: AlertTriangle, color: '#DC2626' },
           ].map((item, i) => (
-            <motion.div key={i} whileHover={{ y: -2 }} className="bg-white rounded-xl shadow-sm p-3 flex items-center"
+            <motion.div key={i} whileHover={{ y: -2 }} className="bg-white rounded-xl shadow-sm p-3 flex items-center cursor-pointer"
+              onClick={() => showToast(item.type + ': ' + item.amount)}
               style={{ boxShadow: '0 2px 6px rgba(0,0,0,0.04)' }}>
               <div className="w-8 h-8 rounded-full flex items-center justify-center mr-2"
                 style={{ backgroundColor: `${item.color}1A` }}>
@@ -96,13 +102,14 @@ const HomePage = () => {
 
       {/* Impact Metrics */}
       <div className="px-5 mb-6">
-        <h2 className="text-lg font-semibold text-[#065F46] mb-3">Your Impact</h2>
+        <h2 className="text-lg font-semibold text-bima-dark mb-3">Your Impact</h2>
         <div className="grid grid-cols-2 gap-3">
           {[
             { title: 'CO₂ Reduced', value: '0.8 ton', icon: TrendingUp, color: '#0D9488' },
             { title: 'Biogas Generated', value: '520 m³', icon: Flame, color: '#D97706' },
           ].map((item, i) => (
-            <motion.div key={i} whileHover={{ y: -2 }} className="rounded-xl p-4 flex items-center"
+            <motion.div key={i} whileHover={{ y: -2 }} className="rounded-xl p-4 flex items-center cursor-pointer"
+              onClick={() => showToast(item.title + ': ' + item.value)}
               style={{ background: `linear-gradient(135deg, ${item.color}, ${item.color}CC)` }}>
               <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center mr-3">
                 <item.icon size={20} className="text-white" />
@@ -119,14 +126,14 @@ const HomePage = () => {
       {/* Next Pickup CTA */}
       <div className="px-5 mb-6">
         <motion.div whileHover={{ y: -2 }} onClick={() => navigate('/pickup')}
-          className="bg-gradient-to-r from-[#0D9488] to-[#065F46] rounded-2xl p-4 cursor-pointer shadow-lg">
+          className="bg-gradient-to-r from-bima-primary to-bima-dark rounded-2xl p-4 cursor-pointer shadow-lg">
           <div className="flex items-center">
             <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mr-4">
               <Truck size={24} className="text-white" />
             </div>
-            <div className="flex-1">
+            <div className="flex-1 min-w-0">
               <h3 className="text-white font-semibold">Next Pickup</h3>
-              <p className="text-white/90 text-sm">Today, 08:00 AM • Driver assigned</p>
+              <p className="text-white/90 text-sm truncate">Today, 08:00 AM • Driver assigned</p>
             </div>
             <ChevronRight size={20} className="text-white/80" />
           </div>
@@ -135,7 +142,7 @@ const HomePage = () => {
 
       {/* Quick Actions */}
       <div className="px-5 mb-24">
-        <h2 className="text-lg font-semibold text-[#065F46] mb-3">Quick Actions</h2>
+        <h2 className="text-lg font-semibold text-bima-dark mb-3">Quick Actions</h2>
         <div className="grid grid-cols-4 gap-2">
           {[
             { title: 'Scan', icon: Leaf, path: '/scan', color: '#0D9488' },
@@ -167,25 +174,25 @@ const HomePage = () => {
           <div className="flex justify-between items-start mb-3">
             <div>
               <p className="text-gray-500 text-xs">Bio-LPG Used This Month</p>
-              <motion.p className="text-[28px] font-extrabold text-[#065F46] leading-tight mt-1"
+              <motion.p className="text-[28px] font-extrabold text-bima-dark leading-tight mt-1"
                 initial={{ scale: 0.8 }} animate={{ scale: 1 }} transition={{ delay: 0.1, type: 'spring' }}>
                 156 kg
               </motion.p>
             </div>
             <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
               onClick={() => navigate('/order-gas')}
-              className="bg-gradient-to-r from-[#D97706] to-[#B45309] text-white px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5">
+              className="bg-gradient-to-r from-bima-energy to-bima-energy-dark text-white px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5">
               <Flame size={14} />
               Order Gas
             </motion.button>
           </div>
-          <div className="bg-[#D97706]/10 p-3 rounded-xl">
+          <div className="bg-bima-energy/10 p-3 rounded-xl">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Zap size={16} className="text-[#D97706]" />
+                <Zap size={16} className="text-bima-energy" />
                 <span className="text-xs font-semibold text-[#92400E]">Energy Credits: 850 EC</span>
               </div>
-              <span className="text-[11px] font-semibold text-[#D97706]">Save 32% vs LPG</span>
+              <span className="text-[11px] font-semibold text-bima-energy">Save 32% vs LPG</span>
             </div>
           </div>
         </motion.div>
@@ -193,13 +200,14 @@ const HomePage = () => {
 
       {/* Savings Comparison */}
       <div className="px-5 mb-6">
-        <h2 className="text-lg font-semibold text-[#065F46] mb-3">Your Savings</h2>
+        <h2 className="text-lg font-semibold text-bima-dark mb-3">Your Savings</h2>
         <div className="grid grid-cols-2 gap-3">
           {[
             { title: 'Monthly Savings', value: 'Rp 245K', icon: TrendingUp, color: '#0D9488' },
             { title: 'CO₂ Reduced', value: '0.42 ton', icon: Leaf, color: '#065F46' },
           ].map((item, i) => (
-            <motion.div key={i} whileHover={{ y: -2 }} className="rounded-xl p-4"
+            <motion.div key={i} whileHover={{ y: -2 }} className="rounded-xl p-4 cursor-pointer"
+              onClick={() => showToast(item.title + ': ' + item.value)}
               style={{ background: `linear-gradient(135deg, ${item.color}, ${item.color}CC)` }}>
               <item.icon size={20} className="text-white mb-2" />
               <div className="text-xl font-bold text-white">{item.value}</div>
@@ -212,15 +220,15 @@ const HomePage = () => {
       {/* Active Subscription */}
       <div className="px-5 mb-6">
         <motion.div whileHover={{ y: -2 }}
-          className="bg-gradient-to-r from-[#D97706] to-[#B45309] rounded-2xl p-4 cursor-pointer shadow-lg"
+          className="bg-gradient-to-r from-bima-energy to-bima-energy-dark rounded-2xl p-4 cursor-pointer shadow-lg"
           onClick={() => navigate('/order-gas')}>
           <div className="flex items-center">
             <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mr-4">
               <Flame size={24} className="text-white" />
             </div>
-            <div className="flex-1">
+            <div className="flex-1 min-w-0">
               <h3 className="text-white font-semibold">Monthly Subscription</h3>
-              <p className="text-white/90 text-sm">Next delivery: Feb 25 • 12kg Bio-LPG</p>
+              <p className="text-white/90 text-sm truncate">Next delivery: Feb 25 • 12kg Bio-LPG</p>
             </div>
             <ChevronRight size={20} className="text-white/80" />
           </div>
@@ -229,7 +237,7 @@ const HomePage = () => {
 
       {/* Price Comparison */}
       <div className="px-5 mb-6">
-        <h2 className="text-lg font-semibold text-[#065F46] mb-3">Price Comparison</h2>
+        <h2 className="text-lg font-semibold text-bima-dark mb-3">Price Comparison</h2>
         <div className="bg-white rounded-2xl p-4 shadow-sm">
           {[
             { label: 'Bio-LPG (BIMA)', price: 'Rp 14,500/kg', savings: '-32%', highlight: true },
@@ -237,13 +245,13 @@ const HomePage = () => {
           ].map((item, i) => (
             <div key={i} className={`flex items-center justify-between py-3 ${i === 0 ? 'border-b border-gray-100' : ''}`}>
               <div className="flex items-center gap-2">
-                {item.highlight && <div className="w-2 h-2 rounded-full bg-[#0D9488]" />}
+                {item.highlight && <div className="w-2 h-2 rounded-full bg-bima-primary" />}
                 {!item.highlight && <div className="w-2 h-2 rounded-full bg-gray-300" />}
-                <span className={`text-sm ${item.highlight ? 'font-bold text-[#065F46]' : 'text-gray-500'}`}>{item.label}</span>
+                <span className={`text-sm ${item.highlight ? 'font-bold text-bima-dark' : 'text-gray-500'}`}>{item.label}</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className={`text-sm ${item.highlight ? 'font-bold text-[#065F46]' : 'text-gray-500'}`}>{item.price}</span>
-                {item.savings && <span className="text-xs font-bold text-[#0D9488] bg-[#0D9488]/10 px-1.5 py-0.5 rounded">{item.savings}</span>}
+                <span className={`text-sm ${item.highlight ? 'font-bold text-bima-dark' : 'text-gray-500'}`}>{item.price}</span>
+                {item.savings && <span className="text-xs font-bold text-bima-primary bg-bima-primary/10 px-1.5 py-0.5 rounded">{item.savings}</span>}
               </div>
             </div>
           ))}
@@ -282,12 +290,12 @@ const HomePage = () => {
           <div className="flex justify-between items-start mb-3">
             <div>
               <p className="text-gray-500 text-xs">Today's Tasks</p>
-              <motion.p className="text-[28px] font-extrabold text-[#2563EB] leading-tight mt-1"
+              <motion.p className="text-[28px] font-extrabold text-bima-driver leading-tight mt-1"
                 initial={{ scale: 0.8 }} animate={{ scale: 1 }} transition={{ delay: 0.1, type: 'spring' }}>
                 34 trips
               </motion.p>
             </div>
-            <div className="bg-[#0D9488] text-white px-3 py-1.5 rounded-xl text-xs font-semibold">
+            <div className="bg-bima-primary text-white px-3 py-1.5 rounded-xl text-xs font-semibold">
               <CheckCircle size={12} className="inline mr-1" /> On Duty
             </div>
           </div>
@@ -308,13 +316,14 @@ const HomePage = () => {
 
       {/* Active Tasks */}
       <div className="px-5 mb-6">
-        <h2 className="text-lg font-semibold text-[#065F46] mb-3">Active Tasks</h2>
+        <h2 className="text-lg font-semibold text-bima-dark mb-3">Active Tasks</h2>
         {[
           { type: 'Pickup', loc: 'Restoran Padang Jaya', time: '08:30 AM', weight: '45kg', status: 'In Progress', color: '#D97706' },
           { type: 'Delivery', loc: 'Ibu Sari - Jl. Merdeka 12', time: '10:00 AM', weight: '12kg Bio-LPG', status: 'Next', color: '#0D9488' },
           { type: 'Pickup', loc: 'Hotel Grand Nusantara', time: '11:30 AM', weight: '120kg', status: 'Scheduled', color: '#2563EB' },
         ].map((task, i) => (
-          <motion.div key={i} whileHover={{ y: -1 }} className="bg-white rounded-xl p-4 mb-3 shadow-sm">
+          <motion.div key={i} whileHover={{ y: -1 }} className="bg-white rounded-xl p-4 mb-3 shadow-sm cursor-pointer"
+            onClick={() => navigate('/pickup')}>
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs font-bold px-2 py-0.5 rounded" style={{ backgroundColor: `${task.color}15`, color: task.color }}>{task.type}</span>
               <span className="text-xs font-semibold px-2 py-0.5 rounded" style={{ backgroundColor: task.status === 'In Progress' ? '#FEF3C7' : '#F3F4F6', color: task.status === 'In Progress' ? '#92400E' : '#6B7280' }}>{task.status}</span>
@@ -330,14 +339,14 @@ const HomePage = () => {
 
       {/* Route Efficiency */}
       <div className="px-5 mb-24">
-        <h2 className="text-lg font-semibold text-[#065F46] mb-3">Route Efficiency</h2>
+        <h2 className="text-lg font-semibold text-bima-dark mb-3">Route Efficiency</h2>
         <div className="bg-white rounded-2xl p-4 shadow-sm">
           <div className="flex items-center justify-between mb-3">
             <span className="text-sm font-semibold text-gray-800">Today's Route</span>
-            <span className="text-sm font-bold text-[#0D9488]">87% efficient</span>
+            <span className="text-sm font-bold text-bima-primary">87% efficient</span>
           </div>
           <div className="w-full bg-gray-100 rounded-full h-2">
-            <motion.div className="bg-gradient-to-r from-[#0D9488] to-[#065F46] h-2 rounded-full"
+            <motion.div className="bg-gradient-to-r from-bima-primary to-bima-dark h-2 rounded-full"
               initial={{ width: 0 }} animate={{ width: '87%' }} transition={{ duration: 1 }} />
           </div>
           <div className="flex justify-between mt-3">
@@ -366,12 +375,12 @@ const HomePage = () => {
           <div className="flex justify-between items-start mb-4">
             <div>
               <p className="text-gray-500 text-xs">Total Waste Processed</p>
-              <motion.p className="text-[28px] font-extrabold text-[#7C3AED] leading-tight mt-1"
+              <motion.p className="text-[28px] font-extrabold text-bima-accent leading-tight mt-1"
                 initial={{ scale: 0.8 }} animate={{ scale: 1 }} transition={{ delay: 0.1, type: 'spring' }}>
                 38 tons
               </motion.p>
             </div>
-            <div className="bg-[#7C3AED] text-white px-3 py-1.5 rounded-xl text-xs font-semibold">
+            <div className="bg-bima-accent text-white px-3 py-1.5 rounded-xl text-xs font-semibold">
               <Shield size={12} className="inline mr-1" /> Admin
             </div>
           </div>
@@ -393,14 +402,15 @@ const HomePage = () => {
 
       {/* System Status */}
       <div className="px-5 mb-6">
-        <h2 className="text-lg font-semibold text-[#065F46] mb-3">System Status</h2>
+        <h2 className="text-lg font-semibold text-bima-dark mb-3">System Status</h2>
         {[
           { label: 'Waste Supply Pipeline', status: 'Optimal', pct: 92, color: '#0D9488' },
           { label: 'Gas Production', status: 'Running', pct: 78, color: '#D97706' },
           { label: 'Demand Forecast Accuracy', status: 'High', pct: 89, color: '#065F46' },
           { label: 'Reactor Efficiency', status: 'Normal', pct: 85, color: '#7C3AED' },
         ].map((item, i) => (
-          <div key={i} className="bg-white rounded-xl p-3 mb-2 shadow-sm">
+          <div key={i} className="bg-white rounded-xl p-3 mb-2 shadow-sm cursor-pointer"
+            onClick={() => showToast(item.label + ': ' + item.pct + '%')}>
             <div className="flex justify-between items-center mb-1.5">
               <span className="text-sm font-semibold text-gray-800">{item.label}</span>
               <span className="text-xs font-bold px-2 py-0.5 rounded" style={{ backgroundColor: `${item.color}15`, color: item.color }}>{item.status}</span>
@@ -415,7 +425,7 @@ const HomePage = () => {
 
       {/* Platform Metrics */}
       <div className="px-5 mb-6">
-        <h2 className="text-lg font-semibold text-[#065F46] mb-3">Platform Metrics</h2>
+        <h2 className="text-lg font-semibold text-bima-dark mb-3">Platform Metrics</h2>
         <div className="grid grid-cols-2 gap-3">
           {[
             { title: 'CO₂ Reduced', value: '2.3 ton', icon: Leaf, color: '#0D9488' },
@@ -423,7 +433,8 @@ const HomePage = () => {
             { title: 'Revenue Today', value: 'Rp 42M', icon: TrendingUp, color: '#065F46' },
             { title: 'Network Growth', value: '+12%', icon: Users, color: '#7C3AED' },
           ].map((item, i) => (
-            <motion.div key={i} whileHover={{ y: -2 }} className="rounded-xl p-3.5"
+            <motion.div key={i} whileHover={{ y: -2 }} className="rounded-xl p-3.5 cursor-pointer"
+              onClick={() => showToast(item.title + ': ' + item.value)}
               style={{ background: `linear-gradient(135deg, ${item.color}, ${item.color}CC)` }}>
               <item.icon size={18} className="text-white mb-1.5" />
               <div className="text-lg font-bold text-white">{item.value}</div>
@@ -464,7 +475,7 @@ const HomePage = () => {
   };
 
   return (
-    <div className="h-full bg-[#F0FDF9] flex flex-col relative">
+    <div className="h-full bg-bima-secondary flex flex-col relative">
       {/* Header */}
       <CurvedHeader className="!pt-8 !pb-20">
         <div className="text-center mb-3">
@@ -497,17 +508,33 @@ const HomePage = () => {
           <motion.div whileHover={{ scale: 1.1 }} onClick={() => navigate('/notifications')}
             className="relative w-11 h-11 bg-white/15 rounded-full flex items-center justify-center cursor-pointer">
             <Bell className="text-white" size={20} />
-            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-[#D97706] rounded-full border-2 border-[#065F46]" />
+            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-bima-energy rounded-full border-2 border-bima-dark" />
           </motion.div>
         </div>
       </CurvedHeader>
 
+      <Toast message={toast} />
+
       {/* Main Content */}
       <div className="flex-1">
-        {role === 'supplier' && <SupplierDashboard />}
-        {role === 'customer' && <CustomerDashboard />}
-        {role === 'driver' && <DriverDashboard />}
-        {role === 'admin' && <AdminDashboard />}
+        {isLoading ? (
+          <div className="px-5 pt-4 space-y-4">
+            <div className="animate-pulse bg-gray-200 rounded-2xl h-32" />
+            <div className="animate-pulse bg-gray-200 rounded-2xl h-24" />
+            <div className="grid grid-cols-2 gap-3">
+              <div className="animate-pulse bg-gray-200 rounded-xl h-20" />
+              <div className="animate-pulse bg-gray-200 rounded-xl h-20" />
+            </div>
+            <div className="animate-pulse bg-gray-200 rounded-2xl h-16" />
+          </div>
+        ) : (
+          <>
+            {role === 'supplier' && <SupplierDashboard />}
+            {role === 'customer' && <CustomerDashboard />}
+            {role === 'driver' && <DriverDashboard />}
+            {role === 'admin' && <AdminDashboard />}
+          </>
+        )}
       </div>
     </div>
   );

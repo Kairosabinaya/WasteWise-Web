@@ -16,9 +16,9 @@ const PointsBadge = ({ points, showAnimation = false, size = 'medium' }) => {
       transition={{ type: 'spring', stiffness: 300, damping: 20 }}
       className={`
         inline-flex items-center gap-2 
-        bg-gradient-to-r from-[#0D9488] to-[#065F46]
+        bg-gradient-to-r from-bima-primary to-bima-dark
         text-white font-bold rounded-full
-        shadow-lg shadow-[#0D9488]/30
+        shadow-lg shadow-bima-primary/30
         ${sizes[size]}
       `}
     >

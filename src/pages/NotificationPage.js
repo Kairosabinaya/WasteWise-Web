@@ -44,9 +44,9 @@ const NotificationPage = () => {
   const unreadCount = roleNotifications.filter(n => !n.read).length;
 
   return (
-    <div className="min-h-full bg-[#F0FDF9]">
+    <div className="min-h-full bg-bima-secondary">
       {/* Header */}
-      <div className="bg-gradient-to-br from-[#065F46] to-[#0D9488] px-5 pt-6 pb-6">
+      <div className="bg-gradient-to-br from-bima-dark to-bima-primary px-5 pt-6 pb-6">
         <div className="flex items-center justify-between mb-3">
           <div>
             <h1 className="text-xl font-bold text-white">Notifications</h1>
@@ -66,7 +66,7 @@ const NotificationPage = () => {
             <motion.button key={f.id} whileTap={{ scale: 0.95 }}
               onClick={() => setFilter(f.id)}
               className={`px-3 py-1.5 rounded-full text-[11px] font-semibold transition-all
-              ${filter === f.id ? 'bg-white text-[#065F46]' : 'bg-white/15 text-white/80'}`}>
+              ${filter === f.id ? 'bg-white text-bima-dark' : 'bg-white/15 text-white/80'}`}>
               {f.label}
             </motion.button>
           ))}
@@ -86,7 +86,7 @@ const NotificationPage = () => {
                 transition={{ delay: i * 0.05 }}
                 onClick={() => markAsRead(notif.id)}
                 className={`bg-white rounded-xl p-3.5 shadow-sm flex items-start cursor-pointer transition-all
-                  ${!notif.read ? 'border-l-3 ring-1 ring-[#0D9488]/20' : ''}`}
+                  ${!notif.read ? 'border-l-3 ring-1 ring-bima-primary/20' : ''}`}
                 style={!notif.read ? { borderLeft: `3px solid ${notif.color}` } : {}}>
                 <div className="w-10 h-10 rounded-full flex items-center justify-center mr-3 flex-shrink-0"
                   style={{ backgroundColor: `${notif.color}15` }}>
@@ -97,9 +97,9 @@ const NotificationPage = () => {
                     <h3 className={`text-sm font-semibold text-gray-800 truncate ${!notif.read ? 'font-bold' : ''}`}>
                       {notif.title}
                     </h3>
-                    {!notif.read && <div className="w-2 h-2 rounded-full bg-[#0D9488] flex-shrink-0 ml-2" />}
+                    {!notif.read && <div className="w-2 h-2 rounded-full bg-bima-primary flex-shrink-0 ml-2" />}
                   </div>
-                  <p className="text-xs text-gray-500 leading-relaxed">{notif.desc}</p>
+                  <p className="text-xs text-gray-500 leading-relaxed line-clamp-2">{notif.desc}</p>
                   <span className="text-[10px] text-gray-400 mt-1 block">{notif.time}</span>
                 </div>
               </motion.div>

@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
-import { Clock, Award, GraduationCap, Play, Check } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Clock, Award, GraduationCap, Play } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import useToast from '../hooks/useToast';
+import { Toast } from '../components/ui';
 
 const EducationPage = () => {
   const [activeTab, setActiveTab] = useState('courses');
@@ -8,12 +10,9 @@ const EducationPage = () => {
   const [courseProgress, setCourseProgress] = useState({
     1: 100, 2: 65, 3: 30, 4: 0, 5: 0,
   });
-  const [toast, setToast] = useState(null);
-
-  const showToast = (message) => {
-    setToast(message);
-    setTimeout(() => setToast(null), 2000);
-  };
+  const { toast, showToast } = useToast();
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => { const t = setTimeout(() => setIsLoading(false), 600); return () => clearTimeout(t); }, []);
 
   const tabs = [
     { id: 'courses', label: 'Courses' },
@@ -63,20 +62,12 @@ const EducationPage = () => {
   const completedCount = Object.values(courseProgress).filter(p => p >= 100).length;
 
   return (
-    <div className="min-h-full bg-[#F0FDF9]">
+    <div className="min-h-full bg-bima-secondary">
       {/* Toast */}
-      <AnimatePresence>
-        {toast && (
-          <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
-            className="fixed top-14 left-1/2 -translate-x-1/2 z-[100] bg-gray-800 text-white px-4 py-2.5 rounded-xl text-xs font-semibold shadow-lg flex items-center gap-2 whitespace-nowrap">
-            <Check size={14} className="text-[#0D9488]" />
-            {toast}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <Toast message={toast} />
 
       {/* Header */}
-      <div className="bg-gradient-to-br from-[#065F46] to-[#0D9488] px-5 pt-6 pb-6">
+      <div className="bg-gradient-to-br from-bima-dark to-bima-primary px-5 pt-6 pb-6">
         <div className="flex items-center justify-between mb-4">
           <div>
             <h1 className="text-xl font-bold text-white">Education Hub</h1>
@@ -93,13 +84,20 @@ const EducationPage = () => {
             <motion.button key={tab.id} whileTap={{ scale: 0.95 }}
               onClick={() => setActiveTab(tab.id)}
               className={`flex-1 py-2 rounded-lg text-xs font-semibold transition-all
-              ${activeTab === tab.id ? 'bg-white text-[#065F46]' : 'text-white/70'}`}>
+              ${activeTab === tab.id ? 'bg-white text-bima-dark' : 'text-white/70'}`}>
               {tab.label}
             </motion.button>
           ))}
         </div>
       </div>
 
+      {isLoading ? (
+        <div className="px-5 py-4 space-y-3">
+          {[1,2,3].map(i => (
+            <div key={i} className="animate-pulse bg-gray-200 rounded-2xl h-28" />
+          ))}
+        </div>
+      ) : (
       <div className="px-5 py-4">
         {/* Courses Tab */}
         {activeTab === 'courses' && (
@@ -118,12 +116,12 @@ const EducationPage = () => {
                       {course.icon}
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-sm font-bold text-gray-800 mb-0.5">{course.title}</h3>
-                      <p className="text-[10px] text-gray-500 leading-tight mb-2">{course.desc}</p>
+                      <h3 className="text-sm font-bold text-gray-800 mb-0.5 line-clamp-1">{course.title}</h3>
+                      <p className="text-[10px] text-gray-500 leading-tight mb-2 line-clamp-2">{course.desc}</p>
                       <div className="flex items-center gap-3">
                         <span className="text-[10px] text-gray-400 flex items-center gap-0.5"><Clock size={10} />{course.duration}</span>
                         <span className="text-[10px] text-gray-400">{course.level}</span>
-                        <span className="text-[10px] font-bold text-[#0D9488]">+{course.credits} EC</span>
+                        <span className="text-[10px] font-bold text-bima-primary">+{course.credits} EC</span>
                       </div>
                       <div className="mt-2 w-full bg-gray-100 rounded-full h-1.5">
                         <motion.div className="h-1.5 rounded-full"
@@ -151,10 +149,10 @@ const EducationPage = () => {
                 transition={{ delay: i * 0.08 }}
                 className={`bg-white rounded-2xl p-4 text-center shadow-sm ${!badge.earned ? 'opacity-60' : ''}`}>
                 <div className="text-3xl mb-2">{badge.icon}</div>
-                <h3 className="text-xs font-bold text-gray-800 mb-0.5">{badge.name}</h3>
-                <p className="text-[10px] text-gray-500 mb-2">{badge.desc}</p>
+                <h3 className="text-xs font-bold text-gray-800 mb-0.5 line-clamp-1">{badge.name}</h3>
+                <p className="text-[10px] text-gray-500 mb-2 line-clamp-2">{badge.desc}</p>
                 {badge.earned ? (
-                  <span className="text-[9px] font-bold text-[#0D9488] bg-[#0D9488]/10 px-2 py-0.5 rounded-full">
+                  <span className="text-[9px] font-bold text-bima-primary bg-bima-primary/10 px-2 py-0.5 rounded-full">
                     ✓ Earned
                   </span>
                 ) : (
@@ -180,11 +178,11 @@ const EducationPage = () => {
                     <GraduationCap size={22} style={{ color: cert.color }} />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-sm font-bold text-gray-800">{cert.title}</h3>
-                    <p className="text-[10px] text-gray-500">{cert.issuer}</p>
+                    <h3 className="text-sm font-bold text-gray-800 line-clamp-1">{cert.title}</h3>
+                    <p className="text-[10px] text-gray-500 line-clamp-2">{cert.issuer}</p>
                     <span className={`text-[10px] font-bold mt-1 inline-block px-2 py-0.5 rounded-full
-                      ${cert.status === 'earned' ? 'bg-[#0D9488]/10 text-[#0D9488]' :
-                        cert.status === 'progress' ? 'bg-[#D97706]/10 text-[#D97706]' :
+                      ${cert.status === 'earned' ? 'bg-bima-primary/10 text-bima-primary' :
+                        cert.status === 'progress' ? 'bg-bima-energy/10 text-bima-energy' :
                           'bg-gray-100 text-gray-400'}`}>
                       {cert.date}
                     </span>
@@ -196,6 +194,7 @@ const EducationPage = () => {
           </div>
         )}
       </div>
+      )}
 
       {/* Course Detail Modal */}
       <AnimatePresence>
@@ -217,14 +216,14 @@ const EducationPage = () => {
               <p className="text-sm text-gray-600 mb-4">{selectedCourse.desc}</p>
               <div className="bg-gray-50 rounded-xl p-3 mb-2 flex justify-between">
                 <span className="text-xs text-gray-500">Reward</span>
-                <span className="text-xs font-bold text-[#0D9488]">+{selectedCourse.credits} Energy Credits</span>
+                <span className="text-xs font-bold text-bima-primary">+{selectedCourse.credits} Energy Credits</span>
               </div>
               <div className="bg-gray-50 rounded-xl p-3 mb-4 flex justify-between">
                 <span className="text-xs text-gray-500">Progress</span>
                 <span className="text-xs font-bold text-gray-800">{courseProgress[selectedCourse.id] || 0}%</span>
               </div>
               <motion.button whileTap={{ scale: 0.95 }}
-                className="w-full py-3 bg-gradient-to-r from-[#0D9488] to-[#065F46] text-white rounded-xl text-sm font-semibold flex items-center justify-center gap-2"
+                className="w-full py-3 bg-gradient-to-r from-bima-primary to-bima-dark text-white rounded-xl text-sm font-semibold flex items-center justify-center gap-2"
                 onClick={() => handleStartCourse(selectedCourse)}>
                 <Play size={16} />
                 {(courseProgress[selectedCourse.id] || 0) >= 100

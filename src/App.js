@@ -17,12 +17,12 @@ function App() {
   return (
     <Router>
       {/* Phone Container - Full height, phone aspect ratio */}
-      <div className="min-h-screen bg-[#064E3B] flex items-center justify-center">
+      <div className="min-h-screen bg-bima-darker flex items-center justify-center">
         <div
-          className="relative bg-[#F0FDF9] overflow-hidden shadow-2xl"
+          className="relative bg-bima-secondary overflow-hidden shadow-2xl flex flex-col"
           style={{
             height: '100vh',
-            width: 'min(100vw, calc(100vh * 9 / 19.5))', // Phone aspect ratio 9:19.5
+            width: 'min(100vw, calc(100vh * 9 / 19.5))',
             maxWidth: '450px'
           }}
         >
@@ -30,19 +30,7 @@ function App() {
           <RoleToggle />
 
           {/* Main Content - Scrollable without visible scrollbar */}
-          <div
-            className="pb-[70px] overflow-y-auto scrollbar-hide"
-            style={{
-              height: 'calc(100% - 38px)', // subtract role toggle height
-              scrollbarWidth: 'none', /* Firefox */
-              msOverflowStyle: 'none', /* IE and Edge */
-            }}
-          >
-            <style>{`
-              .scrollbar-hide::-webkit-scrollbar {
-                display: none; /* Chrome, Safari, Opera */
-              }
-            `}</style>
+          <div className="flex-1 min-h-0 pb-[70px] overflow-y-auto scrollbar-hide">
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/scan" element={<ScanPage />} />

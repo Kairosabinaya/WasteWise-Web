@@ -11,7 +11,8 @@ const MonitorFloatingButton = ({ className = "" }) => {
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.9 }}
       onClick={() => navigate('/scan')}
-      className={`absolute bottom-6 right-6 w-14 h-14 bg-[#164c51] rounded-full flex items-center justify-center shadow-lg shadow-[#164c51]/30 z-50 hover:bg-[#0C2521] transition-colors ${className}`}
+      aria-label="Open scanner"
+      className={`absolute bottom-6 right-6 w-14 h-14 bg-bima-button rounded-full flex items-center justify-center shadow-lg shadow-bima-button/30 z-50 hover:bg-bima-button-dark transition-colors ${className}`}
       initial={{ scale: 0 }}
       animate={{ scale: 1 }}
       transition={{ type: 'spring', delay: 0.5 }}

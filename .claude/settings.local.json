@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find /d/Personal Documents/Learning/Competition/Genbi/WasteWise-Web-main -maxdepth 2 -type f \\\\\\(-name .cursorrules -o -name *.rules -o -name .github \\\\\\))"
+    ]
+  }
+}

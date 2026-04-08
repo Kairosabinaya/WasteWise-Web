@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
-import { Search, Zap, Package, Leaf, Flame, TreePine, Check } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Search, Zap, Package, Leaf, Flame, TreePine } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import useToast from '../hooks/useToast';
+import { Toast } from '../components/ui';
 
 const MarketplacePage = () => {
   const [activeCategory, setActiveCategory] = useState('all');
@@ -8,12 +10,10 @@ const MarketplacePage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [credits, setCredits] = useState(1250);
   const [redeemed, setRedeemed] = useState({});
-  const [toast, setToast] = useState(null);
+  const { toast, showToast } = useToast();
+  const [isLoading, setIsLoading] = useState(true);
 
-  const showToast = (message) => {
-    setToast(message);
-    setTimeout(() => setToast(null), 2500);
-  };
+  useEffect(() => { const t = setTimeout(() => setIsLoading(false), 600); return () => clearTimeout(t); }, []);
 
   const categories = [
     { id: 'all', label: 'All', icon: Package },
@@ -44,20 +44,12 @@ const MarketplacePage = () => {
   });
 
   return (
-    <div className="min-h-full bg-[#F0FDF9]">
+    <div className="min-h-full bg-bima-secondary">
       {/* Toast */}
-      <AnimatePresence>
-        {toast && (
-          <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
-            className="fixed top-14 left-1/2 -translate-x-1/2 z-[100] bg-gray-800 text-white px-4 py-2.5 rounded-xl text-xs font-semibold shadow-lg flex items-center gap-2 whitespace-nowrap">
-            <Check size={14} className="text-[#0D9488]" />
-            {toast}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <Toast message={toast} />
 
       {/* Header */}
-      <div className="bg-gradient-to-br from-[#065F46] to-[#0D9488] px-5 pt-6 pb-6">
+      <div className="bg-gradient-to-br from-bima-dark to-bima-primary px-5 pt-6 pb-6">
         <div className="flex items-center justify-between mb-4">
           <div>
             <h1 className="text-xl font-bold text-white">Rewards Marketplace</h1>
@@ -85,7 +77,7 @@ const MarketplacePage = () => {
             <motion.button key={cat.id} whileTap={{ scale: 0.95 }}
               onClick={() => setActiveCategory(cat.id)}
               className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-[11px] font-semibold whitespace-nowrap transition-all
-              ${activeCategory === cat.id ? 'bg-[#0D9488] text-white' : 'bg-white text-gray-600 shadow-sm'}`}>
+              ${activeCategory === cat.id ? 'bg-bima-primary text-white' : 'bg-white text-gray-600 shadow-sm'}`}>
               <cat.icon size={12} />
               {cat.label}
             </motion.button>
@@ -95,33 +87,48 @@ const MarketplacePage = () => {
 
       {/* Products Grid */}
       <div className="px-5 pb-8">
-        <div className="grid grid-cols-2 gap-3">
-          {filteredProducts.map((product, i) => (
-            <motion.div key={product.id}
-              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
-              whileHover={{ y: -3 }}
-              onClick={() => setSelectedProduct(product)}
-              className="bg-white rounded-2xl overflow-hidden shadow-sm cursor-pointer">
-              <div className="h-24 flex items-center justify-center bg-gradient-to-b from-gray-50 to-white relative">
-                <span className="text-4xl">{product.image}</span>
-                {product.tag && (
-                  <span className="absolute top-2 right-2 text-[8px] font-bold text-white px-1.5 py-0.5 rounded"
-                    style={{ backgroundColor: product.tagColor }}>
-                    {product.tag}
-                  </span>
-                )}
-              </div>
-              <div className="p-3">
-                <h3 className="text-xs font-bold text-gray-800 leading-tight mb-1">{product.name}</h3>
-                <p className="text-[10px] text-gray-500 leading-tight mb-2">{product.desc}</p>
-                <div className="flex items-center gap-1">
-                  <Zap size={12} className="text-[#D97706]" />
-                  <span className="text-xs font-bold text-[#065F46]">{product.price} EC</span>
+        {isLoading ? (
+          <div className="grid grid-cols-2 gap-3">
+            {[1,2,3,4].map(i => (
+              <div key={i} className="animate-pulse bg-gray-200 rounded-2xl h-44" />
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-3">
+            {filteredProducts.map((product, i) => (
+              <motion.div key={product.id}
+                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
+                whileHover={{ y: -3 }}
+                onClick={() => setSelectedProduct(product)}
+                className="bg-white rounded-2xl overflow-hidden shadow-sm cursor-pointer">
+                <div className="h-24 flex items-center justify-center bg-gradient-to-b from-gray-50 to-white relative">
+                  <span className="text-4xl">{product.image}</span>
+                  {product.tag && (
+                    <span className="absolute top-2 right-2 text-[8px] font-bold text-white px-1.5 py-0.5 rounded"
+                      style={{ backgroundColor: product.tagColor }}>
+                      {product.tag}
+                    </span>
+                  )}
                 </div>
+                <div className="p-3">
+                  <h3 className="text-xs font-bold text-gray-800 leading-tight mb-1 line-clamp-2">{product.name}</h3>
+                  <p className="text-[10px] text-gray-500 leading-tight mb-2 line-clamp-2">{product.desc}</p>
+                  <div className="flex items-center gap-1">
+                    <Zap size={12} className="text-bima-energy" />
+                    <span className="text-xs font-bold text-bima-dark">{product.price} EC</span>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+            {filteredProducts.length === 0 && (
+              <div className="col-span-2 text-center py-12">
+                <Package size={40} className="text-gray-300 mx-auto mb-3" />
+                <p className="text-sm text-gray-400">No rewards found</p>
+                <p className="text-xs text-gray-300 mt-1">Try a different search or category</p>
               </div>
-            </motion.div>
-          ))}
-        </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Product Detail Modal */}
@@ -141,8 +148,8 @@ const MarketplacePage = () => {
                 <div className="flex-1">
                   <h3 className="text-base font-bold text-gray-800">{selectedProduct.name}</h3>
                   <div className="flex items-center gap-1 mt-0.5">
-                    <Zap size={14} className="text-[#D97706]" />
-                    <span className="text-sm font-bold text-[#065F46]">{selectedProduct.price} Energy Credits</span>
+                    <Zap size={14} className="text-bima-energy" />
+                    <span className="text-sm font-bold text-bima-dark">{selectedProduct.price} Energy Credits</span>
                   </div>
                 </div>
               </div>
@@ -166,7 +173,7 @@ const MarketplacePage = () => {
                     }
                     setSelectedProduct(null);
                   }}
-                  className="flex-1 py-3 bg-gradient-to-r from-[#0D9488] to-[#065F46] text-white rounded-xl text-sm font-semibold">
+                  className="flex-1 py-3 bg-gradient-to-r from-bima-primary to-bima-dark text-white rounded-xl text-sm font-semibold">
                   Redeem
                 </motion.button>
               </div>

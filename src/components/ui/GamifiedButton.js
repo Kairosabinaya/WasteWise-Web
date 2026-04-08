@@ -14,16 +14,16 @@ const GamifiedButton = ({
   ...props
 }) => {
   const variants = {
-    primary: 'bg-[#164c51] text-white shadow-lg shadow-[#164c51]/30 hover:bg-[#0C2521]',
-    secondary: 'bg-[#D48931] text-white shadow-lg shadow-[#D48931]/30 hover:bg-[#6d1e04]',
-    outline: 'border-2 border-[#164c51] text-[#164c51] bg-transparent hover:bg-[#164c51] hover:text-white',
-    ghost: 'bg-[#164c51]/10 text-[#164c51] hover:bg-[#164c51]/20',
+    primary: 'bg-bima-button text-white shadow-lg shadow-bima-button/30 hover:bg-bima-button-dark',
+    secondary: 'bg-bima-button-secondary text-white shadow-lg shadow-bima-button-secondary/30 hover:bg-bima-button-secondary-dark',
+    outline: 'border-2 border-bima-button text-bima-button bg-transparent hover:bg-bima-button hover:text-white',
+    ghost: 'bg-bima-button/10 text-bima-button hover:bg-bima-button/20',
   };
 
   const sizes = {
-    small: 'px-4 py-2 text-sm',
-    medium: 'px-6 py-3 text-base',
-    large: 'px-8 py-4 text-lg',
+    small: 'px-4 py-2.5 text-sm min-h-[44px]',
+    medium: 'px-6 py-3 text-base min-h-[44px]',
+    large: 'px-8 py-4 text-lg min-h-[48px]',
   };
 
   return (

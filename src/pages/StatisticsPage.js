@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TrendingUp, Leaf, Flame, TreePine, Droplets, ArrowUp, ArrowDown } from 'lucide-react';
 import { motion } from 'framer-motion';
 import useRoleStore from '../context/RoleContext';
+import useToast from '../hooks/useToast';
+import { Toast } from '../components/ui';
 
 const StatisticsPage = () => {
   const [period, setPeriod] = useState('month');
   const { role } = useRoleStore();
+  const { toast, showToast } = useToast();
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => { const t = setTimeout(() => setIsLoading(false), 600); return () => clearTimeout(t); }, []);
 
   const periods = ['week', 'month', 'quarter', 'year'];
 
@@ -111,9 +116,20 @@ const StatisticsPage = () => {
   const maxVal = 100;
 
   return (
-    <div className="min-h-full bg-[#F0FDF9]">
+    <div className="min-h-full bg-bima-secondary">
+      <Toast message={toast} />
+      {isLoading ? (
+        <div className="px-5 pt-4 space-y-4">
+          <div className="grid grid-cols-2 gap-3">
+            {[1,2,3,4].map(i => <div key={i} className="animate-pulse bg-gray-200 rounded-2xl h-24" />)}
+          </div>
+          <div className="animate-pulse bg-gray-200 rounded-2xl h-40" />
+          <div className="animate-pulse bg-gray-200 rounded-2xl h-32" />
+        </div>
+      ) : (
+      <>
       {/* Header */}
-      <div className="bg-gradient-to-br from-[#065F46] to-[#0D9488] px-5 pt-6 pb-6">
+      <div className="bg-gradient-to-br from-bima-dark to-bima-primary px-5 pt-6 pb-6">
         <div className="flex items-center justify-between mb-4">
           <div>
             <h1 className="text-xl font-bold text-white">
@@ -136,7 +152,7 @@ const StatisticsPage = () => {
             <motion.button key={p} whileTap={{ scale: 0.95 }}
               onClick={() => setPeriod(p)}
               className={`flex-1 py-2 rounded-lg text-xs font-semibold capitalize transition-all
-              ${period === p ? 'bg-white text-[#065F46]' : 'text-white/70'}`}>
+              ${period === p ? 'bg-white text-bima-dark' : 'text-white/70'}`}>
               {p}
             </motion.button>
           ))}
@@ -149,7 +165,8 @@ const StatisticsPage = () => {
           {data.metrics.map((metric, i) => (
             <motion.div key={`${period}-${i}`} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05 }}
-              className="bg-white rounded-2xl p-4 shadow-sm">
+              onClick={() => showToast(metric.label + ': ' + metric.value)}
+              className="bg-white rounded-2xl p-4 shadow-sm cursor-pointer">
               <div className="flex items-center justify-between mb-2">
                 <div className="w-9 h-9 rounded-xl flex items-center justify-center"
                   style={{ backgroundColor: `${metric.color}15` }}>
@@ -176,7 +193,7 @@ const StatisticsPage = () => {
             {data.chart.map((d, i) => (
               <div key={`${period}-${i}`} className="flex-1 flex flex-col items-center gap-1">
                 <div className="w-full flex flex-col justify-end flex-1">
-                  <motion.div className="w-full rounded-t bg-[#0D9488]"
+                  <motion.div className="w-full rounded-t bg-bima-primary"
                     initial={{ height: 0 }}
                     animate={{ height: `${(d.waste / maxVal) * 100}%` }}
                     transition={{ duration: 0.4, delay: i * 0.05 }} />
@@ -206,7 +223,7 @@ const StatisticsPage = () => {
               </div>
               <div className="text-right">
                 <div className="text-sm font-bold text-gray-800">{item.value}</div>
-                <span className="text-[10px] font-bold text-[#0D9488]">{item.change}</span>
+                <span className="text-[10px] font-bold text-bima-primary">{item.change}</span>
               </div>
             </motion.div>
           ))}
@@ -233,7 +250,7 @@ const StatisticsPage = () => {
         </div>
 
         {/* Carbon Savings Summary */}
-        <div className="bg-gradient-to-r from-[#0D9488] to-[#065F46] rounded-2xl p-5 mb-8">
+        <div className="bg-gradient-to-r from-bima-primary to-bima-dark rounded-2xl p-5 mb-8">
           <h3 className="text-sm font-bold text-white mb-3">Carbon Savings Summary</h3>
           <div className="grid grid-cols-3 gap-3">
             {[
@@ -250,6 +267,8 @@ const StatisticsPage = () => {
           </div>
         </div>
       </div>
+      </>
+      )}
     </div>
   );
 };

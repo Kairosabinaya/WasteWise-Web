@@ -55,8 +55,7 @@ const BottomNav = () => {
   return (
     <div className="absolute bottom-0 left-0 right-0 z-50">
       <div
-        className="bg-white rounded-t-[20px] shadow-[0_-4px_20px_rgba(0,0,0,0.08)]"
-        style={{ height: '70px' }}
+        className="bg-white rounded-t-[20px] shadow-[0_-4px_20px_rgba(0,0,0,0.08)] h-[70px]"
       >
         <div className="h-full flex items-center justify-around px-2">
           {navItems.map((item) => (

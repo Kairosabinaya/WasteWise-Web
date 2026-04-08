@@ -1,19 +1,18 @@
-import React, { useState } from 'react';
-import { Settings, Award, BarChart3, ChevronRight, Bell, Shield, HelpCircle, LogOut, MapPin, Zap, Leaf, Flame, Truck, Edit3, Check } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { Settings, Award, BarChart3, ChevronRight, Bell, Shield, HelpCircle, LogOut, MapPin, Zap, Leaf, Flame, Truck, Edit3 } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import useRoleStore from '../context/RoleContext';
+import useToast from '../hooks/useToast';
+import { Toast } from '../components/ui';
 
 const ProfilePage = () => {
   const navigate = useNavigate();
   const { role, roleInfo } = useRoleStore();
   const current = roleInfo[role];
-  const [toast, setToast] = useState(null);
-
-  const showToast = (message) => {
-    setToast(message);
-    setTimeout(() => setToast(null), 2000);
-  };
+  const { toast, showToast } = useToast();
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => { const t = setTimeout(() => setIsLoading(false), 600); return () => clearTimeout(t); }, []);
 
   const menuItems = [
     { icon: BarChart3, label: role === 'driver' ? 'Earnings' : 'Impact Dashboard', path: '/statistics', color: '#0D9488' },
@@ -50,20 +49,23 @@ const ProfilePage = () => {
         ];
 
   return (
-    <div className="min-h-full bg-[#F0FDF9]">
-      {/* Toast Notification */}
-      <AnimatePresence>
-        {toast && (
-          <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
-            className="fixed top-14 left-1/2 -translate-x-1/2 z-[100] bg-gray-800 text-white px-4 py-2.5 rounded-xl text-xs font-semibold shadow-lg flex items-center gap-2 whitespace-nowrap">
-            <Check size={14} className="text-[#0D9488]" />
-            {toast}
-          </motion.div>
-        )}
-      </AnimatePresence>
+    <div className="min-h-full bg-bima-secondary">
+      <Toast message={toast} />
 
+      {isLoading ? (
+        <div className="space-y-4">
+          <div className="animate-pulse bg-gray-200 h-40 rounded-b-3xl" />
+          <div className="px-5 space-y-3">
+            <div className="animate-pulse bg-gray-200 rounded-2xl h-24" />
+            {[1,2,3,4].map(i => (
+              <div key={i} className="animate-pulse bg-gray-200 rounded-xl h-12" />
+            ))}
+          </div>
+        </div>
+      ) : (
+      <>
       {/* Header */}
-      <div className="bg-gradient-to-br from-[#065F46] to-[#0D9488] px-5 pt-6 pb-16 relative">
+      <div className="bg-gradient-to-br from-bima-dark to-bima-primary px-5 pt-6 pb-16 relative">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-xl font-bold text-white">Profile</h1>
           <motion.button whileTap={{ scale: 0.9 }} onClick={() => showToast('Edit profile coming soon')}
@@ -96,8 +98,8 @@ const ProfilePage = () => {
               <motion.div key={i} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
                 className="text-center">
-                <div className="w-9 h-9 rounded-full bg-[#0D9488]/10 flex items-center justify-center mx-auto mb-1.5">
-                  <stat.icon size={16} className="text-[#0D9488]" />
+                <div className="w-9 h-9 rounded-full bg-bima-primary/10 flex items-center justify-center mx-auto mb-1.5">
+                  <stat.icon size={16} className="text-bima-primary" />
                 </div>
                 <div className="text-sm font-bold text-gray-800">{stat.value}</div>
                 <div className="text-[9px] text-gray-500">{stat.label}</div>
@@ -140,6 +142,8 @@ const ProfilePage = () => {
         {/* Version */}
         <p className="text-center text-[10px] text-gray-400 mt-4">BIMA Platform v1.0.0 • Frontend Prototype</p>
       </div>
+      </>
+      )}
     </div>
   );
 };
